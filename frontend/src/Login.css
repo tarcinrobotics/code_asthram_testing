@@ -18,12 +18,9 @@ body, html {
   }
 .container {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 50px;
-	/* position: absolute;
+	position: absolute;
 	top: 10%;
-	left: 10%; */
+	left: 10%;
 	min-height: 100vh;
 }
 
@@ -57,7 +54,7 @@ body, html {
 	position: absolute;
 }
 
- .screen__background__shape1 {
+.screen__background__shape1 {
 	height: 520px;
 	width: 520px;
 	background: linear-gradient(270deg, #dddfe2, #404348);
@@ -182,37 +179,7 @@ body, html {
   border-color: #4267B2;
   outline: none;
 }
-.rightbody{
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-.rightbody img{
-	width: 100px;
-}
-.rightbody .tarcin-product img{
-	width: 500px;
-}
-.rightbody .tarcin-quote img{
-	width: 600px;
-}
 
-
-@media(max-width:1000px) {
-	.container{
-		flex-direction: column-reverse;
-	}
-	.rightbody img{
-		width: 600px;
-	}
-	.eva-gif{
-		width: 50%;
-	}
-	.rightbody .tarcin-product img{
-		width: 100%;
-	}
-}
 
 .button__icon {
 	font-size: 24px;

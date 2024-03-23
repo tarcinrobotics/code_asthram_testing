@@ -35,6 +35,7 @@ const Login = (props) => {
   };
 
   const login = () => {
+
     console.log('Login state:', state);
     axios.post('https://code.tarcinrobotic.in/login', {
       username: state.username,
@@ -43,52 +44,51 @@ const Login = (props) => {
       .then(response => {
         // Handle the successful response from the server
         console.log('Login successful:', response.data);
-  
+
         // Assuming the server sends a token, you might want to store it in local storage
-        const token = response.data.token; // Capture the token from the response
-        localStorage.setItem('token', token);
+        localStorage.setItem('token', response.data.token);
         localStorage.setItem('user_id', response.data.id);
-  
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  
+
+        
         // Assuming the server sends information about whether the user is a superuser
         const isSuperuser = response.data.isSuperuser;
         console.log('isSuperuser:', isSuperuser);
-  
+
         // Set the isSuperuser state
         setIsSuperuser(isSuperuser);
-  
+        
         // Check if the user is a superuser before making the /register request
-        if (isSuperuser) {
-          const superuserData = {
-            username: 'admin@tarcin.com',
-            password: 'tarcin301'
-          };
-          setIsSuperuser(true);
-  
-          // Make a request to /register with the token
-          axios.post('http://localhost:3000/register', superuserData, {
-            headers: {
-              token: token, // Use the captured token here
-            },
-          })
-            .then(registerResponse => {
-              // Handle the response from the /register route
-              console.log('Registration successful:', registerResponse.data);
-            })
-            .catch(registerError => {
-              // Handle errors from the /register route
-              console.error('Registration error:', registerError);
-            });
-        }
-  
+      if (isSuperuser) {
+
+       const superuserData = {
+        username: 'admin@tarcin.com',
+        password: 'tarcin301'
+       }
+       setIsSuperuser(true);
+
+        // Make a request to /register with the token
+        axios.post('http://localhost:2000/register', superuserData, {
+          headers: {
+            token: response.data.token,
+          },
+        })
+        .then(registerResponse => {
+          // Handle the response from the /register route
+          console.log('Registration successful:', registerResponse.data);
+        })
+        .catch(registerError => {
+          // Handle errors from the /register route
+          console.error('Registration error:', registerError);
+        });
+      }
+
         // Redirect the user to the dashboard or do other actions upon successful login
         props.navigate("/dashboard");
       })
       .catch(error => {
         // Handle errors from the server or network issues
         console.error('Login error:', error);
-  
+      
         if (error.response && error.response.data && error.response.data.errorMessage) {
           // Display an error message to the user
           swal("Login Failed", error.response.data.errorMessage, "error");
@@ -98,7 +98,7 @@ const Login = (props) => {
         }
       });
   };
-  
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault(); // Prevent the default form submission
@@ -173,9 +173,9 @@ const Login = (props) => {
               <i className="button__icon fas fa-chevron-right"></i>
             </button> */}
           </form>
-        {/*  <div className="social-login">
-             Add your social login components here 
-          </div>*/}
+          <div className="social-login">
+            {/* Add your social login components here */}
+          </div>
         </div>
         <div className="screen__background">
           <span className="screen__background__shape screen__background__shape4"></span>
@@ -184,33 +184,34 @@ const Login = (props) => {
           <span className="screen__background__shape screen__background__shape1"></span>
         </div>
       </div>
-      <div className="rightbody" >
-          <div className="tarcin-product" >
+      <div className="rightbody" style={{ display: 'flex', height: '100vh', width: '850px', position: 'absolute', left: '400px' }}>
+          <div className="tarcin-product" style={{ display: 'flex', position: 'absolute', right: '0', top: '10%' }}>
             <img
               src={tarproduct}
-              
+              style={{ height: '400px', width: '800px', transition: 'transform 0.2s', cursor: 'pointer' }}
               alt="tarproduct"
               onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
               onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
             />
           </div>
-          <div className="tarcin-quote" >
+          <div className="tarcin-quote" style={{ display: 'flex', position: 'absolute', right: '5%', top: '35%' }}>
             <img
               src={quote}
-              
+              style={{ height: '300px', width: '700px', transition: 'transform 0.2s', cursor: 'pointer' }}
               alt="quote"
               onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
               onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
             />
           </div>
 
-          <div className="eva-gif" >
-            <img src={eve}  />
+          <div className="eva-gif" style={{ position: 'absolute', display: 'flex', right: '0' }}>
+            <img src={eve} style={{ height: '150px', width: '150px' }} />
           </div>
 
-          <footer >
+          <footer style={{ position: 'absolute', bottom: '20%', left: '30%', display: 'flex' }}>
             <img
               src={copy}
+              style={{ height: '150px', width: '350px', transition: 'transform 0.2s', cursor: 'pointer' }}
               onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
               onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
             />
