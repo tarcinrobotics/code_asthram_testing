@@ -72,61 +72,13 @@ var product = require("./model/product.js");
 var user = require("./model/user.js");
 
 
-app.use("/", (req, res, next) => {
-  try {
-    if (req.path === "/login" || req.path === "/register" || req.path === "/") {
-      next();
-    } else {
-      /* decode jwt token if authorized*/
-      jwt.verify(req.headers.token, "shhhhh11111", function (err, decoded) {
-        console.log('Decoded token:', decoded); // Add this line for debugging
-      
-        if (decoded && decoded.user) {
-          req.user = decoded;
-          // Check if the user is a superuser
-          if (decoded.isSuperuser !== undefined) {
-            if (decoded.isSuperuser) {
-              next();
-            } else {
-              return res.status(401).json({
-                errorMessage: "User unauthorized!",
-                status: false,
-              });
-            }
-          } else {
-            return res.status(401).json({
-              errorMessage: 'User unauthorized!',
-              status: false,
-            });
-          }
-        } else {
-          return res.status(401).json({
-            errorMessage: 'User unauthorized!',
-            status: false,
-          });
-        }        
-
-        
-      });
-    }
-  } catch (e) {
-    res.status(400).json({
-      errorMessage: "Something went wrong!",
-      status: false,
-    });
-  }
-});
-
-app.get("/", (req, res) => {
+app.get("/api", (req, res) => {
   res.status(200).json({
     status: true,
     title: "Apis",
   });
 });
-
-/* login api */
-/* login api */
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   console.log('Received login request:', req.body);
   try {
     if (req.body && req.body.username && req.body.password) {
@@ -186,6 +138,57 @@ app.post("/login", async (req, res) => {
     });
   }
 });
+
+app.use("/", (req, res, next) => {
+  try {
+    if (req.path === "/login" || req.path === "/register" || req.path === "/") {
+      next();
+    } else {
+      /* decode jwt token if authorized*/
+      jwt.verify(req.headers.token, "shhhhh11111", function (err, decoded) {
+        console.log('Decoded token:', decoded); // Add this line for debugging
+      
+        if (decoded && decoded.user) {
+          req.user = decoded;
+          // Check if the user is a superuser
+          if (decoded.isSuperuser !== undefined) {
+            if (decoded.isSuperuser) {
+              next();
+            } else {
+              console.log(req.url);
+              return res.status(401).json({
+                errorMessage: "User unauthorized!",
+                status: false,
+              });
+            }
+          } else {
+            return res.status(401).json({
+              errorMessage: 'User unauthorized!',
+              status: false,
+            });
+          }
+        } else {
+          return res.status(401).json({
+            errorMessage: 'User unauthorized!',
+            status: false,
+          });
+        }        
+
+        
+      });
+    }
+  } catch (e) {
+    res.status(400).json({
+      errorMessage: "Something went wrong!",
+      status: false,
+    });
+  }
+});
+
+
+/* login api */
+/* login api */
+
 
 
 /* register api */
