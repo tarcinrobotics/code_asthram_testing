@@ -22,7 +22,7 @@ mongoose.connect(mongoURI, {
 app.use(cors({
   origin: '*'
 }));
-
+app.use(express.json())
 
 const User = require('./userModel.js');
 
