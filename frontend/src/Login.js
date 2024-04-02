@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import swal from "sweetalert";
 import { Button, TextField } from "@material-ui/core";
 import { withRouter } from "./utils";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import axios from "axios";
 import mainLogo from "./media/code_asthram.png";
 import tarproduct from "./media/codeasthramproduct.png";
@@ -10,12 +10,18 @@ import eve from "./media/eve.gif";
 import quote from "./media/caption.png";
 import copy from "./media/copyright.png";
 import { FaUserAlt, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import AuthContext from "./AuthProvider";
 
 const Login = (props) => {
+  const Navigate=useNavigate();
+  const { isLogin, setIsLogin }=useContext(AuthContext);
+  setIsLogin(localStorage.getItem("token")? true :false)
+  if(isLogin){
+      Navigate("/dashboard")
+  }
   const location = useLocation();
   const isLoginPage = location.pathname === "/";
-
+  
   //Define setIsSuperuser state 
   const [isSuperuser, setIsSuperuser] = useState(false);
 
