@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 import './Login.css';
+import { AuthProvider } from './AuthProvider.js';
 
 const App = () => {
   const [isSuperuser, setIsSuperuser] = useState(false);
@@ -15,7 +16,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login setIsSuperuser={setIsSuperuser} />} />
+        <Route path="/" element={
+        <AuthProvider> {/* Wrap the Routes with the AuthProvider */}
+              <Login setIsSuperuser={setIsSuperuser} />
+            </AuthProvider>} />
         {/* Ensure this log statement is showing the correct value */}
       <Route path="/register" element={<Register/>} />
         <Route path="/dashboard" element={<AnimLoader />} />
