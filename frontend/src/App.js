@@ -36,7 +36,7 @@ export default function App() {
   const [xml, setXml] = useState("");
   const [javascriptCode, setJavascriptCode] = useState("");
   const [workspace, setWorkspace] = useState(null);
-
+  const [showMiniScreen, setShowMiniScreen] = useState(false);
   const fileInputRef = useRef(null);
   const workspaceRef = useRef(null);
   const navigate = useNavigate();
@@ -59,6 +59,7 @@ export default function App() {
           { kind: "block",type: "logic_operation", },
           { kind: "block",type: "logic_negate",},
           {kind: "block",type: "logic_boolean", },
+          {kind: "block", type: "arithmetic_operator"},
           {kind: "block", type: "assignment_operator"},
           { kind: "block",type: "logic_null",},
           { kind: "block",type: "logic_ternary", },
@@ -274,7 +275,9 @@ export default function App() {
           { kind: "block", type: "check_variable_value", },
           { kind: "block", type: "swap_variables", },
           { kind: "block", type: "copy_variable",},
-
+          { kind: "block", type: "float_operator",},
+          { kind: "block", type: "import_time",},
+          { kind: "block", type: "user_input",},
           { kind: "block", type: "find_maximum_value", },
           { kind: "block", type: "calculate_average", },
           { kind: "block", type: "variable_scope",},
@@ -348,6 +351,7 @@ kind: "block", type: "turtle_set_background_color"
           { kind: "block", type: "turtle_write",},
           {kind: "block", type: "turtle_circle"},
           { kind: "block", type: "turtle_goto",},
+          { kind: "block", type: "turtle_ondrag",},
           /*{ kind: "block", type: "turtle_pos",},*/
           { kind: "block", type: "turtle_stamp",},
           {kind: "block", type: "turtle_done",},
@@ -381,8 +385,8 @@ kind: "block", type: "turtle_set_background_color"
           {kind: "block", type: "matplotlib_add_subtitle"},
           {kind: "block", type: "matplotlib_add_colorbar"},
           {kind: "block", type: "mappable_object"},
+          {kind: "block", type: "matplotlib_plot"},
           { kind: "block", type: "matplotlib_ylabel",},
-          { kind: "block", type: "matplotlib_show",},
           { kind: "block", type: "numpy_linspace",},
           { kind: "block", type: "numpy_arange",},
           { kind: "block", type: "numpy_array",},
@@ -811,12 +815,19 @@ kind: "block", type: "turtle_set_background_color"
     }
   };
 
+  // Function to handle opening the mini screen
   const handleOpenButtonClick = () => {
-    fileInputRef.current.click();
+    setShowMiniScreen(!showMiniScreen); // Toggle the state of showMiniScreen
   };
 
+
+  // Function to create a new workspace (reload the page)
+  const createNewWorkspace = () => {
+    window.location.reload(); // Reload the page
+  };
+ 
 // Function to create a new empty workspace
-const createNewWorkspace = () => {
+{/*{const createNewWorkspace = () => {
   setTimeout(() => {
     const div = document.getElementById('blocklyDiv');
     if (div) {
@@ -840,7 +851,7 @@ const closeWorkspace = () => {
 
 useEffect(() => {
   createNewWorkspace();
-}, []);
+}, []);*/}
 
   const saveXmlFile = () => {
     const blob = new Blob([xml], { type: 'application/xml' });
@@ -1029,6 +1040,18 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
     
+    {/* Floating mini screen */}
+    {showMiniScreen && (
+        <div className="floating-mini-screen">
+          {/* Content of the mini screen */}
+          {/* Here you can display media content such as images, videos, etc. */}
+          <img src="your_image_url.jpg" alt="Media" />
+          <video controls>
+            <source src="your_video_url.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
 
     </>
   );

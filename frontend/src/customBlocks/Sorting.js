@@ -157,16 +157,18 @@ Blockly.Python['return_statement'] = function(block) {
 
 Blockly.Blocks['if_statement'] = {
   init: function() {
-  this.appendValueInput('CONDITION')
-  .setCheck('Boolean')
-  .appendField('if');
-  this.appendStatementInput('DO')
-  .appendField('do');
-  this.setPreviousStatement(true, null);
-  this.setColour("#4C000C");
-  this.setTooltip('If Statement');
+    this.appendValueInput('CONDITION')
+        .setCheck('Boolean')
+        .appendField('if');
+    this.appendStatementInput('DO')
+        .appendField('do');
+    this.setPreviousStatement(true, null);
+    this.setColour("#4C000C");
+    this.setTooltip('If Statement');
+    this.setNextStatement(true, null); // Add bottom connection bump
   }
-  };
+};
+
   
   Blockly.Python['if_statement'] = function(block) {
   var condition = Blockly.Python.valueToCode(block, 'CONDITION', Blockly.Python.ORDER_NONE) || 'False';
@@ -189,6 +191,7 @@ Blockly.Blocks['bubble_sort'] = {
       this.setNextStatement(true, null);
       this.setColour("#4C000C");
       this.setTooltip("Sort an array using Bubble Sort.");
+      this.setNextStatement(true, null); // Add bottom connection bump
     }
   };
   

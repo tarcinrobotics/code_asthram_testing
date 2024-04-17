@@ -21,6 +21,29 @@ Blockly.Python['turtle_create_screen'] = function(block) {
   return pythonCode;
 };
 
+Blockly.Blocks['turtle_ondrag'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Turtle ondrag");
+    this.appendValueInput("FUNCTION")
+        .setCheck(null)
+        .appendField("Function:")
+        .appendField(new Blockly.FieldTextInput("my_function"), "DEFAULT_FUNCTION");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#800020");
+    this.setTooltip("Set a function to be called when the turtle is dragged");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['turtle_ondrag'] = function(block) {
+  var func = Blockly.Python.valueToCode(block, 'FUNCTION', Blockly.Python.ORDER_ATOMIC) || block.getFieldValue('DEFAULT_FUNCTION');
+  return 'turtle.ondrag(' + func + ')\n';
+};
+
+
+
 
 
 // Define a custom block for setting the background color in Turtle with a default color

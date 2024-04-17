@@ -34,6 +34,62 @@ Blockly.Blocks['set_variable'] = {
   }
 };
 
+Blockly.Blocks['user_input'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("User Input:");
+    this.appendValueInput("DEFAULT_INPUT")
+        .setCheck(null)
+        .appendField(new Blockly.FieldTextInput("1"), "DEFAULT_VALUE");
+    this.setOutput(true, null);
+    this.setColour("#8A3369");
+    this.setTooltip("Get user input");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['user_input'] = function(block) {
+  var defaultValue = Blockly.Python.valueToCode(block, 'DEFAULT_INPUT', Blockly.Python.ORDER_ATOMIC) || "'" + block.getFieldValue('DEFAULT_VALUE') + "'";
+  return ['input(' + defaultValue + ')', Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks['float_operator'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .setCheck(null)
+        .appendField("Convert to Float");
+    this.setOutput(true, null);
+    this.setColour("#8A3369");
+    this.setTooltip("Convert a value to a float");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['float_operator'] = function(block) {
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '0';
+  return ['float(' + value + ')', Blockly.Python.ORDER_NONE];
+};
+
+
+Blockly.Blocks['import_time'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Import Time");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#8A3369");
+    this.setTooltip("Import the time module in Python");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['import_time'] = function(block) {
+  Blockly.Python.definitions_['time'] = 'import time\n';
+  return '';
+};
+
+
+
 Blockly.Python['set_variable'] = function(block) {
   var varName = block.getFieldValue('VAR_NAME');
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC);

@@ -103,26 +103,28 @@ Blockly.Blocks['base_structure'] = {
           
           Blockly.Blocks['for_loop_structure'] = {
             init: function() {
-              this.appendDummyInput()
-                  .appendField('for')
-                  .appendField(new Blockly.FieldVariable('i'), 'VAR')
-                  .appendField('in range');
-              this.appendValueInput('START')
-                  .setCheck('Number')
-                  .appendField('from');
-              this.appendValueInput('END')
-                  .setCheck('Number')
-                  .appendField('to');
-              this.appendValueInput('STEP')
-                  .setCheck('Number')
-                  .appendField('step');
-              this.appendStatementInput('STATEMENTS')
-                  .setCheck(null)
-                  .appendField('do');
-              this.setColour("#B3A125");
-              this.setTooltip('Create a for loop structure with specified iterations.');
+                this.appendDummyInput()
+                    .appendField('for')
+                    .appendField(new Blockly.FieldVariable('i'), 'VAR')
+                    .appendField('in range');
+                this.appendValueInput('START')
+                    .setCheck('Number')
+                    .appendField('from');
+                this.appendValueInput('END')
+                    .setCheck('Number')
+                    .appendField('to');
+                this.appendValueInput('STEP')
+                    .setCheck('Number')
+                    .appendField('step');
+                this.appendStatementInput('STATEMENTS')
+                    .setCheck(null)
+                    .appendField('do');
+                this.setPreviousStatement(true, null);
+                this.setColour("#B3A125");
+                this.setTooltip('Create a for loop structure with specified iterations.');
             }
-          };
+        };
+        
 
           Blockly.Python['for_loop_structure'] = function(block) {
             var variable = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
@@ -156,21 +158,23 @@ Blockly.Blocks['base_structure'] = {
           
           Blockly.Blocks['function_definition_structure'] = {
             init: function() {
-              this.appendDummyInput()
-                  .appendField('def')
-                  .appendField(new Blockly.FieldTextInput('functionName'), 'FUNCTION_NAME')
-                  .appendField('(');
-              this.appendValueInput('PARAMS')
-                  .setCheck('String')
-                  .appendField('');
-              this.appendDummyInput()
-                  .appendField('):');
-              this.appendStatementInput('STATEMENTS')
-                  .setCheck(null);
-              this.setColour("#B3A125");
-              this.setTooltip('Create a structure for defining a function with parameters and statements.');
+                this.appendDummyInput()
+                    .appendField('def')
+                    .appendField(new Blockly.FieldTextInput('functionName'), 'FUNCTION_NAME')
+                    .appendField('(');
+                this.appendValueInput('PARAMS')
+                    .setCheck('String')
+                    .appendField('');
+                this.appendDummyInput()
+                    .appendField('):');
+                this.appendStatementInput('STATEMENTS')
+                    .setCheck(null);
+                this.setColour("#B3A125");
+                this.setTooltip('Create a structure for defining a function with parameters and statements.');
+                this.setNextStatement(true, null); // Add bottom connection bump
             }
-          };
+        };
+        
 
           Blockly.Python['function_definition_structure'] = function(block) {
             var functionName = block.getFieldValue('FUNCTION_NAME');

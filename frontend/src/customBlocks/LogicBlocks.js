@@ -41,6 +41,7 @@ Blockly.Blocks['arithmetic_operator'] = {
         .appendField(new Blockly.FieldTextInput('0'), 'A');
     this.appendDummyInput()
         .appendField(new Blockly.FieldDropdown([
+          ['EQU', '='],
           ['ADD', '+'], 
           ['SUB', '-'], 
           ['MUL', '*'], 
@@ -223,7 +224,7 @@ Blockly.Python['bitwise_operator'] = function(block) {
 Blockly.Python['identity_operator'] = function(block) {
   var value_a = Blockly.Python.valueToCode(block, 'A', Blockly.Python.ORDER_ATOMIC) || '0';
   var value_b = Blockly.Python.valueToCode(block, 'B', Blockly.Python.ORDER_ATOMIC) || '0';
-  var code = value_a + ' == ' + value_b;
+  var code = value_a + ' = ' + value_b;
   return [code, Blockly.Python.ORDER_RELATIONAL];
 };
 

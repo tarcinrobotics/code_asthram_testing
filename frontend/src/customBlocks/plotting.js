@@ -48,28 +48,7 @@ Blockly.Blocks['matplotlib_title'] = {
       this.setHelpUrl("");
     }
   };
-  Blockly.Blocks['matplotlib_bar_plot'] = {
-    init: function() {
-      this.appendDummyInput()
-          .appendField("Plot Bar Graph");
-      this.appendValueInput("X_VALUE")
-          .setCheck(null)
-          .appendField("x:")
-          .setAlign(Blockly.ALIGN_RIGHT)
-          .appendField(new Blockly.FieldTextInput("['a', 'b', 'c', 'd', 'e']"), "DEFAULT_X");
-      this.appendValueInput("Y_VALUE")
-          .setCheck(null)
-          .appendField("y:")
-          .setAlign(Blockly.ALIGN_RIGHT)
-          .appendField(new Blockly.FieldTextInput("[1, 2, 3, 4, 5]"), "DEFAULT_Y");
-      this.setInputsInline(true);
-      this.setPreviousStatement(true, null);
-      this.setNextStatement(true, null);
-      this.setColour("#004D3B");
-      this.setTooltip("Plot a bar graph using matplotlib");
-      this.setHelpUrl("");
-    }
-  };
+
   Blockly.Blocks['matplotlib_bar_plot'] = {
     init: function() {
       this.appendDummyInput()
@@ -100,6 +79,30 @@ Blockly.Blocks['matplotlib_title'] = {
     return "plt.bar(" + xValue + ", " + yValue + ")\n";
   };
   
+  Blockly.Blocks['matplotlib_plot'] = {
+    init: function() {
+      this.appendValueInput("X_DATA")
+          .setCheck(null)
+          .appendField("Plot Data (X)");
+      this.appendValueInput("Y_DATA")
+          .setCheck(null)
+          .appendField("(Y):");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#004D3B");
+      this.setTooltip("Plot data using matplotlib");
+      this.setHelpUrl("");
+    }
+  };
+
+  Blockly.Python['matplotlib_plot'] = function(block) {
+    Blockly.Python.definitions_['import_matplotlib'] = 'import matplotlib.pyplot as plt';
+    var xData = Blockly.Python.valueToCode(block, 'X_DATA', Blockly.Python.ORDER_ATOMIC) || '';
+    var yData = Blockly.Python.valueToCode(block, 'Y_DATA', Blockly.Python.ORDER_ATOMIC) || '';
+    return "plt.plot(" + xData + ", " + yData + ")\n";
+  };
+  
+
   Blockly.Blocks['matplotlib_add_legend'] = {
     init: function() {
       this.appendDummyInput()
