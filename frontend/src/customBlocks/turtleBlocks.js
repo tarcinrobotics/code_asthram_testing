@@ -2,6 +2,53 @@ import Blockly from 'blockly';
 import 'blockly/python';
 
 
+// Define a custom block for creating a Turtle screen
+Blockly.Blocks['turtle_create_screen'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('Create Turtle Screen');
+    this.setColour("#800020");
+    this.setTooltip('Create a Turtle screen');
+    this.setPreviousStatement(false, null); // Remove previous statement connection
+    this.setNextStatement(true, null); // Allow next statement connection
+  }
+};
+
+// Define code generation for the custom block
+Blockly.Python['turtle_create_screen'] = function(block) {
+  Blockly.Python.definitions_['turtle'] = 'import turtle';
+  var pythonCode = 'screen = turtle.Screen()\n';
+  return pythonCode;
+};
+
+
+
+// Define a custom block for setting the background color in Turtle with a default color
+Blockly.Blocks['turtle_set_background_color'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('Set Background Color')
+        .appendField(new Blockly.FieldColour('#ffffff'), 'COLOR');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#800020");
+    this.setTooltip('Set the background color in Turtle');
+    // Set default color
+    this.getField('COLOR').setValue('#ffffff');
+  }
+};
+
+// Define code generation for the custom block
+Blockly.Python['turtle_set_background_color'] = function(block) {
+  var colorValue = block.getFieldValue('COLOR');
+  Blockly.Python.definitions_['turtle'] = 'import turtle';
+  var pythonCode = `screen.bgcolor('${colorValue}')\n`;
+  return pythonCode;
+};
+
+
+
+
 // Define a custom block with a dropdown for Turtle commands
 Blockly.Blocks['turtle_command'] = {
   init: function() {
@@ -23,6 +70,44 @@ Blockly.Blocks['turtle_command'] = {
     this.setTooltip('Choose a Turtle command and specify the distance');
   }
 };
+
+// Define a custom block for turtle.circle()
+// Define a custom block for turtle.circle()
+Blockly.Blocks['turtle_circle'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('draw circle with radius')
+        .appendField(new Blockly.FieldNumber(50, 0), 'RADIUS')
+        .appendField('and shape');
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          ['Classic', 'classic'],
+          ['Arrow', 'arrow'],
+          ['Circle', 'circle'],
+          ['Square', 'square'],
+          ['Triangle', 'triangle'],
+          // Add more options as needed
+        ]), 'SHAPE');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#800020");
+    this.setTooltip('Draw a circle with a specified radius and shape');
+  }
+};
+
+
+
+// Define code generation for the custom block
+// Define code generation for the custom block
+Blockly.Python['turtle_circle'] = function(block) {
+  var radius = block.getFieldValue('RADIUS') || '50'; // Get the radius value from the block or use default '50'
+  var shape = block.getFieldValue('SHAPE');
+  Blockly.Python.definitions_['turtle'] = 'import turtle';
+  var pythonCode = `\nturtle.circle(${radius}, '${shape}')\n`;
+  return pythonCode;
+};
+
+
 
 // Define code generation for the custom block
 Blockly.Python['turtle_command'] = function(block) {
@@ -223,6 +308,26 @@ Blockly.Python['turtle_stamp'] = function(block) {
   var pythonCode = '\nturtle.stamp()\n';
   return pythonCode;
 };
+
+// Define a custom block for turtle.done()
+Blockly.Blocks['turtle_done'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('turtle done');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#800020");
+    this.setTooltip('Keep the Turtle window open until closed by the user');
+  }
+};
+
+// Define code generation for the custom block
+Blockly.Python['turtle_done'] = function(block) {
+  Blockly.Python.definitions_['turtle'] = 'import turtle';
+  var pythonCode = '\nturtle.done()\n';
+  return pythonCode;
+};
+
 
 Blockly.Blocks['turtle_begin_fill'] = {
   init: function() {

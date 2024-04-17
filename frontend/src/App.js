@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
@@ -9,6 +9,7 @@ import html2canvas from 'html2canvas';
 import "./css/bootstrap.min.3.3.6.css";
 import "./css/blocklino.css";
 import { toggleModal } from "./scripts/buttonFunctions";
+import ModuleProjectDropdown from "./dropDown.js";
 
 
 import "./customBlocks/custom_Blocks";
@@ -34,7 +35,7 @@ export default function App() {
 
   const [xml, setXml] = useState("");
   const [javascriptCode, setJavascriptCode] = useState("");
-  const [isDarkTheme, setIsDarkTheme] = useState("");
+  const [workspace, setWorkspace] = useState(null);
 
   const fileInputRef = useRef(null);
   const workspaceRef = useRef(null);
@@ -51,11 +52,14 @@ export default function App() {
         name: "Logic",
         colour: "#4169E1",
         contents: [
+          {kind: "block", type: "controls_if_else"
+        },
           { kind: "block", type: "controls_if",},
           {kind: "block", type: "logic_compare",},
           { kind: "block",type: "logic_operation", },
           { kind: "block",type: "logic_negate",},
           {kind: "block",type: "logic_boolean", },
+          {kind: "block", type: "assignment_operator"},
           { kind: "block",type: "logic_null",},
           { kind: "block",type: "logic_ternary", },
         ], },
@@ -64,6 +68,7 @@ export default function App() {
         name: "Loops",
         colour: "#6A0DAD",
         contents: [
+         
           {
             kind: "block",
             type: "controls_repeat_ext",
@@ -262,6 +267,7 @@ export default function App() {
         name: "Variables",
         colour: "#CA2C92",
         contents: [
+          {kind: "block", type: "create_variable"},
           { kind: "block", type: "set_variable", },
           { kind: "block", type: "plain_variable", },
           { kind: "block", type: "array_declaration",},
@@ -323,6 +329,11 @@ export default function App() {
         name: "Turtle",
         colour: "#DC143C",
         contents: [
+          { kind: "block", type: "turtle_create_screen"
+          },
+          {
+kind: "block", type: "turtle_set_background_color"
+          },
           {
             kind: "block",
             type: "turtle_command",
@@ -335,9 +346,11 @@ export default function App() {
           { kind: "block", type: "turtle_pen",},
           { kind: "block", type: "turtle_color",},
           { kind: "block", type: "turtle_write",},
+          {kind: "block", type: "turtle_circle"},
           { kind: "block", type: "turtle_goto",},
           /*{ kind: "block", type: "turtle_pos",},*/
           { kind: "block", type: "turtle_stamp",},
+          {kind: "block", type: "turtle_done",},
           { kind: "block", type: "turtle_begin_fill",},
           { kind: "block", type: "turtle_end_fill",},
           { kind: "block", type: "turtle_speed",},
@@ -356,7 +369,18 @@ export default function App() {
           {
             kind: "block",
             type: "matplotlib_xlabel",
-          },
+          }, {kind: "block", type: "matplotlib_bar_plot"},
+          {kind: "block", type: "matplotlib_show_plot"},
+          {kind: "block", type: "matplotlib_add_legend"},
+          {kind: "block", type: "matplotlib_plot_histogram"},
+          {kind: "block", type: "matplotlib_plot_scatter"},
+          {kind: "block", type: "matplotlib_plot_pie"},
+          {kind: "block", type: "matplotlib_add_grid"},
+          {kind: "block", type: "matplotlib_create_figure"},
+          {kind: "block", type: "matplotlib_create_subplot"},
+          {kind: "block", type: "matplotlib_add_subtitle"},
+          {kind: "block", type: "matplotlib_add_colorbar"},
+          {kind: "block", type: "mappable_object"},
           { kind: "block", type: "matplotlib_ylabel",},
           { kind: "block", type: "matplotlib_show",},
           { kind: "block", type: "numpy_linspace",},
@@ -758,6 +782,8 @@ export default function App() {
       
     ],
   };
+
+
   function workspaceDidChange(workspace) {
     const code = Blockly.Python.workspaceToCode(workspace);
     setJavascriptCode(code);
@@ -789,9 +815,32 @@ export default function App() {
     fileInputRef.current.click();
   };
 
-  const handleNewButtonClick = () => {
-    window.location.reload();
-  };
+// Function to create a new empty workspace
+const createNewWorkspace = () => {
+  setTimeout(() => {
+    const div = document.getElementById('blocklyDiv');
+    if (div) {
+      const newWorkspace = Blockly.inject(div, {
+        toolbox: document.getElementById('toolbox'),
+      });
+      setWorkspace(newWorkspace);
+    } else {
+      console.error("blocklyDiv element not found");
+    }
+  }, 2000); // Delay in milliseconds
+};
+
+// Function to close the current workspace
+const closeWorkspace = () => {
+  if (workspace) {
+    workspace.dispose(); // Dispose the current workspace
+    setWorkspace(null); // Reset workspace state to null
+  }
+};
+
+useEffect(() => {
+  createNewWorkspace();
+}, []);
 
   const saveXmlFile = () => {
     const blob = new Blob([xml], { type: 'application/xml' });
@@ -805,14 +854,28 @@ export default function App() {
     navigate("/");
   };
 
-  const saveInoFile = () => {
-    const inoCode = javascriptCode; // assuming javascriptCode holds the Arduino code
-    const blob = new Blob([inoCode], { type: 'text/plain' });
+  const savePyFile = (filename) => {
+    const pythonCode = javascriptCode; // assuming javascriptCode holds the Python code
+    const blob = new Blob([pythonCode], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = 'arduino_code.ino';
+    
+    if (typeof filename !== 'string') {
+        filename = 'python_code'; // Default filename if not provided or not a string
+    }
+
+    link.download = filename.endsWith('.py') ? filename : `${filename}.py`;
     link.click();
-  };
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('btn_saveino').addEventListener('click', function() {
+      savePyFile('my_python_code');
+  });
+});
+
+
+
   
   const copyToClipboard = () => {
     const textarea = document.getElementById('code'); // Assuming 'code' is the ID of your textarea
@@ -858,7 +921,7 @@ export default function App() {
                     <div className="button-div">
                       <button title="New" className="b01" 
                       id="btn_new"
-                      onClick={handleNewButtonClick}
+                      onClick={createNewWorkspace}
                       ></button>
                       
                       <button
@@ -901,7 +964,7 @@ export default function App() {
                     </div>
                   </td>
                   <td>
-                  
+                 <ModuleProjectDropdown/>
                   </td>
                 </tr>
               </tbody>
@@ -910,7 +973,6 @@ export default function App() {
         </div>
       </div>
 
-      <div className="workspace" ref={workspaceRef} style={{overflowY: 'auto'}}>
   
         <BlocklyWorkspace
           toolboxConfiguration={toolboxCategories}
@@ -954,8 +1016,8 @@ export default function App() {
             <button
               id="btn_saveino"
               class="btn btn-default"
-              title="Save as .ino"
-              onClick={saveInoFile}
+              title="Save as .py"
+              onClick={savePyFile}
             >
               <span class="fa fa-floppy-o"> </span>
             </button>
@@ -966,7 +1028,7 @@ export default function App() {
             </button>
           </div>
         </div>
-      </div>
+    
 
     </>
   );

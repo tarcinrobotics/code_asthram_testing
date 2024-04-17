@@ -140,7 +140,7 @@ Blockly.Python['swap_elements'] = function(block) {
 Blockly.Blocks['return_statement'] = {
   init: function() {
     this.appendValueInput("VALUE")
-        .setCheck("Array")
+        .setCheck(null)
         .appendField("return");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);

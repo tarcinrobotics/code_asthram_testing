@@ -1,6 +1,37 @@
 import Blockly from 'blockly';
 import 'blockly/python';
 
+Blockly.Blocks['controls_if_else'] = {
+  init: function() {
+    this.setColour(210);
+    this.appendValueInput("CONDITION")
+        .setCheck("Boolean")
+        .appendField("if");
+    this.appendStatementInput("IF_BODY")
+        .setCheck(null)
+        .appendField("do");
+    this.appendStatementInput("ELSE_BODY")
+        .setCheck(null)
+        .appendField("else");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("If the condition is true, do the first block of commands. Otherwise, do the second block of commands.");
+  }
+};
+
+Blockly.Python['controls_if_else'] = function(block) {
+  var condition = Blockly.Python.valueToCode(block, 'CONDITION', Blockly.Python.ORDER_NONE) || 'False';
+  var ifBody = Blockly.Python.statementToCode(block, 'IF_BODY');
+  var elseBody = Blockly.Python.statementToCode(block, 'ELSE_BODY');
+  var code = 'if ' + condition + ':\n';
+  code += Blockly.Python.prefixLines(ifBody, '  ');
+  code += 'else:\n';
+  code += Blockly.Python.prefixLines(elseBody, '  ');
+  return code;
+};
+
+
+
 Blockly.Blocks['arithmetic_operator'] = {
   init: function() {
     this.setColour(210);
@@ -105,33 +136,41 @@ Blockly.Blocks['bitwise_operator'] = {
 Blockly.Blocks['assignment_operator'] = {
   init: function() {
     this.setColour(210);
+    this.setOutput(true, null); // Changed output type to 'any'
     this.appendDummyInput()
-        .appendField('Set variable')
-        .appendField(new Blockly.FieldTextInput('var'), 'VAR');
-    this.appendValueInput('VALUE')
-        .setCheck(['Number', 'Boolean'])
-        .appendField('to');
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
+        .appendField('')
+        .appendField(new Blockly.FieldTextInput('0'), 'A')
+        .appendField(new Blockly.FieldDropdown([
+          ['=', '='],
+          ['+=', '+='],
+          ['-=', '-='],
+          ['*=', '*='],
+          ['/=', '/='],
+          ['%=', '%='],
+          ['&=', '&='],
+          ['|=', '|='],
+          ['^=', '^='],
+          ['<<=', '<<='],
+          ['>>=', '>>='],
+          ['!=<', '!<'],
+          ['!>', '!>']
+        ]), 'OP');
+    this.appendDummyInput()
+        .appendField('')
+        .appendField(new Blockly.FieldTextInput('0'), 'B');
     this.setInputsInline(true);
-    this.setTooltip('');
+    this.setTooltip('Assignment Operator');
   }
 };
 
-Blockly.Blocks['identity_operator'] = {
-  init: function() {
-    this.setColour(210);
-    this.setOutput(true, 'Boolean');
-    this.appendValueInput('A')
-        .setCheck(['Number', 'Boolean'])
-        .appendField('Is');
-    this.appendValueInput('B')
-        .setCheck(['Number', 'Boolean'])
-        .appendField('equal to');
-    this.setInputsInline(true);
-    this.setTooltip('');
-  }
+Blockly.Python['assignment_operator'] = function(block) {
+  var valueA = block.getFieldValue('A') || '0';
+  var operator = block.getFieldValue('OP');
+  var valueB = block.getFieldValue('B') || '0';
+  return valueA + ' ' + operator + ' ' + valueB + '\n';
 };
+
+
 
 Blockly.Blocks['membership_operator'] = {
   init: function() {
@@ -180,12 +219,7 @@ Blockly.Python['bitwise_operator'] = function(block) {
   return [code, Blockly.Python.ORDER_BITWISE];
 };
 
-Blockly.Python['assignment_operator'] = function(block) {
-  var variable = block.getFieldValue('VAR') || 'var';
-  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '0';
-  var code = variable + ' = ' + value;
-  return code + '\n';
-};
+
 Blockly.Python['identity_operator'] = function(block) {
   var value_a = Blockly.Python.valueToCode(block, 'A', Blockly.Python.ORDER_ATOMIC) || '0';
   var value_b = Blockly.Python.valueToCode(block, 'B', Blockly.Python.ORDER_ATOMIC) || '0';

@@ -1,5 +1,7 @@
 import Blockly from 'blockly';
 
+
+
 Blockly.Blocks['calculate_average'] = {
     init: function() {
       this.appendValueInput('VALUES')

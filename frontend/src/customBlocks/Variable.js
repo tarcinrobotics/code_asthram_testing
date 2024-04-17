@@ -1,6 +1,22 @@
 // Import Blockly from 'blockly' only once in your project
 import Blockly from 'blockly';
 
+Blockly.Blocks['create_variable'] = {
+  init: function() {
+    this.setColour("#800020");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("varName"), "VAR_NAME");
+    this.setOutput(true, null);
+    this.setTooltip("Create a variable with the specified name");
+  }
+};
+
+Blockly.Python['create_variable'] = function(block) {
+  var varName = block.getFieldValue('VAR_NAME') || 'var'; // Default variable name 'var' if not provided
+  return [varName, Blockly.Python.ORDER_ATOMIC];
+};
+
+
 Blockly.Blocks['set_variable'] = {
   init: function() {
     this.appendDummyInput()
