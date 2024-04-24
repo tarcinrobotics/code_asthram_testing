@@ -275,6 +275,18 @@ body .div1 {
   filter: invert(0.5);
 }
 
+.projecthref {
+  color: #ccc; /* Specify the desired color */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Make the text thicker */
+}
+
+.projecthref:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+
+
 /* App.css (or any CSS file where you manage your styles) */
 
 /* Floating mini screen */

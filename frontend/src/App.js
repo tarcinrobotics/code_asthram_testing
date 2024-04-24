@@ -10,6 +10,8 @@ import "./css/bootstrap.min.3.3.6.css";
 import "./css/blocklino.css";
 import { toggleModal } from "./scripts/buttonFunctions";
 import ModuleProjectDropdown from "./dropDown.js";
+import FloatingMiniScreen from './scripts/FloatingMiniScreen.js';
+import ParentComponent from "./scripts/ParentComponent.js";
 
 
 import "./customBlocks/custom_Blocks";
@@ -36,6 +38,8 @@ export default function App() {
   const [xml, setXml] = useState("");
   const [javascriptCode, setJavascriptCode] = useState("");
   const [workspace, setWorkspace] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const [showMiniScreen, setShowMiniScreen] = useState(false);
   const fileInputRef = useRef(null);
   const workspaceRef = useRef(null);
@@ -274,6 +278,7 @@ export default function App() {
           { kind: "block", type: "array_declaration",},
           { kind: "block", type: "check_variable_value", },
           { kind: "block", type: "swap_variables", },
+          { kind: "block", type: "convert_to_data_type", },
           { kind: "block", type: "copy_variable",},
           { kind: "block", type: "float_operator",},
           { kind: "block", type: "import_time",},
@@ -825,6 +830,13 @@ kind: "block", type: "turtle_set_background_color"
   const createNewWorkspace = () => {
     window.location.reload(); // Reload the page
   };
+
+ 
+  const handleSelectImage = (imageUrl) => {
+    console.log("Selected image URL:", imageUrl);
+    // Ensure that the imageUrl is properly logged
+    setSelectedImage(imageUrl); // Assuming you have state for selectedImage
+  };
  
 // Function to create a new empty workspace
 {/*{const createNewWorkspace = () => {
@@ -912,7 +924,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-
   return (
     <>
     <input
@@ -936,7 +947,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       ></button>
                       
                       <button
-                        onClick={handleOpenButtonClick}
+                        onClick={handleOpenButtonClick } 
                         title="Open"
                         className="b02"
                         id="btn_fakeload"
@@ -975,7 +986,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                   </td>
                   <td>
-                 <ModuleProjectDropdown/>
+                  <ModuleProjectDropdown />
+                  <a className="projecthref" href="https://canvas.instructure.com/courses/9304102" target="_blank">projects</a>
+
+
+                 
                   </td>
                 </tr>
               </tbody>
@@ -1040,11 +1055,14 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
         </div>
     
-    {/* Floating mini screen */}
+
+        {showMiniScreen && <FloatingMiniScreen />}
+       
+    {/* Floating mini screen 
     {showMiniScreen && (
         <div className="floating-mini-screen">
           {/* Content of the mini screen */}
-          {/* Here you can display media content such as images, videos, etc. */}
+          {/* Here you can display media content such as images, videos, etc. 
           <img src="your_image_url.jpg" alt="Media" />
           <video controls>
             <source src="your_video_url.mp4" type="video/mp4" />
@@ -1052,7 +1070,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </video>
         </div>
       )}
-
+    */}
     </>
   );
 }

@@ -22,6 +22,14 @@ Blockly.Blocks['set_variable'] = {
     this.appendDummyInput()
         .appendField("Set variable")
         .appendField(new Blockly.FieldTextInput(''), 'VAR_NAME')
+        .appendField(new Blockly.FieldDropdown([
+          ["=", "="], 
+          ["+=", "+="], 
+          ["-=", "-="], 
+          ["*=", "*="], 
+          ["/=", "/="],
+          ["%=", "%="]
+        ]), 'OPERATOR')
         .appendField("to");
     this.appendValueInput("VALUE")
         .setCheck("Number");
@@ -29,10 +37,11 @@ Blockly.Blocks['set_variable'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour("#8A3369");
-    this.setTooltip("");
+    this.setTooltip("Assigns a value to a variable with the selected operator.");
     this.setHelpUrl("");
   }
 };
+
 
 Blockly.Blocks['user_input'] = {
   init: function() {
@@ -89,14 +98,15 @@ Blockly.Python['import_time'] = function(block) {
 };
 
 
-
 Blockly.Python['set_variable'] = function(block) {
   var varName = block.getFieldValue('VAR_NAME');
+  var operator = block.getFieldValue('OPERATOR');
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC);
-  // Generate Python code to set the variable to the specified value
-  var code = varName + ' = ' + value;
-  return code + '\n';
+  // Generate Python code with the selected assignment operator
+  var code = varName + ' ' + operator + ' ' + value + '\n';
+  return code;
 };
+
 
 Blockly.Blocks['plain_variable'] = {
   init: function() {
@@ -179,6 +189,42 @@ Blockly.Python['array_declaration'] = function(block) {
     return `  ${dataType} ${varName}[${length}] = ${value};\n`;
   }
 };
+
+Blockly.Blocks['convert_to_data_type'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .setCheck(null)
+        .appendField("Convert to")
+        .appendField(new Blockly.FieldDropdown([
+          ["integer", "int"],
+          ["float", "float"],
+          ["string", "str"],
+          ["boolean", "bool"],
+          ["list", "list"],
+          ["tuple", "tuple"],
+          ["set", "set"],
+          ["dictionary", "dict"],
+          ["complex", "complex"],
+          ["bytes", "bytes"],
+          ["bytearray", "bytearray"]
+          // Add more data types here as needed
+        ]), "TYPE");
+    this.setOutput(true, null);
+    this.setColour("#8A3369");
+    this.setTooltip("Convert a value to the selected data type");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Python['convert_to_data_type'] = function(block) {
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '0';
+  var dataType = block.getFieldValue('TYPE');
+  return [dataType + '(' + value + ')', Blockly.Python.ORDER_NONE];
+};
+
+
+
 
 Blockly.Blocks['increment_variable'] = {
   init: function() {

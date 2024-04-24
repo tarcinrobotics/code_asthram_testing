@@ -103,28 +103,30 @@ Blockly.Blocks['base_structure'] = {
           
           Blockly.Blocks['for_loop_structure'] = {
             init: function() {
-                this.appendDummyInput()
-                    .appendField('for')
-                    .appendField(new Blockly.FieldVariable('i'), 'VAR')
-                    .appendField('in range');
-                this.appendValueInput('START')
-                    .setCheck('Number')
-                    .appendField('from');
-                this.appendValueInput('END')
-                    .setCheck('Number')
-                    .appendField('to');
-                this.appendValueInput('STEP')
-                    .setCheck('Number')
-                    .appendField('step');
-                this.appendStatementInput('STATEMENTS')
-                    .setCheck(null)
-                    .appendField('do');
-                this.setPreviousStatement(true, null);
-                this.setColour("#B3A125");
-                this.setTooltip('Create a for loop structure with specified iterations.');
+              this.appendDummyInput()
+                  .appendField('for')
+                  .appendField(new Blockly.FieldVariable('i'), 'VAR')
+                  .appendField('in range');
+              this.appendValueInput('START')
+                  .setCheck('Number')
+                  .appendField('from');
+              this.appendValueInput('END')
+                  .setCheck('Number')
+                  .appendField('to');
+              this.appendValueInput('STEP')
+                  .setCheck('Number')
+                  .appendField('step');
+              this.appendStatementInput('STATEMENTS')
+                  .setCheck(null)
+                  .appendField('do');
+              this.setPreviousStatement(true, null);
+              // Set bottom attachment bump
+              this.setNextStatement(true, 'BUMP');
+              this.setColour("#B3A125");
+              this.setTooltip('Create a for loop structure with specified iterations.');
             }
-        };
-        
+          };
+          
 
           Blockly.Python['for_loop_structure'] = function(block) {
             var variable = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);

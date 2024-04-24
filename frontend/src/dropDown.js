@@ -1,31 +1,47 @@
-// src/components/ModuleProjectDropdown.js
-
 import React, { useState } from 'react';
 import './dropDown.css'; // Import CSS file for styling
 
-const ModuleProjectDropdown = () => {
+const ModuleProjectDropdown = ({ onSelectImage }) => {
   const modules = [
     {
-      name: 'Logic',
-      projects: ['Project 1', 'Project 2', 'Project 3', 'Project 4', 'Project 5', 'Project 6', 'Project 7', 'Project 8', 'Project 9', 'Project 10']
+      name: 'Turtle',
+      projects: [
+        { name: 'Turtle Square', imageUrl: './media/projects/turtle/turtle-square.jpeg' },
+        { name: 'Turtle Star', imageUrl: './media/projects/turtle/turtle-star.jpeg' },
+        // Add more projects with image URLs as needed
+      ]
     },
     {
       name: 'Loops',
-      projects: ['Project A', 'Project B', 'Project C', 'Project D', 'Project E', 'Project F', 'Project G', 'Project H', 'Project I', 'Project J']
+      projects: [
+        { name: 'Project A', imageUrl: 'images/projectA.jpg' },
+        { name: 'Project B', imageUrl: 'images/projectB.jpg' },
+        // Add more projects with image URLs as needed
+      ]
     },
     // Add more modules and projects as needed
   ];
 
   const [selectedModule, setSelectedModule] = useState('');
   const [selectedProject, setSelectedProject] = useState('');
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleModuleSelect = (module) => {
     setSelectedModule(module);
     setSelectedProject('');
+    setSelectedImage(null);
   };
 
   const handleProjectSelect = (project) => {
-    setSelectedProject(project);
+    const selectedModuleObj = modules.find(module => module.name === selectedModule);
+    if (selectedModuleObj) {
+      const selectedProjectObj = selectedModuleObj.projects.find(p => p.name === project);
+      if (selectedProjectObj) {
+        setSelectedProject(project);
+        setSelectedImage(selectedProjectObj.imageUrl);
+        onSelectImage(selectedProjectObj.imageUrl); // Ensure onSelectImage is properly called here
+      }
+    }
   };
 
   return (
@@ -39,11 +55,11 @@ const ModuleProjectDropdown = () => {
       <select id="projectDropdown" className={selectedModule ? 'show' : ''} value={selectedProject} onChange={(e) => handleProjectSelect(e.target.value)}>
         <option value="">Select Project</option>
         {selectedModule && modules.find(module => module.name === selectedModule).projects.map((project, index) => (
-          <option key={index} value={project}>{project}</option>
+          <option key={index} value={project.name}>{project.name}</option>
         ))}
       </select>
-      {selectedProject && (
-        <img src={`images/${selectedProject}.jpg`} alt={selectedProject} className="show" />
+      {selectedImage && (
+        <img src={selectedImage} alt={selectedProject} className="show" />
       )}
     </div>
   );
