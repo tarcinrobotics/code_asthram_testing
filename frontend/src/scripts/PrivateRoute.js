@@ -1,17 +1,22 @@
-// PrivateRoute.js
+// ParentComponent.js
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { ModuleDropdown, ProjectDropdown } from '../dropDown.js';  // Assuming both are exported from the same file
 
-const PrivateRoute = ({ element, ...rest }) => {
-  // Check if the user is authenticated, e.g., by checking localStorage or your authentication state
-  const isAuthenticated = /* Implement your authentication logic here */ true;
-
-  return (
-    <Route
-      {...rest}
-      element={isAuthenticated ? element : <Navigate to="/login" />}
-    />
-  );
+const ParentComponent = ({ modulesData, onSelectModule, selectedModuleIndex, projectsData, onSelectProject }) => {
+    return (
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <ModuleDropdown 
+                modulesData={modulesData} 
+                onSelect={onSelectModule}
+            />
+            {selectedModuleIndex !== null && (
+                <ProjectDropdown
+                    projectsData={projectsData}
+                    onSelect={onSelectProject}
+                />
+            )}
+        </div>
+    );
 };
 
-export default PrivateRoute;
+export default ParentComponent;

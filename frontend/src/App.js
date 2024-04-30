@@ -9,8 +9,10 @@ import html2canvas from 'html2canvas';
 import "./css/bootstrap.min.3.3.6.css";
 import "./css/blocklino.css";
 import { toggleModal } from "./scripts/buttonFunctions";
-import ModuleProjectDropdown from "./dropDown.js";
-
+import modulesData from "./scripts/modules.json";
+import { ModuleDropdown, ProjectDropdown } from './dropDown.js';
+import FloatingScreen from "./scripts/FloatingMiniScreen.js";
+import ParentComponent from "./scripts/ParentComponent.js";
 
 import "./customBlocks/custom_Blocks";
 import "./customBlocks/LogicBlocks.js";
@@ -36,6 +38,11 @@ export default function App() {
   const [xml, setXml] = useState("");
   const [javascriptCode, setJavascriptCode] = useState("");
   const [workspace, setWorkspace] = useState(null);
+
+  const [selectedModuleIndex, setSelectedModuleIndex] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
+  
+  const [isVisible, setIsVisible] = useState(false); // State to control visibility of the FloatingScreen
   const [showMiniScreen, setShowMiniScreen] = useState(false);
   const fileInputRef = useRef(null);
   const workspaceRef = useRef(null);
@@ -50,11 +57,16 @@ export default function App() {
       {
         kind: "category",
         name: "Logic",
-        colour: "#4169E1",
+        colour: "#3F507A",
         contents: [
           {kind: "block", type: "controls_if_else"
+        }, {  kind: "block",   type: "controls_if_elif",
         },
-          { kind: "block", type: "controls_if",},
+       // { kind: "block", type: "if_elif_else_dropdown" },
+       {
+          kind: "block",
+          type: "controls_else",
+        },
           {kind: "block", type: "logic_compare",},
           { kind: "block",type: "logic_operation", },
           { kind: "block",type: "logic_negate",},
@@ -67,13 +79,14 @@ export default function App() {
       {
         kind: "category",
         name: "Loops",
-        colour: "#6A0DAD",
+        colour: "#227446",
         contents: [
-         
           {
             kind: "block",
             type: "controls_repeat_ext",
+            colour: "#FFB266"
           },
+        
           {
             kind: "block",
             type: "controls_whileUntil",
@@ -269,14 +282,17 @@ export default function App() {
         colour: "#CA2C92",
         contents: [
           {kind: "block", type: "create_variable"},
+          {kind: "block", type: "create_variable_2"},
           { kind: "block", type: "set_variable", },
           { kind: "block", type: "plain_variable", },
           { kind: "block", type: "array_declaration",},
           { kind: "block", type: "check_variable_value", },
           { kind: "block", type: "swap_variables", },
+          { kind: "block", type: "convert_to_data_type", },
           { kind: "block", type: "copy_variable",},
           { kind: "block", type: "float_operator",},
-          { kind: "block", type: "import_time",},
+          { kind: "block", type: "import_statements",},
+          { kind: "block", type: "time_sleep",},
           { kind: "block", type: "user_input",},
           { kind: "block", type: "find_maximum_value", },
           { kind: "block", type: "calculate_average", },
@@ -297,10 +313,11 @@ export default function App() {
           { kind: "block",type: "declaration_structure", },
           { kind: "block", type: "custom_yield",},
           {kind: "block", type: "if_else_structure", },
-          { kind: "block",type: "for_loop_structure", },
+          { kind: "block",type: "dynamic_for_loop", },
           { kind: "block", type: "while_loop_structure",},
           {kind: "block", type: "do_while_loop_structure", },
           { kind: "block",type: "class_structure", },
+          { kind: "block",type: "break_statement", },
           {kind: "block", type: "function_definition_structure", },
           { kind: "block",type: "try_catch_structure", },
           { kind: "block", type: "switch_case_structure",},
@@ -787,6 +804,21 @@ kind: "block", type: "turtle_set_background_color"
     ],
   };
 
+  const handleModuleSelect = (index) => {
+    setSelectedModuleIndex(index);
+    setSelectedProject(null);
+    setIsVisible(false);
+  };
+
+  const handleProjectSelect = (project) => {
+    setSelectedProject(project);
+    setIsVisible(true);
+  };
+
+  const projectsData = selectedModuleIndex !== null ? modulesData[selectedModuleIndex].projects : [];
+
+  const toggleVisibility = () => setIsVisible(!isVisible); // Toggle visibility state
+
 
   function workspaceDidChange(workspace) {
     const code = Blockly.Python.workspaceToCode(workspace);
@@ -824,6 +856,13 @@ kind: "block", type: "turtle_set_background_color"
   // Function to create a new workspace (reload the page)
   const createNewWorkspace = () => {
     window.location.reload(); // Reload the page
+  };
+
+ 
+ {/* const handleSelectImage = (imageUrl) => {
+    console.log("Selected image URL:", imageUrl);
+    // Ensure that the imageUrl is properly logged
+    setSelectedImage(imageUrl); // Assuming you have state for selectedImage
   };
  
 // Function to create a new empty workspace
@@ -912,7 +951,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-
   return (
     <>
     <input
@@ -936,7 +974,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       ></button>
                       
                       <button
-                        onClick={handleOpenButtonClick}
+                        onClick={() => setIsVisible(!isVisible)}
                         title="Open"
                         className="b02"
                         id="btn_fakeload"
@@ -975,7 +1013,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                   </td>
                   <td>
-                 <ModuleProjectDropdown/>
+                  <ParentComponent
+        modulesData={modulesData}
+        selectedModuleIndex={selectedModuleIndex}
+        onSelectModule={handleModuleSelect}
+        projectsData={projectsData}
+        onSelectProject={handleProjectSelect}
+      />
+      {isVisible && selectedProject && (
+        <FloatingScreen
+          isVisible={isVisible}
+          toggleVisibility={() => setIsVisible(false)}
+          content={<img src={selectedProject.image} alt={selectedProject.name} style={{ width: '100%', height: 'auto' }} />}
+          hints={selectedProject.hints || []}
+        />
+      )}
+               {/*   <a className="projecthref" href="https://canvas.instructure.com/courses/9304102" target="_blank">projects</a>
+*/}
+
+                 
                   </td>
                 </tr>
               </tbody>
@@ -1039,12 +1095,19 @@ document.addEventListener('DOMContentLoaded', function() {
             </button>
           </div>
         </div>
-    
-    {/* Floating mini screen */}
+    {/* 
+        {isVisible && selectedProject && (
+        <div className="floating-screen">
+          <img src={selectedProject.image} alt={selectedProject.name} style={{ width: '100%', height: 'auto' }} />
+          <button onClick={toggleVisibility}>Close</button>
+        </div>
+      )}
+       
+    {/* Floating mini screen 
     {showMiniScreen && (
         <div className="floating-mini-screen">
           {/* Content of the mini screen */}
-          {/* Here you can display media content such as images, videos, etc. */}
+          {/* Here you can display media content such as images, videos, etc. 
           <img src="your_image_url.jpg" alt="Media" />
           <video controls>
             <source src="your_video_url.mp4" type="video/mp4" />
@@ -1052,7 +1115,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </video>
         </div>
       )}
-
+    */}
     </>
   );
 }

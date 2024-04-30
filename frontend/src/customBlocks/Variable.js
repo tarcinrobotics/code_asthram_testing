@@ -3,9 +3,9 @@ import Blockly from 'blockly';
 
 Blockly.Blocks['create_variable'] = {
   init: function() {
-    this.setColour("#800020");
+    this.setColour("#FF6666");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldTextInput("varName"), "VAR_NAME");
+        .appendField(new Blockly.FieldTextInput("var"), "VAR_NAME");
     this.setOutput(true, null);
     this.setTooltip("Create a variable with the specified name");
   }
@@ -16,23 +16,55 @@ Blockly.Python['create_variable'] = function(block) {
   return [varName, Blockly.Python.ORDER_ATOMIC];
 };
 
+Blockly.Blocks['create_variable_2'] = {
+  init: function() {
+    this.setColour("#FF6666");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldTextInput("variable"), "VAR_NAME");
+
+    // Allows this block to connect to a statement before it and after it.
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+
+    this.setTooltip("Create a variable with the specified name");
+    this.setHelpUrl(""); // Optional: URL to a help page
+  }
+};
+
+
+Blockly.Python['create_variable_2'] = function(block) {
+  var varName = block.getFieldValue('VAR_NAME') || 'var'; // Default variable name 'var' if not provided
+  // Return a Python statement for declaring a variable; for Python, typically no declaration is needed unless initializing
+  var code = varName + ' = None\n'; // Initializing to None or some default value
+  return code;
+};
+
 
 Blockly.Blocks['set_variable'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Set variable")
         .appendField(new Blockly.FieldTextInput(''), 'VAR_NAME')
+        .appendField(new Blockly.FieldDropdown([
+          ["=", "="], 
+          ["+=", "+="], 
+          ["-=", "-="], 
+          ["*=", "*="], 
+          ["/=", "/="],
+          ["%=", "%="]
+        ]), 'OPERATOR')
         .appendField("to");
     this.appendValueInput("VALUE")
         .setCheck("Number");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
-    this.setTooltip("");
+    this.setColour("#FF6666");
+    this.setTooltip("Assigns a value to a variable with the selected operator.");
     this.setHelpUrl("");
   }
 };
+
 
 Blockly.Blocks['user_input'] = {
   init: function() {
@@ -42,7 +74,7 @@ Blockly.Blocks['user_input'] = {
         .setCheck(null)
         .appendField(new Blockly.FieldTextInput("1"), "DEFAULT_VALUE");
     this.setOutput(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip("Get user input");
     this.setHelpUrl("");
   }
@@ -59,7 +91,7 @@ Blockly.Blocks['float_operator'] = {
         .setCheck(null)
         .appendField("Convert to Float");
     this.setOutput(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip("Convert a value to a float");
     this.setHelpUrl("");
   }
@@ -71,32 +103,75 @@ Blockly.Python['float_operator'] = function(block) {
 };
 
 
-Blockly.Blocks['import_time'] = {
+Blockly.Blocks['import_statements'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Import Time");
+        .appendField("Import")
+        .appendField(new Blockly.FieldDropdown([
+          ["time", "time"], 
+          ["random", "random"],
+          ["math", "math"],
+          ["os", "os"],
+          ["sys", "sys"],
+          ["datetime", "datetime"],
+          ["json", "json"],
+          ["re", "re"],
+          ["requests", "requests"],
+          ["csv", "csv"],
+          ["numpy as np", "numpy"]
+        ]), "MODULES");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
-    this.setTooltip("Import the time module in Python");
+    this.setColour("#FF6666");
+    this.setTooltip("Import a selected module in Python");
     this.setHelpUrl("");
   }
 };
 
-Blockly.Python['import_time'] = function(block) {
-  Blockly.Python.definitions_['time'] = 'import time\n';
-  return '';
+Blockly.Python['import_statements'] = function(block) {
+  var module = block.getFieldValue('MODULES');
+  var code = '';
+  if (module === 'numpy') {
+    Blockly.Python.definitions_['import_' + module] = 'import numpy as np\n';
+  } else {
+    Blockly.Python.definitions_['import_' + module] = 'import ' + module + '\n';
+  }
+  return code;
+};
+
+Blockly.Blocks['time_sleep'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("sleep for")
+        .appendField(new Blockly.FieldNumber(1, 0, Infinity, 1), "SLEEP_TIME")
+        .appendField("seconds");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#FF6666");
+    this.setTooltip("Pauses the program for the specified amount of time (in seconds).");
+    this.setHelpUrl("https://docs.python.org/3/library/time.html#time.sleep");
+  }
+};
+
+Blockly.Python['time_sleep'] = function(block) {
+  var sleepTime = block.getFieldValue('SLEEP_TIME');
+  // Add the import statement for time if it hasn't been added yet
+  Blockly.Python.definitions_['import_time'] = 'import time\n';
+  var code = 'time.sleep(' + sleepTime + ')\n';
+  return code;
 };
 
 
 
 Blockly.Python['set_variable'] = function(block) {
   var varName = block.getFieldValue('VAR_NAME');
+  var operator = block.getFieldValue('OPERATOR');
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC);
-  // Generate Python code to set the variable to the specified value
-  var code = varName + ' = ' + value;
-  return code + '\n';
+  // Generate Python code with the selected assignment operator
+  var code = varName + ' ' + operator + ' ' + value + '\n';
+  return code;
 };
+
 
 Blockly.Blocks['plain_variable'] = {
   init: function() {
@@ -104,7 +179,7 @@ Blockly.Blocks['plain_variable'] = {
         .appendField(new Blockly.FieldVariable("item"), "VAR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -158,7 +233,7 @@ Blockly.Blocks['array_declaration'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setOutput(false, null); // Remove previous output connection
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip("Variable Declaration");
     this.setHelpUrl("");
   }
@@ -180,6 +255,42 @@ Blockly.Python['array_declaration'] = function(block) {
   }
 };
 
+Blockly.Blocks['convert_to_data_type'] = {
+  init: function() {
+    this.appendValueInput("VALUE")
+        .setCheck(null)
+        .appendField("Convert to")
+        .appendField(new Blockly.FieldDropdown([
+          ["integer", "int"],
+          ["float", "float"],
+          ["string", "str"],
+          ["boolean", "bool"],
+          ["list", "list"],
+          ["tuple", "tuple"],
+          ["set", "set"],
+          ["dictionary", "dict"],
+          ["complex", "complex"],
+          ["bytes", "bytes"],
+          ["bytearray", "bytearray"]
+          // Add more data types here as needed
+        ]), "TYPE");
+    this.setOutput(true, null);
+    this.setColour("#FF6666");
+    this.setTooltip("Convert a value to the selected data type");
+    this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Python['convert_to_data_type'] = function(block) {
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '0';
+  var dataType = block.getFieldValue('TYPE');
+  return [dataType + '(' + value + ')', Blockly.Python.ORDER_NONE];
+};
+
+
+
+
 Blockly.Blocks['increment_variable'] = {
   init: function() {
     this.appendValueInput('VARIABLE')
@@ -190,7 +301,7 @@ Blockly.Blocks['increment_variable'] = {
         .appendField('by');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Increment the value of a variable by a specified amount.');
   }
 };
@@ -211,7 +322,7 @@ Blockly.Blocks['decrement_variable'] = {
         .appendField('by');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Decrement the value of a variable by a specified amount.');
   }
 };
@@ -229,7 +340,7 @@ Blockly.Blocks['reset_variable'] = {
         .appendField('Reset variable');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Reset the value of a variable to its initial value.');
   }
 };
@@ -257,7 +368,7 @@ Blockly.Blocks['check_variable_value'] = {
         .setCheck('Number');
     this.setInputsInline(true);
     this.setOutput(true, 'Boolean');
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Check if a variable\'s value meets a specified condition.');
   }
 };
@@ -279,7 +390,7 @@ Blockly.Blocks['swap_variables'] = {
         .appendField('and');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Swap the values of two variables.');
   }
 };
@@ -298,7 +409,7 @@ Blockly.Blocks['copy_variable'] = {
         .appendField('Copy variable');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Create a copy of a variable with the same value.');
   }
 };
@@ -314,7 +425,7 @@ Blockly.Blocks['find_maximum_value'] = {
         .setCheck('Array')
         .appendField('Find maximum value in');
     this.setOutput(true, 'Number');
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Find the maximum value among a list of variables.');
   }
 };
@@ -330,7 +441,7 @@ Blockly.Blocks['calculate_average'] = {
         .setCheck('Array')
         .appendField('Calculate average of');
     this.setOutput(true, 'Number');
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Calculate the average value of a list of variables.');
   }
 };
@@ -350,7 +461,7 @@ Blockly.Blocks['variable_scope'] = {
         ]), 'SCOPE');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#8A3369");
+    this.setColour("#FF6666");
     this.setTooltip('Define the scope of a variable (local or global).');
   }
 };

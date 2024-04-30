@@ -13,22 +13,124 @@ Blockly.Blocks['controls_if_else'] = {
     this.appendStatementInput("ELSE_BODY")
         .setCheck(null)
         .appendField("else");
+
+    // Ensure that the block can be connected both to statements before and after it.
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
+
+    // Make the block compatible with most other blocks.
+    this.setOutput(false);  // Ensure it doesn't try to output a value
+
     this.setTooltip("If the condition is true, do the first block of commands. Otherwise, do the second block of commands.");
   }
 };
+
 
 Blockly.Python['controls_if_else'] = function(block) {
   var condition = Blockly.Python.valueToCode(block, 'CONDITION', Blockly.Python.ORDER_NONE) || 'False';
   var ifBody = Blockly.Python.statementToCode(block, 'IF_BODY');
   var elseBody = Blockly.Python.statementToCode(block, 'ELSE_BODY');
-  var code = 'if ' + condition + ':\n';
-  code += Blockly.Python.prefixLines(ifBody, '  ');
-  code += 'else:\n';
-  code += Blockly.Python.prefixLines(elseBody, '  ');
+
+  // Adding indentation to the blocks of code within the if and else statements.
+  var code = 'if ' + condition + ':\n' + Blockly.Python.prefixLines(ifBody, Blockly.Python.INDENT);
+  code += 'else:\n' + Blockly.Python.prefixLines(elseBody, Blockly.Python.INDENT);
   return code;
 };
+
+
+
+Blockly.Blocks['controls_if_elif'] = {
+  init: function() {
+    this.setColour(210);
+    // Adding a dropdown for true/false options directly in the block.
+    this.appendDummyInput()
+        .appendField("elif")
+        .appendField(new Blockly.FieldDropdown([
+          ["true", "TRUE"], 
+          ["false", "FALSE"]
+        ]), "CONDITION");
+
+    this.appendStatementInput("ELIF_BODY")
+        .setCheck(null)
+        .appendField("do");
+
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+
+    this.setTooltip("If the previous conditions were false, and this condition is true, do the following.");
+  }
+};
+
+Blockly.Python['controls_if_elif'] = function(block) {
+  // Retrieving the dropdown value directly
+  var condition = block.getFieldValue('CONDITION') === 'TRUE' ? 'True' : 'False';
+  var elifBody = Blockly.Python.statementToCode(block, 'ELIF_BODY');
+  var code = 'elif ' + condition + ':\n';
+  code += Blockly.Python.prefixLines(elifBody, Blockly.Python.INDENT);
+  return code;
+};
+
+Blockly.Blocks['controls_else'] = {
+  init: function() {
+    this.setColour(210);
+    this.appendDummyInput()
+        .appendField("else");
+
+    this.appendStatementInput("ELSE_BODY")
+        .setCheck(null)
+        .appendField("do");
+
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+
+    this.setTooltip("Do the following if the previous conditions were false.");
+  }
+};
+
+Blockly.Python['controls_else'] = function(block) {
+  var elseBody = Blockly.Python.statementToCode(block, 'ELSE_BODY');
+  var code = 'else:\n';
+  code += Blockly.Python.prefixLines(elseBody, Blockly.Python.INDENT);
+  return code;
+};
+
+Blockly.Blocks['if_elif_else_dropdown'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([
+          ["if", "IF"],
+          ["elif", "ELIF"],
+          ["else", "ELSE"]
+        ]), "CONDITION_TYPE")
+        .appendField(new Blockly.FieldTextInput('x > 10'), 'CONDITION');
+    this.appendStatementInput("DO")
+        .setCheck(null)
+        .appendField("do");
+    this.setColour(210);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Choose between if, elif, or else and add statements.");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['if_elif_else_dropdown'] = function(block) {
+  var dropdown_type = block.getFieldValue('CONDITION_TYPE');
+  var condition = block.getFieldValue('CONDITION'); // Directly use getField instead of valueToCode for a FieldTextInput
+  var statements_do = Blockly.Python.statementToCode(block, 'DO');
+  var code = '';
+  if (dropdown_type === "IF") {
+    code += 'if ' + condition + ':\n';
+  } else if (dropdown_type === "ELIF") {
+    code += 'elif ' + condition + ':\n';
+  } else if (dropdown_type === "ELSE") {
+    // For the 'else' case, ignore the condition and just use 'else'
+    code += 'else:\n';
+  }
+  code += Blockly.Python.prefixLines(statements_do, Blockly.Python.INDENT);
+  return code;
+};
+
 
 
 

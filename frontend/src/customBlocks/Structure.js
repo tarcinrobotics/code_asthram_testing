@@ -101,40 +101,62 @@ Blockly.Blocks['base_structure'] = {
             return code;
           };
           
-          Blockly.Blocks['for_loop_structure'] = {
+          Blockly.Blocks['dynamic_for_loop'] = {
             init: function() {
-                this.appendDummyInput()
-                    .appendField('for')
-                    .appendField(new Blockly.FieldVariable('i'), 'VAR')
-                    .appendField('in range');
-                this.appendValueInput('START')
-                    .setCheck('Number')
-                    .appendField('from');
-                this.appendValueInput('END')
-                    .setCheck('Number')
-                    .appendField('to');
-                this.appendValueInput('STEP')
-                    .setCheck('Number')
-                    .appendField('step');
-                this.appendStatementInput('STATEMENTS')
-                    .setCheck(null)
-                    .appendField('do');
-                this.setPreviousStatement(true, null);
-                this.setColour("#B3A125");
-                this.setTooltip('Create a for loop structure with specified iterations.');
+              this.appendDummyInput()
+                  .appendField("for")
+                  .appendField(new Blockly.FieldVariable("i"), "VAR")
+                  .appendField("in range(");
+              this.appendValueInput("START")
+                  .setCheck("Number")
+                  .appendField("start");
+              this.appendValueInput("END")
+                  .setCheck("Number")
+                  .appendField("end");
+              this.appendValueInput("STEP")
+                  .setCheck("Number")
+                  .appendField("step");
+              this.appendDummyInput()
+                  .appendField(")");
+              this.appendStatementInput("DO")
+                  .setCheck(null)
+                  .appendField("do");
+              this.setPreviousStatement(true, null);
+              this.setNextStatement(true, null);
+              this.setColour('#B3A125');
+              this.setTooltip("For loop with configurable range");
+              this.setHelpUrl("");
             }
-        };
-        
-
-          Blockly.Python['for_loop_structure'] = function(block) {
+          };
+          
+          Blockly.Python['dynamic_for_loop'] = function(block) {
             var variable = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-            var start = Blockly.Python.valueToCode(block, 'START', Blockly.Python.ORDER_ATOMIC);
-            var end = Blockly.Python.valueToCode(block, 'END', Blockly.Python.ORDER_ATOMIC);
-            var step = Blockly.Python.valueToCode(block, 'STEP', Blockly.Python.ORDER_ATOMIC);
-            var statements = Blockly.Python.statementToCode(block, 'STATEMENTS');
-            var code = `for ${variable} in range(${start}, ${end}, ${step}):\n${statements}`;
+            var start = Blockly.Python.valueToCode(block, 'START', Blockly.Python.ORDER_NONE);
+            var end = Blockly.Python.valueToCode(block, 'END', Blockly.Python.ORDER_NONE);
+            var step = Blockly.Python.valueToCode(block, 'STEP', Blockly.Python.ORDER_NONE);
+          
+            // Build the range function based on what inputs are provided
+            var rangeArgs = [];
+            if (start) rangeArgs.push(start);
+            if (end) rangeArgs.push(end);
+            if (step) rangeArgs.push(step);
+          
+            var argumentsString = rangeArgs.join(', ');
+          
+            var code = 'for ' + variable + ' in range(' + argumentsString + '):\n';
+            var branch = Blockly.Python.statementToCode(block, 'DO');
+            if (Blockly.Python.STATEMENT_PREFIX) {
+              branch = Blockly.Python.prefixLines(Blockly.Python.STATEMENT_PREFIX.replace(/%1/g,
+                  '\'' + block.id + '\''), Blockly.Python.INDENT) + branch;
+            }
+            if (Blockly.Python.INFINITE_LOOP_TRAP) {
+              branch = Blockly.Python.INFINITE_LOOP_TRAP.replace(/%1/g,
+                  '\'' + block.id + '\'') + branch;
+            }
+            code += branch || Blockly.Python.PASS;
             return code;
           };
+          
           
           Blockly.Blocks['while_loop_structure'] = {
             init: function() {
@@ -158,32 +180,36 @@ Blockly.Blocks['base_structure'] = {
           
           Blockly.Blocks['function_definition_structure'] = {
             init: function() {
-                this.appendDummyInput()
-                    .appendField('def')
-                    .appendField(new Blockly.FieldTextInput('functionName'), 'FUNCTION_NAME')
-                    .appendField('(');
-                this.appendValueInput('PARAMS')
-                    .setCheck('String')
-                    .appendField('');
-                this.appendDummyInput()
-                    .appendField('):');
-                this.appendStatementInput('STATEMENTS')
-                    .setCheck(null);
-                this.setColour("#B3A125");
-                this.setTooltip('Create a structure for defining a function with parameters and statements.');
-                this.setNextStatement(true, null); // Add bottom connection bump
+              this.appendDummyInput()
+                  .appendField('def')
+                  .appendField(new Blockly.FieldTextInput('functionName'), 'FUNCTION_NAME')
+                  .appendField('(');
+              this.appendValueInput('PARAMS')
+                  .setCheck('String')
+                  .appendField('');
+              this.appendDummyInput()
+                  .appendField('):');
+              this.appendStatementInput('STATEMENTS')
+                  .setCheck(null);
+              this.setColour("#B3A125");
+              this.setTooltip('Create a structure for defining a function with parameters and statements.');
+              this.setPreviousStatement(true, null); // Add top connection bump
+              this.setNextStatement(true, null); // Ensure bottom connection bump is retained
             }
-        };
-        
+          };
 
           Blockly.Python['function_definition_structure'] = function(block) {
             var functionName = block.getFieldValue('FUNCTION_NAME');
             var params = Blockly.Python.valueToCode(block, 'PARAMS', Blockly.Python.ORDER_ATOMIC) || '';
-            var statements = Blockly.Python.statementToCode(block, 'STATEMENTS');
+            var statements = Blockly.Python.statementToCode(block, 'STATEMENTS', Blockly.Python.ORDER_FUNCTION_CALL);
             var code = `def ${functionName}(${params}):\n${statements}`;
+            if (statements.trim() === "") {
+              code += "    pass\n";  // Add pass if function body is empty
+            }
             return code;
           };
           
+
           Blockly.Blocks['try_catch_structure'] = {
             init: function() {
               this.appendDummyInput()
@@ -250,6 +276,23 @@ Blockly.Blocks['base_structure'] = {
             var code = `while True:\n${statements}\n  if not ${condition}:\n    break\n`;
             return code;
           };
+
+          Blockly.Blocks['break_statement'] = {
+            init: function() {
+              this.appendDummyInput()
+                  .appendField("break");
+              this.setPreviousStatement(true, null);
+              this.setNextStatement(true, null);
+              this.setColour('#B3A125');
+              this.setTooltip("Break out of the current loop");
+              this.setHelpUrl("https://docs.python.org/3/reference/simple_stmts.html#break");
+            }
+          };
+          Blockly.Python['break_statement'] = function(block) {
+            // Python's 'break' statement
+            return 'break\n';
+          };
+                    
           
           Blockly.Blocks['class_structure'] = {
             init: function() {

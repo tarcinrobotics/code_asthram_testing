@@ -275,29 +275,3 @@ body .div1 {
   filter: invert(0.5);
 }
 
-/* App.css (or any CSS file where you manage your styles) */
-
-/* Floating mini screen */
-.floating-mini-screen {
-  position: fixed;
-  top: 50px; /* Adjust as needed */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  max-width: 300px; /* Adjust the maximum width as needed */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-}
-
-/* Media content */
-.floating-mini-screen img,
-.floating-mini-screen video {
-  max-width: 100%; /* Force the media to fit within the container */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Ensure the media is centered horizontally */
-  margin: 0 auto; /* Center the media horizontally */
-  margin-bottom: 10px; /* Add some spacing between media items */
-}
