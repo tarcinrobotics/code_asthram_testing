@@ -13,7 +13,7 @@ Blockly.Blocks['base_structure'] = {
       this.appendStatementInput("LOOP")
           .setCheck(null)
           .appendField("");
-      this.setColour("#B3A125");
+      this.setColour("#AEC6CF");
       this.setTooltip("Base structure with setup and loop functions");
       this.setHelpUrl("");
     }
@@ -41,7 +41,7 @@ Blockly.Blocks['base_structure'] = {
       this.appendStatementInput("DECLARATIONS")
           .setCheck(null)
           .appendField("Declare:");
-      this.setColour("#B3A125");
+      this.setColour("#AEC6CF");
       this.setTooltip("");
       this.setHelpUrl("");
     }
@@ -62,7 +62,7 @@ Blockly.Blocks['base_structure'] = {
     .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#B3A125");
+    this.setColour("#AEC6CF");
     this.setTooltip("");
     this.setHelpUrl("");
     }
@@ -88,7 +88,7 @@ Blockly.Blocks['base_structure'] = {
                   .appendField('else');
               this.appendStatementInput('ELSE_STATEMENTS')
                   .setCheck(null);
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setTooltip('Create an if-else structure with conditionals.');
             }
           };
@@ -123,7 +123,7 @@ Blockly.Blocks['base_structure'] = {
                   .appendField("do");
               this.setPreviousStatement(true, null);
               this.setNextStatement(true, null);
-              this.setColour('#B3A125');
+              this.setColour('#AEC6CF');
               this.setTooltip("For loop with configurable range");
               this.setHelpUrl("");
             }
@@ -166,7 +166,7 @@ Blockly.Blocks['base_structure'] = {
               this.appendStatementInput('STATEMENTS')
                   .setCheck(null)
                   .appendField('do');
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setTooltip('Create a while loop structure with specified condition.');
             }
           };
@@ -191,7 +191,7 @@ Blockly.Blocks['base_structure'] = {
                   .appendField('):');
               this.appendStatementInput('STATEMENTS')
                   .setCheck(null);
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setTooltip('Create a structure for defining a function with parameters and statements.');
               this.setPreviousStatement(true, null); // Add top connection bump
               this.setNextStatement(true, null); // Ensure bottom connection bump is retained
@@ -220,7 +220,7 @@ Blockly.Blocks['base_structure'] = {
                   .appendField('except Exception as e:');
               this.appendStatementInput('EXCEPT_STATEMENTS')
                   .setCheck(null);
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setTooltip('Create a structure for handling exceptions with try and catch blocks.');
             }
           };
@@ -241,7 +241,7 @@ Blockly.Blocks['base_structure'] = {
               this.appendStatementInput('CASES')
                   .setCheck(null)
                   .appendField('cases');
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setTooltip('Create a structure for implementing switch-case logic.');
             }
           };
@@ -263,7 +263,7 @@ Blockly.Blocks['base_structure'] = {
                   .appendField('while');
               this.appendValueInput('CONDITION')
                   .setCheck('Boolean');
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setPreviousStatement(true, null);
               this.setNextStatement(true, null);
               this.setTooltip('Create a structure for a do-while loop.');
@@ -283,7 +283,7 @@ Blockly.Blocks['base_structure'] = {
                   .appendField("break");
               this.setPreviousStatement(true, null);
               this.setNextStatement(true, null);
-              this.setColour('#B3A125');
+              this.setColour('#AEC6CF');
               this.setTooltip("Break out of the current loop");
               this.setHelpUrl("https://docs.python.org/3/reference/simple_stmts.html#break");
             }
@@ -306,7 +306,7 @@ Blockly.Blocks['base_structure'] = {
               this.appendStatementInput('METHODS')
                   .setCheck(null)
                   .appendField('Methods');
-              this.setColour("#B3A125");
+              this.setColour("#AEC6CF");
               this.setTooltip('Create a structure for defining a class with methods and attributes.');
             }
           };

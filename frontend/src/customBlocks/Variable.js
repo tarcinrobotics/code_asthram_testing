@@ -3,7 +3,7 @@ import Blockly from 'blockly';
 
 Blockly.Blocks['create_variable'] = {
   init: function() {
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput("var"), "VAR_NAME");
     this.setOutput(true, null);
@@ -18,7 +18,7 @@ Blockly.Python['create_variable'] = function(block) {
 
 Blockly.Blocks['create_variable_2'] = {
   init: function() {
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.appendDummyInput()
         .appendField(new Blockly.FieldTextInput("variable"), "VAR_NAME");
 
@@ -59,7 +59,7 @@ Blockly.Blocks['set_variable'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Assigns a value to a variable with the selected operator.");
     this.setHelpUrl("");
   }
@@ -74,7 +74,7 @@ Blockly.Blocks['user_input'] = {
         .setCheck(null)
         .appendField(new Blockly.FieldTextInput("1"), "DEFAULT_VALUE");
     this.setOutput(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Get user input");
     this.setHelpUrl("");
   }
@@ -91,7 +91,7 @@ Blockly.Blocks['float_operator'] = {
         .setCheck(null)
         .appendField("Convert to Float");
     this.setOutput(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Convert a value to a float");
     this.setHelpUrl("");
   }
@@ -122,7 +122,7 @@ Blockly.Blocks['import_statements'] = {
         ]), "MODULES");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Import a selected module in Python");
     this.setHelpUrl("");
   }
@@ -147,7 +147,7 @@ Blockly.Blocks['time_sleep'] = {
         .appendField("seconds");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Pauses the program for the specified amount of time (in seconds).");
     this.setHelpUrl("https://docs.python.org/3/library/time.html#time.sleep");
   }
@@ -179,7 +179,7 @@ Blockly.Blocks['plain_variable'] = {
         .appendField(new Blockly.FieldVariable("item"), "VAR");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("");
     this.setHelpUrl("");
   }
@@ -233,7 +233,7 @@ Blockly.Blocks['array_declaration'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setOutput(false, null); // Remove previous output connection
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Variable Declaration");
     this.setHelpUrl("");
   }
@@ -275,7 +275,7 @@ Blockly.Blocks['convert_to_data_type'] = {
           // Add more data types here as needed
         ]), "TYPE");
     this.setOutput(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip("Convert a value to the selected data type");
     this.setHelpUrl("");
   }
@@ -301,7 +301,7 @@ Blockly.Blocks['increment_variable'] = {
         .appendField('by');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Increment the value of a variable by a specified amount.');
   }
 };
@@ -322,7 +322,7 @@ Blockly.Blocks['decrement_variable'] = {
         .appendField('by');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Decrement the value of a variable by a specified amount.');
   }
 };
@@ -340,7 +340,7 @@ Blockly.Blocks['reset_variable'] = {
         .appendField('Reset variable');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Reset the value of a variable to its initial value.');
   }
 };
@@ -368,7 +368,7 @@ Blockly.Blocks['check_variable_value'] = {
         .setCheck('Number');
     this.setInputsInline(true);
     this.setOutput(true, 'Boolean');
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Check if a variable\'s value meets a specified condition.');
   }
 };
@@ -390,7 +390,7 @@ Blockly.Blocks['swap_variables'] = {
         .appendField('and');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Swap the values of two variables.');
   }
 };
@@ -409,7 +409,7 @@ Blockly.Blocks['copy_variable'] = {
         .appendField('Copy variable');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Create a copy of a variable with the same value.');
   }
 };
@@ -425,7 +425,7 @@ Blockly.Blocks['find_maximum_value'] = {
         .setCheck('Array')
         .appendField('Find maximum value in');
     this.setOutput(true, 'Number');
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Find the maximum value among a list of variables.');
   }
 };
@@ -435,18 +435,18 @@ Blockly.Python['find_maximum_value'] = function(block) {
   return `max(${values})`;
 };
 
-Blockly.Blocks['calculate_average'] = {
+Blockly.Blocks['calculate_average_of'] = {
   init: function() {
     this.appendValueInput('VALUES')
         .setCheck('Array')
         .appendField('Calculate average of');
     this.setOutput(true, 'Number');
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Calculate the average value of a list of variables.');
   }
 };
 
-Blockly.Python['calculate_average'] = function(block) {
+Blockly.Python['calculate_average_of'] = function(block) {
   var values = Blockly.Python.valueToCode(block, 'VALUES', Blockly.Python.ORDER_ATOMIC);
   return `sum(${values}) / len(${values})`;
 };
@@ -461,7 +461,7 @@ Blockly.Blocks['variable_scope'] = {
         ]), 'SCOPE');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#FF6666");
+    this.setColour("#DAA520");
     this.setTooltip('Define the scope of a variable (local or global).');
   }
 };

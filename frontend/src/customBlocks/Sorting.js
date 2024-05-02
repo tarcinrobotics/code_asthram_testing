@@ -12,7 +12,7 @@ Blockly.Blocks['initialize_array'] = {
         .setCheck("Number");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip("Initialize an array with the given size.");
   }
 };
@@ -39,7 +39,7 @@ Blockly.Blocks['set_list_element'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip("Set an element in the list at the specified index.");
   }
 };
@@ -61,7 +61,7 @@ Blockly.Blocks['bubble_sort_logic'] = {
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip("Bubble Sort logic.");
   }
 };
@@ -92,7 +92,7 @@ Blockly.Blocks['for_loop'] = {
         .setCheck(null);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip("For loop with specified range and step size.");
   }
 };
@@ -123,7 +123,7 @@ Blockly.Blocks['swap_elements'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip("Swap elements in the list at the specified indices.");
   }
 };
@@ -144,7 +144,7 @@ Blockly.Blocks['return_statement'] = {
         .appendField("return");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip("Return statement");
   }
 };
@@ -163,7 +163,7 @@ Blockly.Blocks['if_statement'] = {
     this.appendStatementInput('DO')
         .appendField('do');
     this.setPreviousStatement(true, null);
-    this.setColour("#4C000C");
+    this.setColour("#EEDFCC");
     this.setTooltip('If Statement');
     this.setNextStatement(true, null); // Add bottom connection bump
   }
@@ -189,7 +189,7 @@ Blockly.Blocks['bubble_sort'] = {
           .appendField("List");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Sort an array using Bubble Sort.");
       this.setNextStatement(true, null); // Add bottom connection bump
     }
@@ -220,7 +220,7 @@ Blockly.Blocks['bubble_sort'] = {
           .setCheck(null);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Insertion Sort logic.");
     }
   };
@@ -243,7 +243,7 @@ Blockly.Blocks['bubble_sort'] = {
           .appendField("and");
       this.setInputsInline(true);
       this.setOutput(true, "Boolean");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Compare elements in the list at the specified indices.");
     }
   };
@@ -263,7 +263,7 @@ Blockly.Blocks['bubble_sort'] = {
           .setCheck("Array")
           .appendField("Insertion Sort");
       this.setOutput(true, "Array");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Sort an array using Insertion Sort.");
     }
   };
@@ -293,7 +293,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .setCheck(null);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Merge Sort logic.");
     }
   };
@@ -322,7 +322,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .appendField("to");
       this.setInputsInline(true);
       this.setOutput(true, "Array");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Merge two sorted subarrays into a single sorted array.");
     }
   };
@@ -343,7 +343,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .setCheck("Array")
           .appendField("Merge Sort");
       this.setOutput(true, "Array");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Sort an array using Merge Sort.");
     }
   };
@@ -389,7 +389,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .setCheck(null);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Quick Sort logic.");
     }
   };
@@ -409,7 +409,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .setCheck("Number");
       this.setInputsInline(true);
       this.setOutput(true, "Array");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Partition the array into two subarrays around a pivot element.");
     }
   };
@@ -433,7 +433,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .setCheck("Number");
       this.setInputsInline(true);
       this.setOutput(true, "Array");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Combine sorted subarrays with a pivot element.");
     }
   };
@@ -453,7 +453,7 @@ Blockly.Blocks['merge_sort_logic'] = {
           .setCheck("Array")
           .appendField("Quick Sort");
       this.setOutput(true, "Array");
-      this.setColour("#4C000C");
+      this.setColour("#EEDFCC");
       this.setTooltip("Sort an array using Quick Sort.");
     }
   };

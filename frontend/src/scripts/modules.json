@@ -7,10 +7,22 @@
         "name": "Factorial Calculator", 
         "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Loop%20Functions/Factorial%20Calculator.png?raw=true",
         "hints": [
-          "Hint 1: Consider the color palette.",
-          "Hint 2: Pay attention to symmetry.",
-          "Hint 3: Save your work frequently."
-        ]},
+          "Hint 1: Let's start by defining a magic spell to calculate something special! Drag a 'define function' block and name it factorial. What do you think we're going to calculate?",
+          "Hint 2: Every magician needs a wand. Let’s create a 'variable' named result and set it to 1. This will help us keep track of our calculation.",
+          "Hint 3: To cast our spell many times, we need a loop. Can you find a loop that counts from 1 up to any number you choose? Place it inside our spell.",
+          "Hint 4: Inside the loop, let's make our variable result grow. Multiply result by our loop counter. This is how we build the factorial magic step by step",
+          "Hint 5: After our loop finishes all its magic, let’s give back the result of our spell. Use a 'return' block to send the result out of our function.",
+          "Hint 6: Now that we’ve defined our spell, let’s see what it can do! Use a 'print' block to show the factorial of 5, 10, and 15. What do these numbers have in common?",
+          "Hint 7: If something doesn’t look right, check if your loop goes from 1 up to and including the number we want the factorial of. Also, ensure your 'return' block isn’t inside the loop!"
+        ],
+        "questions": [
+          {
+            "questionText": "What does a factorial function compute?",
+            "options": ["Sum of numbers", "Product of numbers up to n", "Division of numbers"],
+            "correctAnswer": "Product of numbers up to n"
+          }
+        ]
+      },
         {"id": "2", 
         "name": "Power Calculator", 
         "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Loop%20Functions/Power%20Calculator.png?raw=true"},

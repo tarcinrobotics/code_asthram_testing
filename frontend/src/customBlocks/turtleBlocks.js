@@ -7,7 +7,7 @@ Blockly.Blocks['turtle_create_screen'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('Create Turtle Screen');
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Create a Turtle screen');
     this.setPreviousStatement(false, null); // Remove previous statement connection
     this.setNextStatement(true, null); // Allow next statement connection
@@ -31,7 +31,7 @@ Blockly.Blocks['turtle_ondrag'] = {
         .appendField(new Blockly.FieldTextInput("my_function"), "DEFAULT_FUNCTION");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip("Set a function to be called when the turtle is dragged");
     this.setHelpUrl("");
   }
@@ -54,7 +54,7 @@ Blockly.Blocks['turtle_set_background_color'] = {
         .appendField(new Blockly.FieldColour('#ffffff'), 'COLOR');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Set the background color in Turtle');
     // Set default color
     this.getField('COLOR').setValue('#ffffff');
@@ -89,7 +89,7 @@ Blockly.Blocks['turtle_command'] = {
         .appendField('units');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Choose a Turtle command and specify the distance');
   }
 };
@@ -113,7 +113,7 @@ Blockly.Blocks['turtle_circle'] = {
         ]), 'SHAPE');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Draw a circle with a specified radius and shape');
   }
 };
@@ -156,7 +156,7 @@ Blockly.Blocks['turtle_turn'] = {
         .appendField('degrees');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Choose a Turtle turn direction and specify the degrees');
   }
 };
@@ -182,7 +182,7 @@ Blockly.Blocks['turtle_shape'] = {
         ]), 'SHAPE');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Choose a Turtle shape');
   }
 };
@@ -204,7 +204,7 @@ Blockly.Blocks['turtle_pen'] = {
         ]), 'PEN_STATE');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Set the pen state (up or down)');
   }
 };
@@ -220,10 +220,10 @@ Blockly.Blocks['turtle_color'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('set color')
-        .appendField(new Blockly.FieldColour('#ff0000'), 'COLOR');
+        .appendField(new Blockly.FieldColour('#8B0000'), 'COLOR');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Set the pen color');
   }
 };
@@ -254,7 +254,7 @@ Blockly.Blocks['turtle_write'] = {
         .appendField(new Blockly.FieldDropdown([['Normal', 'normal'], ['Bold', 'bold']]), 'FONT_THICKNESS');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Write text with turtle');
   }
 };
@@ -286,7 +286,7 @@ Blockly.Blocks['turtle_goto'] = {
         .appendField('Y');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Move turtle to a specific position');
   }
 };
@@ -304,7 +304,7 @@ Blockly.Blocks['turtle_pos'] = {
     this.appendDummyInput()
         .appendField('get turtle position');
     this.setOutput(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Get the current position of the turtle');
   }
 };
@@ -321,7 +321,7 @@ Blockly.Blocks['turtle_stamp'] = {
         .appendField('stamp turtle');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Stamp the turtle on the screen');
   }
 };
@@ -339,7 +339,7 @@ Blockly.Blocks['turtle_done'] = {
         .appendField('turtle done');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Keep the Turtle window open until closed by the user');
   }
 };
@@ -358,7 +358,7 @@ Blockly.Blocks['turtle_begin_fill'] = {
         .appendField('begin fill');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Begin filling the shape with color');
   }
 };
@@ -375,7 +375,7 @@ Blockly.Blocks['turtle_end_fill'] = {
         .appendField('end fill');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('End filling the shape with color');
   }
 };
@@ -399,7 +399,7 @@ Blockly.Blocks['turtle_speed'] = {
         ]), 'SPEED');
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour("#800020");
+    this.setColour("#8B0000");
     this.setTooltip('Set turtle speed');
   }
 };

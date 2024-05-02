@@ -560,7 +560,7 @@ Blockly.Blocks['nltk_wordnet_antonyms'] = {
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("Text");
       this.setOutput(true, "Array");
-      this.setColour(160);
+      this.setColour(120);
       this.setTooltip("NLTK Chunking");
       this.setHelpUrl("");
     }
@@ -581,7 +581,7 @@ Blockly.Blocks['nltk_wordnet_antonyms'] = {
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("Text");
       this.setOutput(true, "Array");
-      this.setColour(160);
+      this.setColour(120);
       this.setTooltip("NLTK Named Entity Recognition");
       this.setHelpUrl("");
     }
@@ -606,7 +606,7 @@ Blockly.Blocks['nltk_wordnet_antonyms'] = {
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("Word 2");
       this.setOutput(true, "Number");
-      this.setColour(160);
+      this.setColour(120);
       this.setTooltip("NLTK Word Similarity");
       this.setHelpUrl("");
     }
@@ -633,7 +633,7 @@ Blockly.Blocks['nltk_wordnet_antonyms'] = {
           .appendField("Word");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(160);
+      this.setColour(120);
       this.setTooltip("NLTK Concordance");
       this.setHelpUrl("");
     }
@@ -655,7 +655,7 @@ Blockly.Blocks['nltk_wordnet_antonyms'] = {
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("Text");
       this.setOutput(true, "Dictionary");
-      this.setColour(160);
+      this.setColour(120);
       this.setTooltip("NLTK Frequencies");
       this.setHelpUrl("");
     }
@@ -676,7 +676,7 @@ Blockly.Blocks['nltk_wordnet_antonyms'] = {
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("Text");
       this.setOutput(true, "Array");
-      this.setColour(160);
+      this.setColour(120);
       this.setTooltip("NLTK Collocations");
       this.setHelpUrl("");
     }

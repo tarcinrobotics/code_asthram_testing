@@ -57,17 +57,20 @@ export default function App() {
       {
         kind: "category",
         name: "Logic",
-        colour: "#3F507A",
+        colour: "#3172A3",
         contents: [
-          {kind: "block", type: "controls_if_else"
+          {kind: "block", type: "controls_ifelse"
         }, {  kind: "block",   type: "controls_if_elif",
-        },
+        }, {  kind: "block",   type: "controls_if",
+      },
        // { kind: "block", type: "if_elif_else_dropdown" },
        {
           kind: "block",
           type: "controls_else",
         },
           {kind: "block", type: "logic_compare",},
+          {kind: "block", type: "controls_if_if",},
+          {kind: "block", type: "controls_if_elseif",},
           { kind: "block",type: "logic_operation", },
           { kind: "block",type: "logic_negate",},
           {kind: "block",type: "logic_boolean", },
@@ -108,7 +111,7 @@ export default function App() {
       {
         kind: "category",
         name: "Math",
-        colour: "#ED2939",
+        colour: "#4B0082",
         contents: [
           {
             kind: "block",
@@ -164,7 +167,7 @@ export default function App() {
       {
         kind: "category",
         name: "Text",
-        colour: "#800000",
+        colour: "#70DBDB",
         contents: [
           {
             kind: "block",
@@ -219,7 +222,7 @@ export default function App() {
       {
         kind: "category",
         name: "Lists",
-        colour: "#FFD700",
+        colour: "#DA70D6",
         contents: [
           {
             kind: "block",
@@ -266,7 +269,7 @@ export default function App() {
       {
         kind: "category",
         name: "Colours",
-        colour: "#1D4E89",
+        colour: "#A0522D",
         contents: [
           {kind: "block",type: "colour_picker", },
           { kind: "block",type: "colour_random", },
@@ -279,7 +282,7 @@ export default function App() {
       {
         kind: "category",
         name: "Variables",
-        colour: "#CA2C92",
+        colour: "#FFFF00",
         contents: [
           {kind: "block", type: "create_variable"},
           {kind: "block", type: "create_variable_2"},
@@ -295,7 +298,7 @@ export default function App() {
           { kind: "block", type: "time_sleep",},
           { kind: "block", type: "user_input",},
           { kind: "block", type: "find_maximum_value", },
-          { kind: "block", type: "calculate_average", },
+          { kind: "block", type: "calculate_average_of", },
           { kind: "block", type: "variable_scope",},
           { kind: "block", type: "increment_variable", },
           { kind: "block", type: "decrement_variable", },
@@ -307,7 +310,7 @@ export default function App() {
       {
         kind: "category",
         name: "Structure",
-        colour: "#FFD700",
+        colour: "#003153",
         contents: [
           {kind: "block", type: "base_structure", },
           { kind: "block",type: "declaration_structure", },
@@ -328,7 +331,7 @@ export default function App() {
       {
         kind: "category",
         name: "Functions",
-        colour: "#4B0082",
+        colour: "#E2725B",
         contents: [
           { kind: "block",type: "new_boundary_function",colour:"#191970" },
           {kind: "block",type: "return", },
@@ -347,7 +350,7 @@ export default function App() {
       {
         kind: "category",
         name: "Turtle",
-        colour: "#DC143C",
+        colour: "#800020",
         contents: [
           { kind: "block", type: "turtle_create_screen"
           },
@@ -408,14 +411,14 @@ kind: "block", type: "turtle_set_background_color"
           { kind: "block", type: "numpy_arange",},
           { kind: "block", type: "numpy_array",},
           { kind: "block", type: "numpy_trigonometric",},
-          { kind: "block", type: "numpy_exp",},
+        //  { kind: "block", type: "numpy_exp",},
         ],
       },
 
       {
         kind: "category",
         name: "Sorting",
-        colour: "#800020",
+        colour: "#610C04",
         contents: [
           {kind: "block",type: "initialize_array",},
           { kind: "block", type: "set_list_element",},
@@ -1026,6 +1029,7 @@ document.addEventListener('DOMContentLoaded', function() {
           toggleVisibility={() => setIsVisible(false)}
           content={<img src={selectedProject.image} alt={selectedProject.name} style={{ width: '100%', height: 'auto' }} />}
           hints={selectedProject.hints || []}
+          questions={selectedProject.questions || []}
         />
       )}
                {/*   <a className="projecthref" href="https://canvas.instructure.com/courses/9304102" target="_blank">projects</a>

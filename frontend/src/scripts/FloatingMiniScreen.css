@@ -1,3 +1,4 @@
+/* General styles for the floating screen */
 .floating-screen {
   position: fixed;
   bottom: 10%;
@@ -5,51 +6,221 @@
   width: 300px;
   height: auto;
   max-height: 90vh;
-  background: linear-gradient(135deg, #001e36, #20666b); /* Custom gradient with project colors */
+  background: linear-gradient(135deg, #001e36, #20666b); /* Custom gradient */
   border: none;
-  border-radius: 15px; /* Rounded corners for a softer look */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow for a pop-out effect */
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: auto;
-  color: #ffffff; /* White text color for better contrast */
-  font-family: 'Comic Neue', cursive; /* Fun, child-friendly font */
+  color: #ffffff;
+  font-family: 'Comic Neue', cursive;
 }
 
+/* Image specific styles */
 .floating-screen img {
   margin-top: 20px;
   max-width: 100%;
   max-height: 80vh;
-  border-radius: 10px; /* Rounded corners for images */
+  border-radius: 10px;
 }
 
-.close-button, .toggle-view-button {
+/* Button styling for close, toggle views, and navigation */
+.close-button, .toggle-view-button, .back-to-image-button {
   position: absolute;
   top: 10px;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 24px;
-  color: #ffffff; /* White icons to contrast with the background */
+  color: #ffffff;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.close-button:hover, .toggle-view-button:hover {
+.close-button:hover, .toggle-view-button:hover, .back-to-image-button:hover {
   transform: scale(1.1);
-  color: #ffd700; /* Gold color on hover for a magical feel */
+  color: #ffd700;
 }
 
 .close-button {
   right: 10px;
 }
 
-.toggle-view-button {
-  left: 10px;
+.toggle-view-button.hints-button, .toggle-view-button.questions-button, .back-to-image-button {
+  left: 10px; /* Align all left-positioned buttons for consistency */
 }
 
-.project-hints p {
-  margin-bottom: 10px;
+.toggle-view-button.hints-button {
+  top: 50px; /* Position below the back to image button */
+}
+
+.toggle-view-button.questions-button {
+  top: 90px; /* Further down from hints button */
+}
+
+.back-to-image-button {
+  top: 10px; /* Back to image always at the top */
+}
+/* Positioning and Styling for hint navigation buttons */
+.hint-nav-button {
+  background-color: transparent; /* Clear background for a cleaner look */
+  color: #ffffff; /* White color to maintain contrast with the background */
+  border: none; /* Remove borders */
+  padding: 5px; /* Reduced padding */
+  cursor: pointer;
+  font-size: 16px; /* Smaller font size for icons */
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: absolute; /* Position absolutely within the parent container */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Align center from the button middle */
+}
+
+.hint-nav-button:hover {
+  color: #ffd700; /* Gold color on hover for a magical feel */
+  transform: scale(1.2); /* Slightly increase size on hover */
+}
+
+.hint-nav-button.right {
+  right: 10px; /* Position to the right inside the container */
+}
+
+.hint-nav-button.left {
+  left: 10px; /* Position to the left inside the container */
+}
+/* Positioning and Styling for hint navigation buttons */
+.hint-nav-button {
+  background-color: transparent; /* Clear background for a cleaner look */
+  color: #ffffff; /* White color to maintain contrast with the background */
+  border: none; /* Remove borders */
+  padding: 5px; /* Reduced padding */
+  cursor: pointer;
+  font-size: 16px; /* Smaller font size for icons */
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: absolute; /* Position absolutely within the parent container */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Align center from the button middle */
+}
+
+.hint-nav-button:hover {
+  color: #ffd700; /* Gold color on hover for a magical feel */
+  transform: scale(1.2); /* Slightly increase size on hover */
+}
+
+.hint-nav-button.right {
+  right: 10px; /* Position to the right inside the container */
+}
+
+.hint-nav-button.left {
+  left: 10px; /* Position to the left inside the container */
+}
+/* Positioning and Styling for hint navigation buttons */
+.hint-nav-button {
+  background-color: transparent; /* Clear background for a cleaner look */
+  color: #ffffff; /* White color to maintain contrast with the background */
+  border: none; /* Remove borders */
+  padding: 5px; /* Reduced padding */
+  cursor: pointer;
+  font-size: 16px; /* Smaller font size for icons */
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: absolute; /* Position absolutely within the parent container */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Align center from the button middle */
+}
+
+.hint-nav-button:hover {
+  color: #ffd700; /* Gold color on hover for a magical feel */
+  transform: scale(1.2); /* Slightly increase size on hover */
+}
+
+.hint-nav-button.right {
+  right: 10px; /* Position to the right inside the container */
+}
+
+.hint-nav-button.left {
+  left: 10px; /* Position to the left inside the container */
+}
+/* Positioning and Styling for hint navigation buttons */
+.hint-nav-button {
+  background-color: transparent; /* Clear background for a cleaner look */
+  color: #ffffff; /* White color to maintain contrast with the background */
+  border: none; /* Remove borders */
+  padding: 5px; /* Reduced padding */
+  cursor: pointer;
+  font-size: 16px; /* Smaller font size for icons */
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: absolute; /* Position absolutely within the parent container */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Align center from the button middle */
+}
+
+.hint-nav-button:hover {
+  color: #ffd700; /* Gold color on hover for a magical feel */
+  transform: scale(1.2); /* Slightly increase size on hover */
+}
+
+.hint-nav-button.right {
+  right: 10px; /* Position to the right inside the container */
+}
+
+.hint-nav-button.left {
+  left: 10px; /* Position to the left inside the container */
+}
+/* Positioning and Styling for hint navigation buttons */
+.hint-nav-button {
+  background-color: transparent; /* Clear background for a cleaner look */
+  color: #ffffff; /* White color to maintain contrast with the background */
+  border: none; /* Remove borders */
+  padding: 5px; /* Reduced padding */
+  cursor: pointer;
+  font-size: 16px; /* Smaller font size for icons */
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: absolute; /* Position absolutely within the parent container */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Align center from the button middle */
+}
+
+.hint-nav-button:hover {
+  color: #ffd700; /* Gold color on hover for a magical feel */
+  transform: scale(1.2); /* Slightly increase size on hover */
+}
+
+.hint-nav-button.right {
+  right: 10px; /* Position to the right inside the container */
+}
+
+.hint-nav-button.left {
+  left: 10px; /* Position to the left inside the container */
+}
+
+
+
+/* Styles for displaying project hints and questions */
+.project-hints, .project-questions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px; /* Increased padding for better spacing */
+}
+
+.project-hints p, .project-questions p {
+  margin: 12px 0; /* Increased margin for better separation of text from buttons */
+}
+
+/* Styling for the correct answer feedback */
+.correct-answer {
+  color: #4CAF50;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 2s ease-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); color: #4CAF50; }
+  50% { transform: scale(1.5); color: #FFD700; }
 }

@@ -8,7 +8,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Calculate average of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the average value of a list of variables.');
     }
   };
@@ -24,7 +24,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Find maximum of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Find the maximum value in a list of numbers.');
     }
   };
@@ -41,7 +41,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Number')
           .appendField('Calculate factorial of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the factorial of a number.');
     }
   };
@@ -57,7 +57,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Calculate sum of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the sum of a list of numbers.');
     }
   };
@@ -73,7 +73,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Calculate median of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the median of a list of numbers.');
     }
   };
@@ -92,7 +92,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Number')
           .appendField('and exponent');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the power of a base raised to an exponent.');
     }
   };
@@ -109,7 +109,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Calculate standard deviation of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the standard deviation of a list of numbers.');
     }
   };
@@ -125,7 +125,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Calculate variance of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the variance of a list of numbers.');
     }
   };
@@ -141,7 +141,7 @@ Blockly.Blocks['calculate_average'] = {
           .setCheck('Array')
           .appendField('Calculate mean absolute deviation of');
       this.setOutput(true, 'Number');
-      this.setColour("#191970");
+      this.setColour("#FDBCB4");
       this.setTooltip('Calculate the mean absolute deviation of a list of numbers.');
     }
   };

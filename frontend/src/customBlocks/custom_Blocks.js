@@ -8,7 +8,7 @@ Blockly.Blocks['new_boundary_function'] = {
         this.appendStatementInput("Content")
             .setCheck(null);
         this.setInputsInline(true);
-        this.setColour(315);
+        this.setColour("#FDBCB4");
         this.setTooltip("");
         this.setHelpUrl("");
     }
@@ -29,7 +29,7 @@ Blockly.Blocks['return'] = {
             .appendField("return");
         this.setInputsInline(false);
         this.setPreviousStatement(true, null);
-        this.setColour(330);
+        this.setColour("#FDBCB4");
         this.setTooltip("");
         this.setHelpUrl("");
     }
@@ -44,7 +44,7 @@ Blockly.Python['return'] = function (block) {
 
 Blockly.Blocks['ardublock_logic_compare'] = {
     init: function() {
-      this.setColour(210);
+      this.setColour("#FDBCB4");
       this.setOutput(true, 'Boolean');
       this.appendValueInput('A')
           .setCheck(['Number', 'Boolean'])
@@ -59,7 +59,7 @@ Blockly.Blocks['ardublock_logic_compare'] = {
   
   Blockly.Blocks['ardublock_logic_boolean'] = {
     init: function() {
-      this.setColour(210);
+      this.setColour("#FDBCB4");
       this.setOutput(true, 'Boolean');
       this.appendDummyInput()
           .appendField(new Blockly.FieldDropdown([['True', 'TRUE'], ['False', 'FALSE']]), 'BOOL');

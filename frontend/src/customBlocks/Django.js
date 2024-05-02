@@ -470,7 +470,7 @@ Blockly.Blocks['django_create_url'] = {
     this.appendDummyInput()
         .appendField("Django Create URL");
     this.setOutput(true, "URLPattern");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a URL pattern for routing in Django applications.");
     this.setHelpUrl("");
   }
@@ -481,7 +481,7 @@ Blockly.Blocks['django_create_template_tag'] = {
     this.appendDummyInput()
         .appendField("Django Create Template Tag");
     this.setOutput(true, "TemplateTag");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom template tag for use in Django templates.");
     this.setHelpUrl("");
   }
@@ -492,7 +492,7 @@ Blockly.Blocks['django_create_management_command'] = {
     this.appendDummyInput()
         .appendField("Django Create Management Command");
     this.setOutput(true, "ManagementCommand");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom management command for Django projects.");
     this.setHelpUrl("");
   }
@@ -503,7 +503,7 @@ Blockly.Blocks['django_create_middleware'] = {
     this.appendDummyInput()
         .appendField("Django Create Middleware");
     this.setOutput(true, "Middleware");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates custom middleware for processing HTTP requests in Django.");
     this.setHelpUrl("");
   }
@@ -514,7 +514,7 @@ Blockly.Blocks['django_create_signal'] = {
     this.appendDummyInput()
         .appendField("Django Create Signal");
     this.setOutput(true, "Signal");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom signal for inter-app communication in Django.");
     this.setHelpUrl("");
   }
@@ -525,7 +525,7 @@ Blockly.Blocks['django_create_custom_field'] = {
     this.appendDummyInput()
         .appendField("Django Create Custom Field");
     this.setOutput(true, "CustomField");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom model field for use in Django models.");
     this.setHelpUrl("");
   }
@@ -536,7 +536,7 @@ Blockly.Blocks['django_create_admin_action'] = {
     this.appendDummyInput()
         .appendField("Django Create Admin Action");
     this.setOutput(true, "AdminAction");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom admin action for use in Django admin interface.");
     this.setHelpUrl("");
   }
@@ -547,7 +547,7 @@ Blockly.Blocks['django_create_cache_middleware'] = {
     this.appendDummyInput()
         .appendField("Django Create Cache Middleware");
     this.setOutput(true, "CacheMiddleware");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates cache middleware for caching in Django applications.");
     this.setHelpUrl("");
   }
@@ -558,7 +558,7 @@ Blockly.Blocks['django_create_authentication_backend'] = {
     this.appendDummyInput()
         .appendField("Django Create Authentication Backend");
     this.setOutput(true, "AuthenticationBackend");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom authentication backend for Django authentication.");
     this.setHelpUrl("");
   }
@@ -569,7 +569,7 @@ Blockly.Blocks['django_create_management_form'] = {
     this.appendDummyInput()
         .appendField("Django Create Management Form");
     this.setOutput(true, "ManagementForm");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a custom management form for Django admin interface.");
     this.setHelpUrl("");
   }
@@ -580,7 +580,7 @@ Blockly.Blocks['django_create_celery_task'] = {
     this.appendDummyInput()
         .appendField("Django Create Celery Task");
     this.setOutput(true, "CeleryTask");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a Celery task for background processing in Django.");
     this.setHelpUrl("");
   }
@@ -591,7 +591,7 @@ Blockly.Blocks['django_create_rest_api'] = {
     this.appendDummyInput()
         .appendField("Django Create REST API");
     this.setOutput(true, "RESTAPI");
-    this.setColour(230);
+    this.setColour(160);
     this.setTooltip("Creates a RESTful API using Django Rest Framework.");
     this.setHelpUrl("");
   }
