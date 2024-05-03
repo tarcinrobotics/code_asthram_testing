@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.93e62115.chunk.css",
+    "main.js": "/static/js/main.0a6a8eb9.chunk.js",
+    "main.js.map": "/static/js/main.0a6a8eb9.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.58707bc5.js",
+    "runtime-main.js.map": "/static/js/runtime-main.58707bc5.js.map",
+    "static/js/2.bd0883a2.chunk.js": "/static/js/2.bd0883a2.chunk.js",
+    "static/js/2.bd0883a2.chunk.js.map": "/static/js/2.bd0883a2.chunk.js.map",
+    "static/js/3.e2a0b574.chunk.js": "/static/js/3.e2a0b574.chunk.js",
+    "static/js/3.e2a0b574.chunk.js.map": "/static/js/3.e2a0b574.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.93e62115.chunk.css.map": "/static/css/main.93e62115.chunk.css.map",
+    "static/js/2.bd0883a2.chunk.js.LICENSE.txt": "/static/js/2.bd0883a2.chunk.js.LICENSE.txt",
+    "static/media/Login.css": "/static/media/backgroundtexture.7a36f031.png",
+    "static/media/App.css": "/static/media/btn_logout.804bb8b7.png",
+    "static/media/caption.2457f804.png": "/static/media/caption.2457f804.png",
+    "static/media/code_asthram.0a46ace7.png": "/static/media/code_asthram.0a46ace7.png",
+    "static/media/code_asthram.cefd159b.png": "/static/media/code_asthram.cefd159b.png",
+    "static/media/code_asthram_logo.4496353e.gif": "/static/media/code_asthram_logo.4496353e.gif",
+    "static/media/codeasthramproduct.d6f4ee81.png": "/static/media/codeasthramproduct.d6f4ee81.png",
+    "static/media/copyright.abb00459.png": "/static/media/copyright.abb00459.png",
+    "static/media/eve.f1dd6457.gif": "/static/media/eve.f1dd6457.gif",
+    "static/media/bootstrap.min.3.3.6.css": "/static/media/fontawesome.f691f37e.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.58707bc5.js",
+    "static/js/2.bd0883a2.chunk.js",
+    "static/css/main.93e62115.chunk.css",
+    "static/js/main.0a6a8eb9.chunk.js"
+  ]
+}
