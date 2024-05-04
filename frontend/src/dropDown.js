@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './dropDown.css';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const ModuleDropdown = ({ modulesData, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,7 @@ const ModuleDropdown = ({ modulesData, onSelect }) => {
     <div className="dropdown-container">
       <button className="dropdown-select" onClick={() => setIsOpen(!isOpen)}>
         {selectedIndex !== null ? modulesData[selectedIndex].name : "Select a module"}
-        <i className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+        {isOpen ? <FaChevronUp /> : <FaChevronDown />}
       </button>
       {isOpen && (
         <div className="dropdown-options">
@@ -51,7 +51,7 @@ const ProjectDropdown = ({ projectsData, onSelect }) => {
            ? projectsData[selectedIndex].name 
            : "Select a project"}
         </span>
-        <i className={`fas ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`}></i>
+        {isOpen ? <FaChevronUp /> : <FaChevronDown />}
       </button>
       {isOpen && (
         <div className="dropdown-options">
