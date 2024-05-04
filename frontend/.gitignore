@@ -10,7 +10,7 @@
 /.eslintcache
 
 # production
-#/build
+/build
 /package-lock.json
 
 # misc

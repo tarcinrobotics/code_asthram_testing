@@ -7,15 +7,19 @@ const FloatingScreen = ({ isVisible, toggleVisibility, content, hints, questions
   const [currentHintIndex, setCurrentHintIndex] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [isIncorrect, setIsIncorrect] = useState(false);
 
   if (!isVisible) return null;
 
   const handleQuestionAnswer = (option) => {
     if (questions && option === questions[currentQuestionIndex].correctAnswer) {
       setIsCorrect(true);
-      setTimeout(() => setIsCorrect(false), 2000);
+      setIsIncorrect(false);
+      setTimeout(() => setIsCorrect(false), 3000); // Time delay before resetting
     } else {
+      setIsIncorrect(true);
       setIsCorrect(false);
+      setTimeout(() => setIsIncorrect(false), 3000); // Time delay before resetting
     }
   };
 
@@ -57,18 +61,18 @@ const FloatingScreen = ({ isVisible, toggleVisibility, content, hints, questions
         </div>
       )}
 
-{view === 'questions' && questions && questions.length > 0 && (
-  <div className="project-questions">
-    <p>{questions[currentQuestionIndex].questionText}</p>
-    {questions[currentQuestionIndex].options.map((option, index) => (
-      <button key={index} onClick={() => handleQuestionAnswer(option)} className="question-option">
-        {option}
-      </button>
-    ))}
-    {isCorrect && <div className="correct-answer">Correct!</div>}
-  </div>
-)}
-
+      {view === 'questions' && questions && questions.length > 0 && (
+        <div className="project-questions">
+          <p>{questions[currentQuestionIndex].questionText}</p>
+          {questions[currentQuestionIndex].options.map((option, index) => (
+            <button key={index} onClick={() => handleQuestionAnswer(option)} className="question-option">
+              {option}
+            </button>
+          ))}
+          {isCorrect && <div className="correct-answer">🌟 Spectacular! You nailed it! 🌟</div>}
+          {isIncorrect && <div className="incorrect-answer">🔍 Almost there! Let's give it another shot! 🔍</div>}
+        </div>
+      )}
     </div>
   );
 }

@@ -23,19 +23,88 @@
           }
         ]
       },
+
         {"id": "2", 
         "name": "Power Calculator", 
-        "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Loop%20Functions/Power%20Calculator.png?raw=true"},
+        "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Loop%20Functions/Power%20Calculator.png?raw=true",
+        "hints": [
+          "Hint 1: Let’s build a new magic spell called power! Can you drag out a 'define function' block and name it power? We’ll need two ingredients for this spell: base and exponent.",
+          "Hint 2: Every powerful spell starts with a small seed. Let's create a 'variable' named result and set it to 1. This tiny seed will grow as we cast our spell.",
+          "Hint 3: To repeat our magical growth, we need a loop. Find a loop that can repeat as many times as our exponent says. Place this loop inside our power function.",
+          "Hint 4: Inside the loop, let’s multiply our result by the base each time. This is how we build up power step by step. Can you arrange the blocks to make this happen?",
+          "Hint 5: After we’ve multiplied enough times, our result holds a lot of power! Let's return this powerful result from our spell. Use a 'return' block to send the result back.",
+          "Hint 6: Now that our spell is ready, let’s see what it can do when we give it a small task. Use a 'print' block to show what happens when we calculate the power of 2 raised to 3.",
+          "Hint 7: If your spell doesn’t work as expected, check that your loop runs the correct number of times. Remember, the loop index in Python starts at 0!"
+        ],
+        "questions": [
+          {
+            "questionText": "Why is 'result' initialized to 1 in the Power Calculator project?",
+            "options": ["To enable multiplication", "To avoid division by zero", "To sum powers", "To reset the loop"],
+            "correctAnswer": "To enable multiplication"
+          }
+        ]},
+
+
+        
         {"id": "3", 
         "name": "Prime Number Checker", 
-        "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Loop%20Functions/Prime%20Number%20Checker.png?raw=true"}
-
-      ]
+        "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Loop%20Functions/Prime%20Number%20Checker.png?raw=true"}],
+        "hints": [
+          "Hint 1: ",
+          "Hint 2: ",
+          "Hint 3: ",
+          "Hint 4: ",
+          "Hint 5: ",
+          "Hint 6: ",
+          "Hint 7: "
+        ],
+        "questions": [
+          {
+            "questionText": "",
+            "options": [""],
+            "correctAnswer": ""
+          }
+        ]
     },
+    
     {
       "name": "Math Functions",
       "projects": [
-        {"id": "4", "name": "Exponential Calculator", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Math%20Functions/Exponential%20Calculator.png?raw=true"},
+        {"id": "4", "name": "Sum of Two Numbers", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Math%20Functions/Sum%20of%20Two%20numbers.jpg.png?raw=true",
+        "hints": [
+          "Hint 1: ",
+          "Hint 2: ",
+          "Hint 3: ",
+          "Hint 4: ",
+          "Hint 5: ",
+          "Hint 6: ",
+          "Hint 7: "
+        ],
+        "questions": [
+          {
+            "questionText": "",
+            "options": [""],
+            "correctAnswer": ""
+          }
+        ]},
+
+        {"id": "4", "name": "Exponential Calculator", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Math%20Functions/Exponential%20Calculator.png?raw=true",
+        "hints": [
+          "Hint 1: ",
+          "Hint 2: ",
+          "Hint 3: ",
+          "Hint 4: ",
+          "Hint 5: ",
+          "Hint 6: ",
+          "Hint 7: "
+        ],
+        "questions": [
+          {
+            "questionText": "",
+            "options": [""],
+            "correctAnswer": ""
+          }
+        ]},
         {"id": "5", "name": "Factorial Calculator", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Math%20Functions/Factorial%20Calculator.png?raw=true"},
         {"id": "6", "name": "Greatest Common Divisor (GCD) Finder", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Math%20Functions/Greatest%20Common%20Divisor%20(GCD)%20Finder.png?raw=true"},
         {"id": "7", "name": "Triangle Area Calculator.png", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Math%20Functions/Triangle%20Area%20Calculator.png?raw=true"}
