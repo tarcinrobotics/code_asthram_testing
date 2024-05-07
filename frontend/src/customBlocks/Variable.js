@@ -55,7 +55,7 @@ Blockly.Blocks['set_variable'] = {
         ]), 'OPERATOR')
         .appendField("to");
     this.appendValueInput("VALUE")
-        .setCheck("Number");
+        .setCheck(["String", "Number"]); // Accepts both Number and String types
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -66,23 +66,26 @@ Blockly.Blocks['set_variable'] = {
 };
 
 
+
 Blockly.Blocks['user_input'] = {
   init: function() {
-    this.appendDummyInput()
-        .appendField("User Input:");
-    this.appendValueInput("DEFAULT_INPUT")
-        .setCheck(null)
-        .appendField(new Blockly.FieldTextInput("1"), "DEFAULT_VALUE");
-    this.setOutput(true, null);
     this.setColour("#DAA520");
-    this.setTooltip("Get user input");
-    this.setHelpUrl("");
+    this.appendDummyInput()
+        .appendField("input(")
+        .appendField(new Blockly.FieldTextInput("Enter a text: "), "PROMPT")
+        .appendField(")");
+    this.setOutput(true, "String");
+    this.setTooltip("Prompts the user for input using the specified text.");
+    this.setHelpUrl(""); // Optional: Provide URL to a help page
   }
 };
 
 Blockly.Python['user_input'] = function(block) {
-  var defaultValue = Blockly.Python.valueToCode(block, 'DEFAULT_INPUT', Blockly.Python.ORDER_ATOMIC) || "'" + block.getFieldValue('DEFAULT_VALUE') + "'";
-  return ['input(' + defaultValue + ')', Blockly.Python.ORDER_NONE];
+  var promptText = block.getFieldValue('PROMPT') || 'Enter a text: '; // Default prompt if not provided
+  // Create Python code string for input function
+  var code = 'input(' + JSON.stringify(promptText) + ')';
+  // Since this block outputs a value, we return the code and specify the order
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
 };
 
 Blockly.Blocks['float_operator'] = {
@@ -164,13 +167,16 @@ Blockly.Python['time_sleep'] = function(block) {
 
 
 Blockly.Python['set_variable'] = function(block) {
-  var varName = block.getFieldValue('VAR_NAME');
-  var operator = block.getFieldValue('OPERATOR');
-  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC);
+  var varName = block.getFieldValue('VAR_NAME');  // Get the variable name from the block
+  var operator = block.getFieldValue('OPERATOR');  // Get the operator from the block
+  // Generate Python code for the value
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '""';
   // Generate Python code with the selected assignment operator
   var code = varName + ' ' + operator + ' ' + value + '\n';
   return code;
 };
+
+
 
 
 Blockly.Blocks['plain_variable'] = {

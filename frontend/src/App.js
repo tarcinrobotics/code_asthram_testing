@@ -177,6 +177,7 @@ export default function App() {
             kind: "block",
             type: "text_join",
           },
+          
           {
             kind: "block",
             type: "text_append",

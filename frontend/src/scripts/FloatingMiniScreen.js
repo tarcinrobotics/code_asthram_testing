@@ -23,6 +23,25 @@ const FloatingScreen = ({ isVisible, toggleVisibility, content, hints, questions
     }
   };
 
+  const renderHint = (hint) => {
+    if (!hint) return <p className="hint-description">No hint available.</p>; // Return a fallback message if hint is undefined
+
+    const splitIndex = hint.indexOf(':');  // Find the index of the first colon
+    if (splitIndex === -1) { // Check if no colon is found
+      return <p className="hint-description">{hint}</p>; // Return the whole hint if no specific format is found
+    }
+
+    const title = hint.substring(0, splitIndex + 1); // Get the "Hint X:" part
+    const description = hint.substring(splitIndex + 2); // Get the rest of the hint, skip space after colon
+
+    return (
+      <>
+        <h4 className="hint-title">{title.trim()}</h4>
+        <p className="hint-description">{description.trim()}</p>
+      </>
+    );
+  };
+
   return (
     <div className="floating-screen">
       <button onClick={toggleVisibility} className="close-button">
@@ -57,7 +76,7 @@ const FloatingScreen = ({ isVisible, toggleVisibility, content, hints, questions
           <button onClick={() => setCurrentHintIndex((currentHintIndex + 1) % hints.length)} className="hint-nav-button right">
             <FaChevronRight />
           </button>
-          <p>{hints[currentHintIndex]}</p>
+          {hints && hints.length > currentHintIndex ? renderHint(hints[currentHintIndex]) : <p className="hint-description">No hint available.</p>}
         </div>
       )}
 
