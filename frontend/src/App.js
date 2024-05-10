@@ -3,7 +3,6 @@ import React, { useRef, useState, useEffect, forwardRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
-import BlocklyDuino from "react-blockly";
 import logo from './component/code_asthram.png';
 import html2canvas from 'html2canvas';
 import "./css/bootstrap.min.3.3.6.css";
@@ -829,7 +828,8 @@ kind: "block", type: "turtle_set_background_color"
     setJavascriptCode(code);
   }
 
-  const handleFileInputChange = (event) => {
+  {/*
+ const handleFileInputChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -849,7 +849,7 @@ kind: "block", type: "turtle_set_background_color"
       console.error('Error loading XML:', error);
       // Handle the error, e.g., show an alert to the user
     }
-  };
+  }; */}
 
   // Function to handle opening the mini screen
   const handleOpenButtonClick = () => {
@@ -956,14 +956,14 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   return (
-    <>
-    <input
+  <>
+ {/*     <input
   type="file"
   id="fileInput"
   ref={fileInputRef} 
   style={{ display: 'none' }} // Hide the input element
   onChange={handleFileInputChange}
-/>
+  />*/}
       <div>
         <div>
           <div className="div1">

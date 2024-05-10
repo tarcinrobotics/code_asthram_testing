@@ -1,5 +1,5 @@
 const CACHE_NAME = 'version-1';
-const urlsToCache = [ 'index.html', 'offline.html' ];
+const urlsToCache = ['index.html', 'offline.html'];
 
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -7,39 +7,13 @@ self.addEventListener('install', event => {
             .then(cache => {
                 return cache.addAll(urlsToCache);
             })
-            .then(() => self.skipWaiting()) // Forces the waiting service worker to become the active service worker.
+            .then(() => self.skipWaiting())
             .catch(error => {
                 console.error('Failed to install service worker:', error);
             })
     );
 });
 
-
-
-// Listen for requests
-self.addEventListener('fetch', event => {
-    const url = new URL(event.request.url);
-
-    // Use network first for API calls
-    if (url.pathname.startsWith('/api/')) {
-        event.respondWith(
-            fetch(event.request).catch(() => {
-                return caches.match(event.request);
-            })
-        );
-    } else {
-        // Default to cache first for others
-        event.respondWith(
-            caches.match(event.request)
-                .then(response => {
-                    return response || fetch(event.request);
-                })
-        );
-    }
-});
-
-
-// Activate the SW
 self.addEventListener('activate', event => {
     event.waitUntil(clients.claim());
     event.waitUntil(
@@ -53,10 +27,58 @@ self.addEventListener('activate', event => {
             );
         })
     );
-    self.clients.matchAll({type: 'window'}).then(clients => {
-        for (const client of clients) {
-            // Send a message to each client about the update
-            client.postMessage('New version available! Refresh to update.');
+});
+
+self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+    if (url.pathname.startsWith('/api/')) {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                return caches.match(event.request);
+            })
+        );
+    } else {
+        event.respondWith(
+            caches.open(CACHE_NAME).then(cache => {
+                return cache.match(event.request).then(response => {
+                    var fetchPromise = fetch(event.request).then(networkResponse => {
+                        cache.put(event.request, networkResponse.clone());
+                        return networkResponse;
+                    });
+                    return response || fetchPromise;
+                });
+            })
+        );
+    }
+});
+
+self.addEventListener('sync', event => {
+    if (event.tag === 'sync-data') {
+        event.waitUntil(syncData());
+    }
+});
+
+async function syncData() {
+    const dataToSync = await getCachedData(); // Placeholder for your data fetching logic
+    try {
+        const response = await fetch('api/data-sync', {
+            method: 'POST',
+            body: JSON.stringify(dataToSync),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        if (response.ok) {
+            console.log('Data synced successfully');
+            clearCachedData(); // Placeholder for clearing your local cache if needed
         }
+    } catch (error) {
+        console.error('Failed to sync data:', error);
+    }
+}
+
+self.addEventListener('push', event => {
+    const data = event.data.json();
+    self.registration.showNotification(data.title, {
+        body: data.body,
+        icon: '/icon.png'
     });
 });

@@ -35,23 +35,29 @@ Blockly.Blocks['create_variable_2'] = {
 Blockly.Python['create_variable_2'] = function(block) {
   var varName = block.getFieldValue('VAR_NAME') || 'var'; // Default variable name 'var' if not provided
   // Return a Python statement for declaring a variable; for Python, typically no declaration is needed unless initializing
-  var code = varName + ' = None\n'; // Initializing to None or some default value
+  var code = varName ; // Initializing to None or some default value
   return code;
 };
-
 
 Blockly.Blocks['set_variable'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Set variable")
-        .appendField(new Blockly.FieldTextInput(''), 'VAR_NAME')
+        .appendField(new Blockly.FieldTextInput('variable'), 'VAR_NAME')
         .appendField(new Blockly.FieldDropdown([
-          ["=", "="], 
-          ["+=", "+="], 
-          ["-=", "-="], 
-          ["*=", "*="], 
+          ["=", "="],
+          ["+=", "+="],
+          ["-=", "-="],
+          ["*=", "*="],
           ["/=", "/="],
-          ["%=", "%="]
+          ["%=", "%="],
+          ["//=", "//="],  // Floor division assignment
+          ["**=", "**="],  // Exponentiation assignment
+          ["&=", "&="],    // Bitwise AND assignment
+          ["|=", "|="],    // Bitwise OR assignment
+          ["^=", "^="],    // Bitwise XOR assignment
+          ["<<=", "<<="],  // Left shift assignment
+          [">>=", ">>="]   // Right shift assignment
         ]), 'OPERATOR')
         .appendField("to");
     this.appendValueInput("VALUE")
@@ -65,6 +71,13 @@ Blockly.Blocks['set_variable'] = {
   }
 };
 
+Blockly.Python['set_variable'] = function(block) {
+  var varName = block.getFieldValue('VAR_NAME');  // Get the variable name from the block
+  var operator = block.getFieldValue('OPERATOR');  // Get the operator from the block
+  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '""';  // Use ORDER_NONE
+  var code = varName + ' ' + operator + ' ' + value + '\n';  // Remove semicolon
+  return code;
+};
 
 
 Blockly.Blocks['user_input'] = {
@@ -161,18 +174,6 @@ Blockly.Python['time_sleep'] = function(block) {
   // Add the import statement for time if it hasn't been added yet
   Blockly.Python.definitions_['import_time'] = 'import time\n';
   var code = 'time.sleep(' + sleepTime + ')\n';
-  return code;
-};
-
-
-
-Blockly.Python['set_variable'] = function(block) {
-  var varName = block.getFieldValue('VAR_NAME');  // Get the variable name from the block
-  var operator = block.getFieldValue('OPERATOR');  // Get the operator from the block
-  // Generate Python code for the value
-  var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_NONE) || '""';
-  // Generate Python code with the selected assignment operator
-  var code = varName + ' ' + operator + ' ' + value + '\n';
   return code;
 };
 

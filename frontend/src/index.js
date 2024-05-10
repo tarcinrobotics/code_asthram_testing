@@ -28,12 +28,20 @@ const App = () => {
 };
 
 // Function to register service workers
+// Function to register service workers and background sync
 const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js')
         .then(registration => {
           console.log('Service Worker registered: ', registration);
+
+          // Register for background sync (if available)
+          if ('sync' in registration) {
+            registration.sync.register('sync-data')
+              .then(() => console.log('Background sync registered'))
+              .catch(err => console.error('Background sync registration failed', err));
+          }
         })
         .catch(registrationError => {
           console.log('Service Worker registration failed: ', registrationError);
@@ -41,6 +49,8 @@ const registerServiceWorker = () => {
     });
   }
 }
+
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 reportWebVitals();
