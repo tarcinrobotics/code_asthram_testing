@@ -86,6 +86,464 @@ Blockly.Python["cv2_showimage"] = function (block) {
   return code;
 };
 
+Blockly.Blocks["os_chdir"] = {
+  init: function () {
+    this.appendValueInput("path")
+        .setCheck("String")
+        .appendField("Change directory to");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Change the current working directory to the specified path.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["os_chdir"] = function (block) {
+  var value_path = Blockly.Python.valueToCode(block, "path", Blockly.Python.ORDER_ATOMIC);
+  
+  Blockly.Python.definitions_["import_os"] = "import os";
+  
+  var code = "os.chdir(" + value_path + ")\n";
+  return code;
+};
+
+Blockly.Blocks["os_listdir"] = {
+  init: function () {
+    this.appendValueInput("path")
+        .setCheck("String")
+        .appendField("List directory contents of");
+    this.setOutput(true, "Array");
+    this.setTooltip("Return a list containing the names of the entries in the directory given by the path.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["os_listdir"] = function (block) {
+  var value_path = Blockly.Python.valueToCode(block, "path", Blockly.Python.ORDER_ATOMIC);
+  
+  Blockly.Python.definitions_["import_os"] = "import os";
+  
+  var code = "os.listdir(" + value_path + ")";
+  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+Blockly.Blocks["cv2_add"] = {
+  init: function () {
+    this.appendValueInput("src1")
+        .setCheck(null)
+        .appendField("Add images");
+    this.appendValueInput("src2")
+        .setCheck(null)
+        .appendField("and");
+    this.appendValueInput("dst")
+        .setCheck(null)
+        .appendField("store result in");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Add two images together and store the result in the specified destination.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_add"] = function (block) {
+  var value_src1 = Blockly.Python.valueToCode(block, "src1", Blockly.Python.ORDER_ATOMIC);
+  var value_src2 = Blockly.Python.valueToCode(block, "src2", Blockly.Python.ORDER_ATOMIC);
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+  
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+  
+  var code = "cv2.add(" + value_src1 + ", " + value_src2 + ", " + value_dst + ")";
+  return code;
+};
+
+Blockly.Blocks["cv2_copy_make_border"] = {
+  init: function () {
+    this.appendValueInput("src")
+        .setCheck(null)
+        .appendField("Create border for image");
+    this.appendValueInput("top")
+        .setCheck(null)
+        .appendField("Top");
+    this.appendValueInput("bottom")
+        .setCheck(null)
+        .appendField("Bottom");
+    this.appendValueInput("left")
+        .setCheck(null)
+        .appendField("Left");
+    this.appendValueInput("right")
+        .setCheck(null)
+        .appendField("Right");
+    this.appendDummyInput()
+        .appendField("Border type")
+        .appendField(new Blockly.FieldDropdown([
+            ["Constant", "cv2.BORDER_CONSTANT"],
+            ["Replicate", "cv2.BORDER_REPLICATE"],
+            ["Reflect", "cv2.BORDER_REFLECT"],
+            ["Reflect101", "cv2.BORDER_REFLECT_101"],
+            ["Wrap", "cv2.BORDER_WRAP"]
+        ]), "border_type");
+    this.appendDummyInput()
+        .appendField("Border color")
+        .appendField(new Blockly.FieldColour("#ff0000"), "border_color");
+    this.appendValueInput("dst")
+        .setCheck(null)
+        .appendField("Store result in");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Create a border around the input image with the specified size, type, and color.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_copy_make_border"] = function (block) {
+  var value_src = Blockly.Python.valueToCode(block, "src", Blockly.Python.ORDER_ATOMIC);
+  var value_top = Blockly.Python.valueToCode(block, "top", Blockly.Python.ORDER_ATOMIC);
+  var value_bottom = Blockly.Python.valueToCode(block, "bottom", Blockly.Python.ORDER_ATOMIC);
+  var value_left = Blockly.Python.valueToCode(block, "left", Blockly.Python.ORDER_ATOMIC);
+  var value_right = Blockly.Python.valueToCode(block, "right", Blockly.Python.ORDER_ATOMIC);
+  var dropdown_border_type = block.getFieldValue("border_type");
+  var colour_border_color = block.getFieldValue("border_color");
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = "cv2.copyMakeBorder(" + value_src + ", " + value_top + ", " + value_bottom + ", " +
+             value_left + ", " + value_right + ", " + dropdown_border_type + ", " +
+             "value_dst, cv2.BORDER_CONSTANT, value=" + "'" + colour_border_color + "'" + ")";
+  return code;
+};
+
+Blockly.Blocks["cv2_image_corner"] = {
+  init: function () {
+    this.appendValueInput("src")
+        .setCheck(null)
+        .appendField("Detect corners in image");
+    this.appendValueInput("max_corners")
+        .setCheck("Number")
+        .appendField("Maximum number of corners to detect");
+    this.appendValueInput("quality_level")
+        .setCheck("Number")
+        .appendField("Quality level");
+    this.appendDummyInput()
+        .appendField("Minimum distance")
+        .appendField(new Blockly.FieldNumber(10, 0, Infinity, 1), "min_distance");
+    this.appendDummyInput()
+        .appendField("Block size")
+        .appendField(new Blockly.FieldNumber(3, 3, Infinity, 1), "block_size");
+    this.appendDummyInput()
+        .appendField("Use Harris detector")
+        .appendField(new Blockly.FieldCheckbox("FALSE"), "use_harris");
+    this.appendValueInput("k")
+        .setCheck("Number")
+        .appendField("Harris detector parameter k");
+    this.appendDummyInput()
+        .appendField("Store corner coordinates in")
+        .appendField(new Blockly.FieldVariable("corners"), "corners");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Detect corners in the input image using the specified parameters and store the coordinates of detected corners.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_image_corner"] = function (block) {
+  var value_src = Blockly.Python.valueToCode(block, "src", Blockly.Python.ORDER_ATOMIC);
+  var value_max_corners = Blockly.Python.valueToCode(block, "max_corners", Blockly.Python.ORDER_ATOMIC);
+  var value_quality_level = Blockly.Python.valueToCode(block, "quality_level", Blockly.Python.ORDER_ATOMIC);
+  var number_min_distance = block.getFieldValue("min_distance");
+  var number_block_size = block.getFieldValue("block_size");
+  var checkbox_use_harris = block.getFieldValue("use_harris") == "TRUE";
+  var value_k = Blockly.Python.valueToCode(block, "k", Blockly.Python.ORDER_ATOMIC);
+  var variable_corners = Blockly.Python.variableDB_.getName(block.getFieldValue("corners"), Blockly.Variables.NAME_TYPE);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = variable_corners + " = cv2.goodFeaturesToTrack(" + value_src + ", " + value_max_corners + ", " + value_quality_level + ", " +
+             number_min_distance + ", " + number_block_size + ", useHarrisDetector=" + checkbox_use_harris + ", k=" + value_k + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_gaussian_blur"] = {
+  init: function () {
+    this.appendValueInput("src")
+        .setCheck(null)
+        .appendField("Apply Gaussian blur to image");
+    this.appendValueInput("ksize")
+        .setCheck("Array")
+        .appendField("Kernel size");
+    this.appendValueInput("sigma_x")
+        .setCheck("Number")
+        .appendField("Sigma X");
+    this.appendValueInput("sigma_y")
+        .setCheck("Number")
+        .appendField("Sigma Y");
+    this.appendDummyInput()
+        .appendField("Border type")
+        .appendField(new Blockly.FieldDropdown([
+            ["Constant", "cv2.BORDER_CONSTANT"],
+            ["Replicate", "cv2.BORDER_REPLICATE"],
+            ["Reflect", "cv2.BORDER_REFLECT"],
+            ["Reflect101", "cv2.BORDER_REFLECT_101"],
+            ["Wrap", "cv2.BORDER_WRAP"]
+        ]), "border_type");
+    this.appendDummyInput()
+        .appendField("Border value")
+        .appendField(new Blockly.FieldNumber(0), "border_value");
+    this.appendValueInput("dst")
+        .setCheck(null)
+        .appendField("Store result in");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Apply Gaussian blur to the input image with the specified kernel size and standard deviations.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_gaussian_blur"] = function (block) {
+  var value_src = Blockly.Python.valueToCode(block, "src", Blockly.Python.ORDER_ATOMIC);
+  var value_ksize = Blockly.Python.valueToCode(block, "ksize", Blockly.Python.ORDER_ATOMIC);
+  var value_sigma_x = Blockly.Python.valueToCode(block, "sigma_x", Blockly.Python.ORDER_ATOMIC);
+  var value_sigma_y = Blockly.Python.valueToCode(block, "sigma_y", Blockly.Python.ORDER_ATOMIC);
+  var dropdown_border_type = block.getFieldValue("border_type");
+  var number_border_value = block.getFieldValue("border_value");
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = value_dst + " = cv2.GaussianBlur(" + value_src + ", " + value_ksize + ", " + value_sigma_x + ", " + value_sigma_y + ", " +
+             "borderType=" + dropdown_border_type + ", " + "borderValue=" + number_border_value + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_median_blur"] = {
+  init: function () {
+    this.appendValueInput("src")
+        .setCheck(null)
+        .appendField("Apply median blur to image");
+    this.appendValueInput("ksize")
+        .setCheck("Number")
+        .appendField("Kernel size");
+    this.appendValueInput("dst")
+        .setCheck(null)
+        .appendField("Store result in");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Apply median blur to the input image with the specified kernel size.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_median_blur"] = function (block) {
+  var value_src = Blockly.Python.valueToCode(block, "src", Blockly.Python.ORDER_ATOMIC);
+  var value_ksize = Blockly.Python.valueToCode(block, "ksize", Blockly.Python.ORDER_ATOMIC);
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = value_dst + " = cv2.medianBlur(" + value_src + ", " + value_ksize + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_bilateral_filter"] = {
+  init: function () {
+    this.appendValueInput("src")
+        .setCheck(null)
+        .appendField("Apply bilateral filter to image");
+    this.appendValueInput("d")
+        .setCheck("Number")
+        .appendField("Diameter of each pixel neighborhood");
+    this.appendValueInput("sigma_color")
+        .setCheck("Number")
+        .appendField("Sigma color");
+    this.appendValueInput("sigma_space")
+        .setCheck("Number")
+        .appendField("Sigma space");
+    this.appendValueInput("dst")
+        .setCheck(null)
+        .appendField("Store result in");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Apply bilateral filter to the input image with the specified parameters.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_bilateral_filter"] = function (block) {
+  var value_src = Blockly.Python.valueToCode(block, "src", Blockly.Python.ORDER_ATOMIC);
+  var value_d = Blockly.Python.valueToCode(block, "d", Blockly.Python.ORDER_ATOMIC);
+  var value_sigma_color = Blockly.Python.valueToCode(block, "sigma_color", Blockly.Python.ORDER_ATOMIC);
+  var value_sigma_space = Blockly.Python.valueToCode(block, "sigma_space", Blockly.Python.ORDER_ATOMIC);
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = value_dst + " = cv2.bilateralFilter(" + value_src + ", " + value_d + ", " + 
+             value_sigma_color + ", " + value_sigma_space + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_ellipse"] = {
+  init: function () {
+    this.appendValueInput("image")
+        .setCheck(null)
+        .appendField("Draw ellipse on image");
+    this.appendValueInput("center")
+        .setCheck(null)
+        .appendField("Center (x, y)");
+    this.appendValueInput("axes_length")
+        .setCheck(null)
+        .appendField("Axes length (major, minor)");
+    this.appendValueInput("angle")
+        .setCheck("Number")
+        .appendField("Angle of rotation (degrees)");
+    this.appendValueInput("start_angle")
+        .setCheck("Number")
+        .appendField("Start angle (degrees)");
+    this.appendValueInput("end_angle")
+        .setCheck("Number")
+        .appendField("End angle (degrees)");
+    this.appendValueInput("color")
+        .setCheck(null)
+        .appendField("Color (B, G, R)");
+    this.appendValueInput("thickness")
+        .setCheck("Number")
+        .appendField("Thickness");
+    this.appendValueInput("line_type")
+        .setCheck("Number")
+        .appendField("Line type");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Draws a simple or thick elliptic arc or fills an ellipse sector.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_ellipse"] = function (block) {
+  var value_image = Blockly.Python.valueToCode(block, "image", Blockly.Python.ORDER_ATOMIC);
+  var value_center = Blockly.Python.valueToCode(block, "center", Blockly.Python.ORDER_ATOMIC);
+  var value_axes_length = Blockly.Python.valueToCode(block, "axes_length", Blockly.Python.ORDER_ATOMIC);
+  var value_angle = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
+  var value_start_angle = Blockly.Python.valueToCode(block, "start_angle", Blockly.Python.ORDER_ATOMIC);
+  var value_end_angle = Blockly.Python.valueToCode(block, "end_angle", Blockly.Python.ORDER_ATOMIC);
+  var value_color = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var value_thickness = Blockly.Python.valueToCode(block, "thickness", Blockly.Python.ORDER_ATOMIC);
+  var value_line_type = Blockly.Python.valueToCode(block, "line_type", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = "cv2.ellipse(" + value_image + ", " + value_center + ", " + value_axes_length + ", " +
+             value_angle + ", " + value_start_angle + ", " + value_end_angle + ", " + value_color + ", " +
+             value_thickness + ", " + value_line_type + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_rotate"] = {
+  init: function () {
+    this.appendValueInput("image")
+        .setCheck(null)
+        .appendField("Rotate image");
+    this.appendValueInput("center")
+        .setCheck(null)
+        .appendField("Center (x, y)");
+    this.appendValueInput("angle")
+        .setCheck("Number")
+        .appendField("Angle of rotation (degrees)");
+    this.appendValueInput("scale")
+        .setCheck("Number")
+        .appendField("Scale factor");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Rotates an image around a specified center point.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_rotate"] = function (block) {
+  var value_image = Blockly.Python.valueToCode(block, "image", Blockly.Python.ORDER_ATOMIC);
+  var value_center = Blockly.Python.valueToCode(block, "center", Blockly.Python.ORDER_ATOMIC);
+  var value_angle = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
+  var value_scale = Blockly.Python.valueToCode(block, "scale", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["import_cv2"] = "import cv2";
+
+  var code = "cv2.rotate(" + value_image + ", " + value_center + ", " +
+             value_angle + ", " + value_scale + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_circle"] = {
+  init: function () {
+    this.appendValueInput("src")
+        .setCheck(null)
+        .appendField("Draw a circle on image");
+    this.appendValueInput("center")
+        .setCheck("Array")
+        .appendField("Center coordinates")
+        .appendField("x:");
+    this.appendValueInput("radius")
+        .setCheck("Number")
+        .appendField("Radius");
+    this.appendValueInput("color")
+        .setCheck(null)
+        .appendField("Color (BGR)");
+    this.appendValueInput("thickness")
+        .setCheck("Number")
+        .appendField("Thickness");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setTooltip("Draws a circle on the specified image.");
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_circle"] = function (block) {
+  var value_src = Blockly.Python.valueToCode(block, "src", Blockly.Python.ORDER_ATOMIC);
+  var value_center = Blockly.Python.valueToCode(block, "center", Blockly.Python.ORDER_ATOMIC);
+  var value_radius = Blockly.Python.valueToCode(block, "radius", Blockly.Python.ORDER_ATOMIC);
+  var value_color = Blockly.Python.valueToCode(block, "color", Blockly.Python.ORDER_ATOMIC);
+  var value_thickness = Blockly.Python.valueToCode(block, "thickness", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  var code = "cv2.circle(" + value_src + ", " + value_center + ", " +
+             value_radius + ", " + value_color + ", " + value_thickness + ")\n";
+  return code;
+};
+
+Blockly.Blocks["cv2_resize"] = {
+  init: function () {
+    this.appendValueInput("image")
+        .setCheck(null)
+        .appendField("Resize Image");
+    this.appendValueInput("size")
+        .setCheck(null)
+        .appendField("to size");
+    this.setOutput(true, null);
+    this.setColour("#6A5ACD"); // CV block color
+    this.setTooltip("Resize an image using cv2.resize()");
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python["cv2_resize"] = function (block) {
+  Blockly.Python.definitions_["import_cv2"] = "import cv2";
+  var value_image = Blockly.Python.valueToCode(block, "image", Blockly.Python.ORDER_ATOMIC);
+  var value_size = Blockly.Python.valueToCode(block, "size", Blockly.Python.ORDER_ATOMIC);
+  return ["cv2.resize(" + value_image + ", " + value_size + ")", Blockly.Python.ORDER_FUNCTION_CALL];
+};
+
+
 Blockly.Blocks["cv2_waitkey"] = {
   init: function () {
     this.appendValueInput("delayjey")

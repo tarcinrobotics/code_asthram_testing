@@ -129,16 +129,15 @@ Blockly.Blocks['base_structure'] = {
             }
           };
           
+          
           Blockly.Python['dynamic_for_loop'] = function(block) {
             var variable = Blockly.Python.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-            var start = Blockly.Python.valueToCode(block, 'START', Blockly.Python.ORDER_NONE);
-            var end = Blockly.Python.valueToCode(block, 'END', Blockly.Python.ORDER_NONE);
-            var step = Blockly.Python.valueToCode(block, 'STEP', Blockly.Python.ORDER_NONE);
+            var start = Blockly.Python.valueToCode(block, 'START', Blockly.Python.ORDER_NONE) || '0';
+            var end = Blockly.Python.valueToCode(block, 'END', Blockly.Python.ORDER_NONE) || '0';
+            var step = Blockly.Python.valueToCode(block, 'STEP', Blockly.Python.ORDER_NONE) || '1';
           
             // Build the range function based on what inputs are provided
-            var rangeArgs = [];
-            if (start) rangeArgs.push(start);
-            if (end) rangeArgs.push(end);
+            var rangeArgs = [start, end];
             if (step) rangeArgs.push(step);
           
             var argumentsString = rangeArgs.join(', ');
@@ -158,25 +157,29 @@ Blockly.Blocks['base_structure'] = {
           };
           
           
+          
           Blockly.Blocks['while_loop_structure'] = {
-            init: function() {
-              this.appendValueInput('CONDITION')
-                  .setCheck('Boolean')
-                  .appendField('while');
-              this.appendStatementInput('STATEMENTS')
-                  .setCheck(null)
-                  .appendField('do');
-              this.setColour("#AEC6CF");
-              this.setTooltip('Create a while loop structure with specified condition.');
+            init: function () {
+                this.appendValueInput('CONDITION')
+                    .setCheck('Boolean')
+                    .appendField('while');
+                this.appendStatementInput('STATEMENTS')
+                    .setCheck(null)
+                    .appendField('do');
+                this.setPreviousStatement(true, null); // Allow connections from above
+                this.setNextStatement(true, null); // Allow connections to below
+                this.setColour("#AEC6CF");
+                this.setTooltip('Create a while loop structure with specified condition.');
             }
-          };
-
-          Blockly.Python['while_loop_structure'] = function(block) {
+        };
+        
+        Blockly.Python['while_loop_structure'] = function (block) {
             var condition = Blockly.Python.valueToCode(block, 'CONDITION', Blockly.Python.ORDER_ATOMIC);
             var statements = Blockly.Python.statementToCode(block, 'STATEMENTS');
             var code = `while ${condition}:\n${statements}`;
             return code;
-          };
+        };
+        
           
           Blockly.Blocks['function_definition_structure'] = {
             init: function() {

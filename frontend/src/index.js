@@ -26,34 +26,70 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
-// Function to register service workers
-// Function to register service workers and background sync
-const registerServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
+if ('serviceWorker' in navigator && 'PushManager' in window) {
+  window.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registered: ', registration);
+          .then(registration => {
+              console.log('Service Worker registered with scope:', registration.scope);
+              checkSubscription(registration);
+          })
+          .catch(error => {
+              console.error('Service Worker registration failed:', error);
+          });
+  });
+}
 
-          // Register for background sync (if available)
-          if ('sync' in registration) {
-            registration.sync.register('sync-data')
-              .then(() => console.log('Background sync registered'))
-              .catch(err => console.error('Background sync registration failed', err));
+const publicKey = 'BOIvf15GoDqqKXv8UmDjpYdhMkY8mNT5ISD7K_IahKhjUL2FsguR_Cfoddfitt6useI7RjgBs1CgvwQxwK8KDbA'; // Use your VAPID public key here
+
+async function subscribeUserToPush(registration) {
+  const convertedVapidKey = urlBase64ToUint8Array(publicKey);
+
+  try {
+      const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: convertedVapidKey
+      });
+      console.log('User is subscribed:', subscription);
+
+      await fetch('/subscribe', {
+          method: 'POST',
+          body: JSON.stringify(subscription),
+          headers: {
+              'Content-Type': 'application/json'
           }
-        })
-        .catch(registrationError => {
-          console.log('Service Worker registration failed: ', registrationError);
-        });
-    });
+      });
+
+      localStorage.setItem('isSubscribedToPush', 'true');
+  } catch (error) {
+      console.error('Failed to subscribe the user:', error);
   }
 }
 
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
 
+function checkSubscription(registration) {
+  registration.pushManager.getSubscription()
+      .then(subscription => {
+          if (subscription === null && localStorage.getItem('isSubscribedToPush') !== 'true') {
+              subscribeUserToPush(registration);
+          } else {
+              console.log('User is already subscribed');
+          }
+      })
+      .catch(error => {
+          console.error('Error during getSubscription()', error);
+      });
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 reportWebVitals();
 
-// Call the registerServiceWorker function to initialize service worker registration
-registerServiceWorker();

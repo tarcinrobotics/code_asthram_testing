@@ -102,6 +102,25 @@ Blockly.Blocks['matplotlib_title'] = {
     return "plt.plot(" + xData + ", " + yData + ")\n";
   };
   
+  Blockly.Blocks["matplotlib_imshow"] = {
+    init: function () {
+      this.appendValueInput("image")
+          .setCheck(null)
+          .appendField("Show Image");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#004D3B"); // Plotting block color
+      this.setTooltip("Display an image using matplotlib");
+      this.setHelpUrl(""); // URL to the documentation or help
+    }
+  };
+  
+  Blockly.Python["matplotlib_imshow"] = function (block) {
+    Blockly.Python.definitions_["import_matplotlib"] = "import matplotlib.pyplot as plt";
+    var value_image = Blockly.Python.valueToCode(block, "image", Blockly.Python.ORDER_ATOMIC);
+    return "plt.imshow(" + value_image + ")\nplt.show()\n";
+  };
+  
 
   Blockly.Blocks['matplotlib_add_legend'] = {
     init: function() {

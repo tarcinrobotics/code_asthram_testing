@@ -3,6 +3,8 @@ var app = express();
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var cors = require("cors");
+const webpush = require('web-push');
+
 var multer = require("multer"),
   bodyParser = require("body-parser"),
   path = require("path");
@@ -25,6 +27,8 @@ app.use(cors({
 app.use(express.json())
 
 const User = require('./userModel.js');
+
+
 
 async function insert() {
   const usersToAdd = [
@@ -58,6 +62,36 @@ async function insert() {
 }
 
 insert();
+require('dotenv').config();
+
+
+// Set VAPID keys
+const vapidKeys = {
+  publicKey: process.env.VAPID_PUBLIC_KEY,
+  privateKey: process.env.VAPID_PRIVATE_KEY
+};
+
+
+// Set VAPID keys in the web push library
+webpush.setVapidDetails(
+  'mailto:your-email@example.com',
+  vapidKeys.publicKey,
+  vapidKeys.privateKey
+);
+
+app.post("/subscribe", (req, res) => {
+  const subscription = req.body;
+
+  // Send 201 - resource created
+  res.status(201).json({});
+
+  // Store the subscription details in your database (optional)
+
+  // Send a welcome push notification (optional)
+  const payload = JSON.stringify({ title: 'Welcome to our app!' });
+  webpush.sendNotification(subscription, payload)
+    .catch(error => console.error('Error sending push notification:', error));
+});
 
 
 mongoose.connection.on("connected", () => {
@@ -70,6 +104,35 @@ mongoose.connection.on("error", (err) => {
 
 var product = require("./model/product.js");
 var user = require("./model/user.js");
+
+const authenticateUser = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ error: 'Unauthorized: Token missing' });
+  }
+  jwt.verify(token, 'shhhhh11111', (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
+    req.user = decoded;
+    next();
+  });
+};
+
+app.post("/subscribe", authenticateUser, async (req, res) => {
+  const subscription = req.body;
+  const username = req.user.user; // Assuming username is stored in user object
+
+  // Send 201 - resource created
+  res.status(201).json({});
+
+  // Fetch user details using username (which is assumed to be an email) and send push notifications accordingly
+  const payload = JSON.stringify({ title: 'Welcome to our app!' });
+  webpush.sendNotification(subscription, payload)
+    .catch(error => console.error('Error sending push notification:', error));
+});
+
+
 
 
 app.get("/api", (req, res) => {

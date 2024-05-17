@@ -12,6 +12,7 @@ import modulesData from "./scripts/modules.json";
 import { ModuleDropdown, ProjectDropdown } from './dropDown.js';
 import FloatingScreen from "./scripts/FloatingMiniScreen.js";
 import ParentComponent from "./scripts/ParentComponent.js";
+import { subscribeUserToPush } from "./scripts/PushNotification.js";
 
 import "./customBlocks/custom_Blocks";
 import "./customBlocks/LogicBlocks.js";
@@ -46,6 +47,40 @@ export default function App() {
   const fileInputRef = useRef(null);
   const workspaceRef = useRef(null);
   const navigate = useNavigate();
+
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  useEffect(() => {
+    // Check subscription status in local storage
+    const isSubscribedToPush = localStorage.getItem('isSubscribedToPush');
+    if (isSubscribedToPush === 'true') {
+      setIsSubscribed(true);
+    } else {
+      checkSubscriptionStatus();
+    }
+  }, []);
+
+  const checkSubscriptionStatus = async () => {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      const subscription = await registration.pushManager.getSubscription();
+      if (subscription) {
+        setIsSubscribed(true);
+        localStorage.setItem('isSubscribedToPush', 'true');
+      }
+    } catch (error) {
+      console.error('Failed to check subscription status:', error);
+    }
+  };
+
+  const handleSubscribe = async () => {
+    try {
+      await subscribeUserToPush();
+      setIsSubscribed(true);
+    } catch (error) {
+      console.error('Failed to subscribe the user:', error);
+    }
+  };
 
   const initialXml =
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="text" x="70" y="30"><field name="TEXT"></field></block></xml>';
@@ -398,6 +433,7 @@ kind: "block", type: "turtle_set_background_color"
           {kind: "block", type: "matplotlib_add_legend"},
           {kind: "block", type: "matplotlib_plot_histogram"},
           {kind: "block", type: "matplotlib_plot_scatter"},
+          {kind: "block", type: "matplotlib_imshow"},
           {kind: "block", type: "matplotlib_plot_pie"},
           {kind: "block", type: "matplotlib_add_grid"},
           {kind: "block", type: "matplotlib_create_figure"},
@@ -773,6 +809,19 @@ kind: "block", type: "turtle_set_background_color"
           { kind: "block", type: "cv2_showimage", "colour": "#6A5ACD" },
           { kind: "block", type: "cv2_waitkey", "colour": "#6A5ACD" },
           { kind: "block", type: "cv2_destroyall", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_add", "colour": "#6A5ACD" },
+          { kind: "block", type: "os_chdir", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_copy_make_border", "colour": "#6A5ACD" },
+          { kind: "block", type: "os_listdir", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_image_corner", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_gaussian_blur", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_median_blur", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_bilateral_filter", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_ellipse", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_rotate", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_circle", "colour": "#6A5ACD" },
+          { kind: "block", type: "cv2_resize", "colour": "#6A5ACD" },
+
           { kind: "block", type: "cv2_imagewrite", "colour": "#6A5ACD" },
           { kind: "block", type: "cv2_capturevideo", "colour": "#6A5ACD" },
           { kind: "block", type: "cv2_videoread", "colour": "#6A5ACD" },
@@ -827,6 +876,8 @@ kind: "block", type: "turtle_set_background_color"
     const code = Blockly.Python.workspaceToCode(workspace);
     setJavascriptCode(code);
   }
+
+
 
   {/*
  const handleFileInputChange = (event) => {
@@ -1100,6 +1151,11 @@ document.addEventListener('DOMContentLoaded', function() {
             </button>
           </div>
         </div>
+        <div>
+      {!isSubscribed && (
+        <button onClick={handleSubscribe}>Subscribe to Push Notifications</button>
+      )}
+    </div>
     {/* 
         {isVisible && selectedProject && (
         <div className="floating-screen">

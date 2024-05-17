@@ -77,8 +77,11 @@ async function syncData() {
 
 self.addEventListener('push', event => {
     const data = event.data.json();
-    self.registration.showNotification(data.title, {
+    const options = {
         body: data.body,
         icon: '/icon.png'
-    });
+    };
+    event.waitUntil(
+        self.registration.showNotification(data.title, options)
+    );
 });
