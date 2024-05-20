@@ -6,48 +6,51 @@ Blockly.Blocks['numpy_create_array'] = {
     this.appendDummyInput()
         .appendField("Create Numpy Array");
     this.appendValueInput("array_values")
-        .setCheck("Array")
+        .setCheck(["Array", "String", "Number"]) // Accept multiple types
         .setAlign(Blockly.ALIGN_RIGHT)
         .appendField("Values");
-    this.setOutput(true, "Array");
+    this.setOutput(true, ["Array", "String", "Number"]); // Output multiple types
     this.setColour(270);
     this.setTooltip("Create a Numpy array from given values");
     this.setHelpUrl("");
   }
 };
-  
-  Blockly.Python['numpy_create_array'] = function(block) {
-    var value_array_values = Blockly.Python.valueToCode(block, 'array_values', Blockly.Python.ORDER_ATOMIC);
-    var code = 'np.array(' + value_array_values + ')';
-    return [code, Blockly.Python.ORDER_NONE];
-  };
-  
-  Blockly.Blocks['numpy_reshape_array'] = {
-    init: function() {
-      this.appendDummyInput()
-          .appendField("Reshape Numpy Array");
-      this.appendValueInput("array")
-          .setCheck("Array")
-          .setAlign(Blockly.ALIGN_RIGHT)
-          .appendField("Array");
-      this.appendValueInput("shape")
-          .setCheck("Array")
-          .setAlign(Blockly.ALIGN_RIGHT)
-          .appendField("Shape");
-      this.setOutput(true, "Array");
-      this.setColour(270);
-      this.setTooltip("");
-      this.setHelpUrl("");
-    }
-  };
-  
-  Blockly.Python['numpy_reshape_array'] = function(block) {
-    var value_array = Blockly.Python.valueToCode(block, 'array', Blockly.Python.ORDER_ATOMIC);
-    var value_shape = Blockly.Python.valueToCode(block, 'shape', Blockly.Python.ORDER_ATOMIC);
-    var code = 'np.reshape(' + value_array + ', ' + value_shape + ')';
-    return [code, Blockly.Python.ORDER_NONE];
-  };
-  
+
+Blockly.Python['numpy_create_array'] = function(block) {
+  var value_array_values = Blockly.Python.valueToCode(block, 'array_values', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+  var code = 'np.array(' + value_array_values + ')';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Blocks['numpy_reshape_array'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Reshape Numpy Array");
+    this.appendValueInput("array")
+        .setCheck(["Array", "String", "Number"]) // Accept multiple types
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Array");
+    this.appendValueInput("shape")
+        .setCheck(["Array", "String", "Number"]) // Accept multiple types
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Shape");
+    this.setOutput(true, ["Array", "String", "Number"]); // Output multiple types
+    this.setColour(270);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['numpy_reshape_array'] = function(block) {
+  var value_array = Blockly.Python.valueToCode(block, 'array', Blockly.Python.ORDER_ATOMIC);
+  var value_shape = Blockly.Python.valueToCode(block, 'shape', Blockly.Python.ORDER_ATOMIC);
+  Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+  var code = 'np.reshape(' + value_array + ', ' + value_shape + ')';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+
   Blockly.Blocks['numpy_transpose_array'] = {
     init: function() {
       this.appendDummyInput()
@@ -821,18 +824,70 @@ Blockly.Blocks['numpy_eigenvalues'] = {
     return [code, Blockly.Python.ORDER_NONE];
   };
   
-  // Blockly Blocks
-Blockly.Blocks['numpy_sort'] = {
+  Blockly.Blocks['numpy_sort'] = {
     init: function() {
       this.appendValueInput("array")
           .setCheck("Array")
           .appendField("Sort Array");
-      this.setOutput(true, null);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
       this.setColour(270);
-      this.setTooltip("");
+      this.setTooltip("Sorts a numpy array.");
       this.setHelpUrl("");
     }
   };
+  
+  Blockly.Python['numpy_sort'] = function(block) {
+    var value_array = Blockly.Python.valueToCode(block, 'array', Blockly.Python.ORDER_ATOMIC);
+    var code = `sorted_array = np.sort(${value_array})\n`;
+    return code;
+  };
+
+  Blockly.Blocks['numpy_lcm'] = {
+    init: function() {
+      this.appendValueInput('NUM1')
+          .setCheck('Number')
+          .appendField('LCM of');
+      this.appendValueInput('NUM2')
+          .setCheck('Number')
+          .appendField('and');
+      this.setOutput(true, 'Number');
+      this.setColour(270);
+      this.setTooltip('Find the least common multiple (LCM) of two numbers.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['numpy_lcm'] = function(block) {
+    var num1 = Blockly.Python.valueToCode(block, 'NUM1', Blockly.Python.ORDER_ATOMIC);
+    var num2 = Blockly.Python.valueToCode(block, 'NUM2', Blockly.Python.ORDER_ATOMIC);
+  
+    Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+    var code = `np.lcm(${num1}, ${num2})`;
+    return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  };
+  
+  Blockly.Blocks['numpy_product'] = {
+    init: function() {
+      this.appendValueInput('ARRAY')
+          .setCheck('Array')
+          .appendField('Product of elements in array');
+      this.setOutput(true, 'Number');
+      this.setColour(270);
+      this.setTooltip('Calculate the product of elements in an array.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['numpy_product'] = function(block) {
+    var array = Blockly.Python.valueToCode(block, 'ARRAY', Blockly.Python.ORDER_ATOMIC);
+  
+    Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
+    var code = `np.prod(${array})`;
+    return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  };
+  
+  
   
   Blockly.Blocks['numpy_unique'] = {
     init: function() {
@@ -858,11 +913,7 @@ Blockly.Blocks['numpy_sort'] = {
     }
   };
 
-  Blockly.Python['numpy_sort'] = function(block) {
-    var value_array = Blockly.Python.valueToCode(block, 'array', Blockly.Python.ORDER_ATOMIC);
-    var code = 'np.sort(' + value_array + ')';
-    return [code, Blockly.Python.ORDER_NONE];
-  };
+
   
   Blockly.Python['numpy_unique'] = function(block) {
     var value_array = Blockly.Python.valueToCode(block, 'array', Blockly.Python.ORDER_ATOMIC);

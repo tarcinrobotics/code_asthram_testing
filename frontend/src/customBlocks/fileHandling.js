@@ -2,28 +2,33 @@ import Blockly from "blockly";
 import "blockly/python";
 
 Blockly.Blocks['file_open'] = {
-    init: function() {
-      this.appendValueInput('FILE_PATH')
-          .setCheck('String')
-          .appendField('Open file');
-      this.appendDummyInput()
-          .appendField('with mode')
-          .appendField(new Blockly.FieldDropdown([
-            ['read', 'r'],
-            ['write', 'w'],
-            ['append', 'a']
-          ]), 'MODE');
-      this.setOutput(true, 'File');
-      this.setColour("#3B2F5B");
-      this.setTooltip('Open a file with the specified mode.');
-    }
-  };
-  
-  Blockly.Python['file_open'] = function(block) {
-    var file_path = Blockly.Python.valueToCode(block, 'FILE_PATH', Blockly.Python.ORDER_ATOMIC) || "''";
-    var mode = block.getFieldValue('MODE') || 'r';  // Default to 'r' if mode is not specified
-    return [`with open(${file_path}, '${mode}') as file:\n`, Blockly.Python.ORDER_ATOMIC];
+  init: function() {
+    this.appendValueInput('FILE_PATH')
+        .setCheck('String')
+        .appendField('Open file');
+    this.appendDummyInput()
+        .appendField('with mode')
+        .appendField(new Blockly.FieldDropdown([
+          ['read', 'r'],
+          ['write', 'w'],
+          ['append', 'a']
+        ]), 'MODE');
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#3B2F5B");
+    this.setTooltip('Open a file with the specified mode.');
+    this.setHelpUrl('');
+  }
 };
+
+Blockly.Python['file_open'] = function(block) {
+  var file_path = Blockly.Python.valueToCode(block, 'FILE_PATH', Blockly.Python.ORDER_ATOMIC) || "''";
+  var mode = block.getFieldValue('MODE') || 'r';  // Default to 'r' if mode is not specified
+  var code = `file = open(${file_path}, '${mode}')\n`;
+  return code;
+};
+
+
 
   
   Blockly.Blocks['file_read'] = {
@@ -169,6 +174,48 @@ Blockly.Blocks['file_open'] = {
     var newFilename = Blockly.Python.valueToCode(block, 'NEW_FILENAME', Blockly.Python.ORDER_ATOMIC) || '""';
     return `os.rename(${oldFilename}, ${newFilename})\n`;
   };
+
+  Blockly.Blocks['csv_writer'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField('CSV writer');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#3B2F5B");
+      this.setTooltip('Create a CSV writer object.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['csv_writer'] = function(block) {
+    Blockly.Python.definitions_['import_csv'] = 'import csv';
+  
+    var code = `csv_writer = csv.writer(file)\n`;
+    return code;
+  };
+
+  Blockly.Blocks['write_data_to_csv'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField('Write data to CSV');
+      this.appendValueInput('DATA')
+          .setCheck('Array')
+          .appendField('Data');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#3B2F5B");
+      this.setTooltip('Write data to a CSV file.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['write_data_to_csv'] = function(block) {
+    var data = Blockly.Python.valueToCode(block, 'DATA', Blockly.Python.ORDER_ATOMIC);
+  
+    var code = `csv_writer.writerows(${data})\n`;
+    return code;
+  };
+  
 
   Blockly.Blocks['file_delete'] = {
     init: function() {

@@ -451,18 +451,19 @@ Blockly.Blocks["cv2_rotate"] = {
     this.appendValueInput("image")
         .setCheck(null)
         .appendField("Rotate image");
-    this.appendValueInput("center")
+    this.appendDummyInput()
+        .appendField("Rotation")
+        .appendField(new Blockly.FieldDropdown([
+            ["90 degrees clockwise", "cv2.ROTATE_90_CLOCKWISE"],
+            ["180 degrees", "cv2.ROTATE_180"],
+            ["90 degrees counterclockwise", "cv2.ROTATE_90_COUNTERCLOCKWISE"]
+        ]), "rotation_type");
+    this.appendValueInput("dst")
         .setCheck(null)
-        .appendField("Center (x, y)");
-    this.appendValueInput("angle")
-        .setCheck("Number")
-        .appendField("Angle of rotation (degrees)");
-    this.appendValueInput("scale")
-        .setCheck("Number")
-        .appendField("Scale factor");
+        .appendField("Store result in");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setTooltip("Rotates an image around a specified center point.");
+    this.setTooltip("Rotates an image using a predefined rotation type.");
     this.setColour("#6A5ACD"); // Purple color for consistency
     this.setHelpUrl(""); // URL to the documentation or help
   }
@@ -470,16 +471,15 @@ Blockly.Blocks["cv2_rotate"] = {
 
 Blockly.Python["cv2_rotate"] = function (block) {
   var value_image = Blockly.Python.valueToCode(block, "image", Blockly.Python.ORDER_ATOMIC);
-  var value_center = Blockly.Python.valueToCode(block, "center", Blockly.Python.ORDER_ATOMIC);
-  var value_angle = Blockly.Python.valueToCode(block, "angle", Blockly.Python.ORDER_ATOMIC);
-  var value_scale = Blockly.Python.valueToCode(block, "scale", Blockly.Python.ORDER_ATOMIC);
+  var dropdown_rotation_type = block.getFieldValue("rotation_type");
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
 
-  Blockly.Python.definitions_["import_cv2"] = "import cv2";
+  Blockly.Python.definitions_["import_cv2"] = "import cv2 as cv";
 
-  var code = "cv2.rotate(" + value_image + ", " + value_center + ", " +
-             value_angle + ", " + value_scale + ")\n";
+  var code = value_dst + " = cv.rotate(" + value_image + ", " + dropdown_rotation_type + ")\n";
   return code;
 };
+
 
 Blockly.Blocks["cv2_circle"] = {
   init: function () {

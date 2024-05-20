@@ -61,7 +61,7 @@ Blockly.Blocks['set_variable'] = {
         ]), 'OPERATOR')
         .appendField("to");
     this.appendValueInput("VALUE")
-        .setCheck(["String", "Number"]); // Accepts both Number and String types
+        .setCheck(["Array", "String", "Number"]); // Accepts multiple types including Array
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);

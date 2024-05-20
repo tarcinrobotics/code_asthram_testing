@@ -117,6 +117,103 @@ Blockly.Blocks['import_pandas'] = {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
 
+  Blockly.Blocks['pandas_select_rows'] = {
+    init: function() {
+      this.appendValueInput('DATAFRAME')
+          .setCheck(null)
+          .appendField('Select rows from DataFrame');
+      this.appendDummyInput()
+          .appendField('using iloc from index')
+          .appendField(new Blockly.FieldNumber(0, 0), 'START_INDEX')
+          .appendField('to')
+          .appendField(new Blockly.FieldNumber(1, 0), 'END_INDEX');
+      this.appendDummyInput()
+          .appendField('Store result in')
+          .appendField(new Blockly.FieldVariable("selected_rows"), 'VARIABLE');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(230);
+      this.setTooltip('Selects rows from a DataFrame using iloc.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['pandas_select_rows'] = function(block) {
+    var dataframe = Blockly.Python.valueToCode(block, 'DATAFRAME', Blockly.Python.ORDER_ATOMIC);
+    var startIndex = block.getFieldValue('START_INDEX');
+    var endIndex = block.getFieldValue('END_INDEX');
+    var variable = Blockly.Python.variableDB_.getName(block.getFieldValue('VARIABLE'), Blockly.Variables.NAME_TYPE);
+  
+    Blockly.Python.definitions_['import_pandas'] = 'import pandas as pd';
+    var code = `${variable} = ${dataframe}.iloc[${startIndex}:${endIndex}]\n`;
+    return code;
+  };
+
+  Blockly.Blocks['pandas_with_open'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField('Pandas with open');
+      this.appendDummyInput()
+          .appendField('File:')
+          .appendField(new Blockly.FieldTextInput('data.csv'), 'FILENAME');
+      this.appendDummyInput()
+          .appendField('Mode:')
+          .appendField(new Blockly.FieldDropdown([
+            ['Read', 'r'],
+            ['Write', 'w'],
+            ['Append', 'a']
+          ]), 'MODE');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(230);
+      this.setTooltip('Use Pandas with the open statement to handle files.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['pandas_with_open'] = function(block) {
+    var filename = block.getFieldValue('FILENAME');
+    var mode = block.getFieldValue('MODE');
+  
+    Blockly.Python.definitions_['import_pandas'] = 'import pandas as pd';
+  
+    var code = `with open("${filename}", "${mode}", newline="") as file:\n`;
+    return code;
+  };
+  
+
+  Blockly.Blocks['pandas_create_series'] = {
+    init: function() {
+      this.appendValueInput('DATA')
+          .setCheck(null)
+          .appendField('Create Series from data');
+      this.appendValueInput('INDEX')
+          .setCheck(null)
+          .appendField('with index');
+      this.appendDummyInput()
+          .appendField('Store result in')
+          .appendField(new Blockly.FieldVariable("series"), 'VARIABLE');
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(230);
+      this.setTooltip('Creates a pandas Series from data with specified index.');
+      this.setHelpUrl('');
+    }
+  };
+  
+  Blockly.Python['pandas_create_series'] = function(block) {
+    var data = Blockly.Python.valueToCode(block, 'DATA', Blockly.Python.ORDER_ATOMIC);
+    var index = Blockly.Python.valueToCode(block, 'INDEX', Blockly.Python.ORDER_ATOMIC);
+    var variable = Blockly.Python.variableDB_.getName(block.getFieldValue('VARIABLE'), Blockly.Variables.NAME_TYPE);
+  
+    Blockly.Python.definitions_['import_pandas'] = 'import pandas as pd';
+    var code = `${variable} = pd.Series(${data}, index=${index})\n`;
+    return code;
+  };
+  
+  
+  
+
   Blockly.Blocks['group_data'] = {
     init: function() {
       this.appendDummyInput()
