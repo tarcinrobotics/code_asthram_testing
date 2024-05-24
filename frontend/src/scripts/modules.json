@@ -283,7 +283,24 @@
           ]
         }
         ,
-        {"id": "5", "name": "List Summation", "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Lists/List%20Summation.png?raw=true"}
+        {"id": "5", "name": "List Summation", 
+        "image": "https://github.com/mohamedarsath18/pyprojects/blob/main/Lists/List%20Summation.png?raw=true",
+        "hints": [
+          "Hint 1: Imagine you're an explorer counting treasures in a treasure chest. Each item in a list is a treasure. Create a function named list_length that will count these treasures for you.",
+          "Hint 2: Use the explorer’s tool, the len() function, to count how many treasures (items) are in your list. This function is like a magic spell that instantly tells you the count of items in any collection.",
+          "Hint 3: Prepare your treasure list! Use a 'set variable' block to create my_list and fill it with your treasures, which in this case are the numbers [1, 2, 3, 4, 5].",
+          "Hint 4: Now that your treasures are ready, let’s count them. Call the list_length function with my_list as its argument. Store the result in a variable and use a 'print' block to announce the total count.",
+          "Hint 5: Show off your counting skills! Use a print statement to declare 'Length of the list: ' followed by the result. It’s a simple yet powerful way to verify your function’s accuracy.",
+          "Hint 6: If the number doesn’t match your expected treasure count, double-check your list and ensure len() is applied correctly. It’s like recounting your treasures to make sure none are missed."
+        ],
+        "questions": [
+          {
+            "questionText": "What if the list is empty?",
+            "options": ["Count is 1", "Error", "Count is 0", "Count is -1"],
+            "correctAnswer": "Count is 0"
+          }
+        ]
+      }
       ]
     },
     {

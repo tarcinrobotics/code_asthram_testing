@@ -49,6 +49,42 @@ Blockly.Blocks['import_pandas'] = {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
 
+  Blockly.Blocks['df_head'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("DataFrame head");
+      this.setOutput(true, "DataFrame");
+      this.setColour(230); // Gold color for pandas blocks
+      this.setTooltip("Get the first few rows of the DataFrame.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python['df_head'] = function(block) {
+    var code = 'df.head()';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+
+  Blockly.Blocks['pd_timestamp'] = {
+    init: function() {
+      this.appendValueInput("variable")
+          .setCheck(null)
+          .appendField("Create Timestamp from variable");
+      this.setOutput(true, "Timestamp");
+      this.setColour("#DAA520"); // Gold color for pandas blocks
+      this.setTooltip("Create a Timestamp from the specified variable.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python['pd_timestamp'] = function(block) {
+    var value_variable = Blockly.Python.valueToCode(block, 'variable', Blockly.Python.ORDER_ATOMIC);
+    Blockly.Python.definitions_['import_pandas'] = 'import pandas as pd';
+    var code = 'pd.Timestamp(' + value_variable + ')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+  
+
   Blockly.Blocks['read_csv'] = {
     init: function() {
       this.appendDummyInput()
@@ -149,6 +185,25 @@ Blockly.Blocks['import_pandas'] = {
     return code;
   };
 
+  Blockly.Blocks['df_replace'] = {
+    init: function() {
+      this.appendValueInput("variable")
+          .setCheck(null)
+          .appendField("Replace in DataFrame with variable");
+      this.setOutput(true, "DataFrame");
+      this.setColour(230); // Gold color for pandas blocks
+      this.setTooltip("Replace values in the DataFrame using the specified variable.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python['df_replace'] = function(block) {
+    var value_variable = Blockly.Python.valueToCode(block, 'variable', Blockly.Python.ORDER_ATOMIC);
+    var code = 'df.replace(' + value_variable + ')';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+  
+
   Blockly.Blocks['pandas_with_open'] = {
     init: function() {
       this.appendDummyInput()
@@ -170,6 +225,8 @@ Blockly.Blocks['import_pandas'] = {
       this.setHelpUrl('');
     }
   };
+
+  
   
   Blockly.Python['pandas_with_open'] = function(block) {
     var filename = block.getFieldValue('FILENAME');

@@ -145,6 +145,7 @@ Blockly.Blocks["cv2_add"] = {
     this.setTooltip("Add two images together and store the result in the specified destination.");
     this.setColour("#6A5ACD"); // Purple color for consistency
     this.setHelpUrl(""); // URL to the documentation or help
+    this.setOutput(false); // Disable output
   }
 };
 
@@ -152,12 +153,20 @@ Blockly.Python["cv2_add"] = function (block) {
   var value_src1 = Blockly.Python.valueToCode(block, "src1", Blockly.Python.ORDER_ATOMIC);
   var value_src2 = Blockly.Python.valueToCode(block, "src2", Blockly.Python.ORDER_ATOMIC);
   var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
-  
+
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
-  
-  var code = "cv2.add(" + value_src1 + ", " + value_src2 + ", " + value_dst + ")";
+
+  // Check if a variable is provided for storing the result
+  if (value_dst) {
+    // If a variable is provided, assign the result to it
+    var code = value_dst + " = cv2.add(" + value_src1 + ", " + value_src2 + ")\n";
+  } else {
+    // If no variable is provided, just perform the operation
+    var code = "cv2.add(" + value_src1 + ", " + value_src2 + ")\n";
+  }
   return code;
 };
+
 
 Blockly.Blocks["cv2_copy_make_border"] = {
   init: function () {
@@ -165,16 +174,16 @@ Blockly.Blocks["cv2_copy_make_border"] = {
         .setCheck(null)
         .appendField("Create border for image");
     this.appendValueInput("top")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("Top");
     this.appendValueInput("bottom")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("Bottom");
     this.appendValueInput("left")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("Left");
     this.appendValueInput("right")
-        .setCheck(null)
+        .setCheck("Number")
         .appendField("Right");
     this.appendDummyInput()
         .appendField("Border type")
@@ -211,11 +220,17 @@ Blockly.Python["cv2_copy_make_border"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = "cv2.copyMakeBorder(" + value_src + ", " + value_top + ", " + value_bottom + ", " +
-             value_left + ", " + value_right + ", " + dropdown_border_type + ", " +
-             "value_dst, cv2.BORDER_CONSTANT, value=" + "'" + colour_border_color + "'" + ")";
-  return code;
+  if (value_dst) {
+    return value_dst + " = cv.copyMakeBorder(" + value_src + ", " + value_top + ", " + value_bottom + ", " +
+           value_left + ", " + value_right + ", " + dropdown_border_type + ", value=" +
+           "'" + colour_border_color + "'" + ")\n";
+  } else {
+    return "cv.copyMakeBorder(" + value_src + ", " + value_top + ", " + value_bottom + ", " +
+           value_left + ", " + value_right + ", " + dropdown_border_type + ", value=" +
+           "'" + colour_border_color + "'" + ")\n";
+  }
 };
+
 
 Blockly.Blocks["cv2_image_corner"] = {
   init: function () {
@@ -263,7 +278,7 @@ Blockly.Python["cv2_image_corner"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = variable_corners + " = cv2.goodFeaturesToTrack(" + value_src + ", " + value_max_corners + ", " + value_quality_level + ", " +
+  var code = variable_corners + " = cv.goodFeaturesToTrack(" + value_src + ", " + value_max_corners + ", " + value_quality_level + ", " +
              number_min_distance + ", " + number_block_size + ", useHarrisDetector=" + checkbox_use_harris + ", k=" + value_k + ")\n";
   return code;
 };
@@ -302,6 +317,7 @@ Blockly.Blocks["cv2_gaussian_blur"] = {
     this.setTooltip("Apply Gaussian blur to the input image with the specified kernel size and standard deviations.");
     this.setColour("#6A5ACD"); // Purple color for consistency
     this.setHelpUrl(""); // URL to the documentation or help
+    this.setOutput(false); // Disable output
   }
 };
 
@@ -316,10 +332,19 @@ Blockly.Python["cv2_gaussian_blur"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = value_dst + " = cv2.GaussianBlur(" + value_src + ", " + value_ksize + ", " + value_sigma_x + ", " + value_sigma_y + ", " +
-             "borderType=" + dropdown_border_type + ", " + "borderValue=" + number_border_value + ")\n";
+  // Check if a variable is provided for storing the result
+  if (value_dst) {
+    // If a variable is provided, assign the result to it
+    var code = value_dst + " = cv2.GaussianBlur(" + value_src + ", " + value_ksize + ", " + value_sigma_x + ", " + value_sigma_y + ", " +
+               "borderType=" + dropdown_border_type + ", " + "borderValue=" + number_border_value + ")\n";
+  } else {
+    // If no variable is provided, just perform the operation
+    var code = "cv2.GaussianBlur(" + value_src + ", " + value_ksize + ", " + value_sigma_x + ", " + value_sigma_y + ", " +
+               "borderType=" + dropdown_border_type + ", " + "borderValue=" + number_border_value + ")\n";
+  }
   return code;
 };
+
 
 Blockly.Blocks["cv2_median_blur"] = {
   init: function () {
@@ -337,6 +362,7 @@ Blockly.Blocks["cv2_median_blur"] = {
     this.setTooltip("Apply median blur to the input image with the specified kernel size.");
     this.setColour("#6A5ACD"); // Purple color for consistency
     this.setHelpUrl(""); // URL to the documentation or help
+    this.setOutput(false); // Disable output
   }
 };
 
@@ -347,9 +373,17 @@ Blockly.Python["cv2_median_blur"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = value_dst + " = cv2.medianBlur(" + value_src + ", " + value_ksize + ")\n";
+  // Check if a variable is provided for storing the result
+  if (value_dst) {
+    // If a variable is provided, assign the result to it
+    var code = value_dst + " = cv.medianBlur(" + value_src + ", " + value_ksize + ")\n";
+  } else {
+    // If no variable is provided, just perform the operation
+    var code = "cv.medianBlur(" + value_src + ", " + value_ksize + ")\n";
+  }
   return code;
 };
+
 
 Blockly.Blocks["cv2_bilateral_filter"] = {
   init: function () {
@@ -373,6 +407,7 @@ Blockly.Blocks["cv2_bilateral_filter"] = {
     this.setTooltip("Apply bilateral filter to the input image with the specified parameters.");
     this.setColour("#6A5ACD"); // Purple color for consistency
     this.setHelpUrl(""); // URL to the documentation or help
+    this.setOutput(false); // Disable output
   }
 };
 
@@ -385,10 +420,19 @@ Blockly.Python["cv2_bilateral_filter"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = value_dst + " = cv2.bilateralFilter(" + value_src + ", " + value_d + ", " + 
-             value_sigma_color + ", " + value_sigma_space + ")\n";
+  // Check if a variable is provided for storing the result
+  if (value_dst) {
+    // If a variable is provided, assign the result to it
+    var code = value_dst + " = cv2.bilateralFilter(" + value_src + ", " + value_d + ", " + 
+               value_sigma_color + ", " + value_sigma_space + ")\n";
+  } else {
+    // If no variable is provided, just perform the operation
+    var code = "cv2.bilateralFilter(" + value_src + ", " + value_d + ", " + 
+               value_sigma_color + ", " + value_sigma_space + ")\n";
+  }
   return code;
 };
+
 
 Blockly.Blocks["cv2_ellipse"] = {
   init: function () {
@@ -440,7 +484,7 @@ Blockly.Python["cv2_ellipse"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = "cv2.ellipse(" + value_image + ", " + value_center + ", " + value_axes_length + ", " +
+  var code = "cv.ellipse(" + value_image + ", " + value_center + ", " + value_axes_length + ", " +
              value_angle + ", " + value_start_angle + ", " + value_end_angle + ", " + value_color + ", " +
              value_thickness + ", " + value_line_type + ")\n";
   return code;
@@ -454,9 +498,9 @@ Blockly.Blocks["cv2_rotate"] = {
     this.appendDummyInput()
         .appendField("Rotation")
         .appendField(new Blockly.FieldDropdown([
-            ["90 degrees clockwise", "cv2.ROTATE_90_CLOCKWISE"],
-            ["180 degrees", "cv2.ROTATE_180"],
-            ["90 degrees counterclockwise", "cv2.ROTATE_90_COUNTERCLOCKWISE"]
+            ["90 degrees clockwise", "cv.ROTATE_90_CLOCKWISE"],
+            ["180 degrees", "cv.ROTATE_180"],
+            ["90 degrees counterclockwise", "cv.ROTATE_90_COUNTERCLOCKWISE"]
         ]), "rotation_type");
     this.appendValueInput("dst")
         .setCheck(null)
@@ -516,7 +560,7 @@ Blockly.Python["cv2_circle"] = function (block) {
 
   Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
 
-  var code = "cv2.circle(" + value_src + ", " + value_center + ", " +
+  var code = "cv.circle(" + value_src + ", " + value_center + ", " +
              value_radius + ", " + value_color + ", " + value_thickness + ")\n";
   return code;
 };
@@ -922,6 +966,47 @@ Blockly.Python["cv2_drawline"] = function (block) {
     ")\n";
   return code;
 };
+
+Blockly.Blocks['cv2_cvtColor'] = {
+  init: function() {
+    this.appendValueInput("img")
+        .setCheck(null)
+        .appendField("Convert image");
+    this.appendDummyInput()
+        .appendField("to")
+        .appendField(new Blockly.FieldDropdown([
+          ["Grayscale", "cv2.COLOR_BGR2GRAY"],
+          ["HSV", "cv2.COLOR_BGR2HSV"],
+          ["RGB", "cv2.COLOR_BGR2RGB"],
+          ["LAB", "cv2.COLOR_BGR2LAB"]
+        ]), "conversion");
+    this.appendValueInput("dst")
+        .setCheck(null)
+        .appendField("Store result in");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour("#6A5ACD"); // Purple color for consistency
+    this.setTooltip("Convert image to different color spaces.");
+    this.setHelpUrl(""); // URL to the documentation or help
+  }
+};
+
+Blockly.Python['cv2_cvtColor'] = function(block) {
+  var value_img = Blockly.Python.valueToCode(block, "img", Blockly.Python.ORDER_ATOMIC);
+  var dropdown_conversion = block.getFieldValue("conversion");
+  var value_dst = Blockly.Python.valueToCode(block, "dst", Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_["cv2"] = "import cv2 as cv";
+
+  if (value_dst) {
+    var code = value_dst + " = cv2.cvtColor(" + value_img + ", " + dropdown_conversion + ")\n";
+  } else {
+    var code = "cv2.cvtColor(" + value_img + ", " + dropdown_conversion + ")\n";
+  }
+  
+  return code;
+};
+
 
 Blockly.Blocks["cv2_puttext"] = {
   init: function () {

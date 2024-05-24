@@ -154,6 +154,33 @@ Blockly.Python['file_open'] = function(block) {
     return [`os.path.exists(${filename})`, Blockly.Python.ORDER_ATOMIC];
   };
 
+  Blockly.Blocks["read_excel_file"] = {
+    init: function () {
+      this.appendValueInput("FILE_PATH")
+          .setCheck("String")
+          .appendField("Read Excel file");
+      this.appendDummyInput()
+          .appendField("Store result in")
+          .appendField(new Blockly.FieldVariable("df"), "VAR_NAME");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#3B2F5B");
+      this.setTooltip("Read an Excel file into a pandas DataFrame.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["read_excel_file"] = function (block) {
+    var file_path = Blockly.Python.valueToCode(block, "FILE_PATH", Blockly.Python.ORDER_ATOMIC);
+    var variable_var_name = Blockly.Python.variableDB_.getName(block.getFieldValue("VAR_NAME"), Blockly.Variables.NAME_TYPE);
+  
+    Blockly.Python.definitions_["import_pandas"] = "import pandas as pd";
+  
+    var code = variable_var_name + " = pd.read_excel(" + file_path + ")\n";
+    return code;
+  };
+  
+
   Blockly.Blocks['file_rename'] = {
     init: function() {
       this.appendValueInput('OLD_FILENAME')
@@ -175,24 +202,91 @@ Blockly.Python['file_open'] = function(block) {
     return `os.rename(${oldFilename}, ${newFilename})\n`;
   };
 
-  Blockly.Blocks['csv_writer'] = {
-    init: function() {
+  Blockly.Blocks["file_open_write"] = {
+    init: function () {
+      this.appendValueInput("FILE_PATH")
+          .setCheck("String")
+          .appendField("Open file");
       this.appendDummyInput()
-          .appendField('CSV writer');
+          .appendField("with mode")
+          .appendField(new Blockly.FieldDropdown([
+            ["write", "w"]
+          ]), "MODE")
+          .appendField("and newline")
+          .appendField(new Blockly.FieldTextInput("\\n"), "NEWLINE");
+      this.appendValueInput("VAR")
+          .setCheck("Variable")
+          .appendField("Store file handle in");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
       this.setColour("#3B2F5B");
-      this.setTooltip('Create a CSV writer object.');
-      this.setHelpUrl('');
+      this.setTooltip("Open a file in write mode with specified newline character.");
+      this.setHelpUrl("");
     }
   };
   
-  Blockly.Python['csv_writer'] = function(block) {
+  Blockly.Python["file_open_write"] = function (block) {
+    var file_path = Blockly.Python.valueToCode(block, "FILE_PATH", Blockly.Python.ORDER_ATOMIC);
+    var mode = block.getFieldValue("MODE");
+    var newline = block.getFieldValue("NEWLINE");
+    var variable = Blockly.Python.valueToCode(block, "VAR", Blockly.Python.ORDER_ATOMIC);
+  
     Blockly.Python.definitions_['import_csv'] = 'import csv';
   
-    var code = `csv_writer = csv.writer(file)\n`;
+    var code = `with open(${file_path}, '${mode}', newline=${newline}) as ${variable}:\n`;
     return code;
   };
+  
+
+  Blockly.Blocks["csv_writer"] = {
+    init: function () {
+      this.appendValueInput("FILE")
+          .setCheck("Variable")
+          .appendField("Create CSV writer from file handle");
+      this.appendValueInput("VAR")
+          .setCheck("Variable")
+          .appendField("Store CSV writer in");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#3B2F5B");
+      this.setTooltip("Create a CSV writer object from the file handle.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["csv_writer"] = function (block) {
+    var file = Blockly.Python.valueToCode(block, "FILE", Blockly.Python.ORDER_ATOMIC);
+    var variable = Blockly.Python.valueToCode(block, "VAR", Blockly.Python.ORDER_ATOMIC);
+  
+    var code = `${variable} = csv.writer(${file})\n`;
+    return code;
+  };
+  
+
+  Blockly.Blocks["csv_writerows"] = {
+    init: function () {
+      this.appendValueInput("WRITER")
+          .setCheck("Variable")
+          .appendField("CSV writer object");
+      this.appendValueInput("DATA")
+          .setCheck("Array")
+          .appendField("Write rows from data");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#3B2F5B");
+      this.setTooltip("Write rows to the CSV file from the data array.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["csv_writerows"] = function (block) {
+    var writer = Blockly.Python.valueToCode(block, "WRITER", Blockly.Python.ORDER_ATOMIC);
+    var data = Blockly.Python.valueToCode(block, "DATA", Blockly.Python.ORDER_ATOMIC);
+  
+    var code = `${writer}.writerows(${data})\n`;
+    return code;
+  };
+  
 
   Blockly.Blocks['write_data_to_csv'] = {
     init: function() {

@@ -392,15 +392,56 @@ Blockly.Blocks['numpy_mean'] = {
   
   Blockly.Blocks['numpy_exp'] = {
     init: function() {
-      this.appendValueInput("value")
+      this.appendDummyInput()
+          .appendField("NumPy.exp");
+      this.appendValueInput("VALUE")
           .setCheck("Number")
-          .appendField("Exponential of");
-      this.setOutput(true, "Number");
+          .appendField("");
+      this.setInputsInline(true);  // Set as inline block
+      this.setOutput(true, "Array");  // This block outputs an array
       this.setColour(270);
-      this.setTooltip("");
+      this.setTooltip("Apply exponential function from NumPy");
       this.setHelpUrl("");
     }
   };
+  
+  Blockly.Python['numpy_exp'] = function(block) {
+    Blockly.Python.definitions_['import_numpy'] = 'import numpy';
+    var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '';
+    var code = `numpy.exp([${value}])`;
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+  
+  Blockly.Blocks["numpy_union1d"] = {
+    init: function () {
+      this.appendValueInput("ARRAY1")
+          .setCheck("Array")
+          .appendField("Array 1");
+      this.appendValueInput("ARRAY2")
+          .setCheck("Array")
+          .appendField("Array 2");
+      this.appendDummyInput()
+          .appendField("Store result in")
+          .appendField(new Blockly.FieldVariable("result"), "VAR_NAME");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(270);
+      this.setTooltip("Find the union of two arrays.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["numpy_union1d"] = function (block) {
+    var array1 = Blockly.Python.valueToCode(block, "ARRAY1", Blockly.Python.ORDER_ATOMIC);
+    var array2 = Blockly.Python.valueToCode(block, "ARRAY2", Blockly.Python.ORDER_ATOMIC);
+    var variable_var_name = Blockly.Python.variableDB_.getName(block.getFieldValue("VAR_NAME"), Blockly.Variables.NAME_TYPE);
+  
+    Blockly.Python.definitions_["import_numpy"] = "import numpy as np";
+  
+    var code = variable_var_name + " = np.union1d(" + array1 + ", " + array2 + ")\n";
+    return code;
+  };
+  
   
   Blockly.Blocks['numpy_abs'] = {
     init: function() {
@@ -535,11 +576,7 @@ Blockly.Blocks['numpy_mean'] = {
     return [code, Blockly.Python.ORDER_NONE];
   };
   
-  Blockly.Python['numpy_exp'] = function(block) {
-    var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-    var code = 'np.exp(' + value_value + ')';
-    return [code, Blockly.Python.ORDER_NONE];
-  };
+ 
   
   Blockly.Python['numpy_abs'] = function(block) {
     var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
@@ -885,6 +922,42 @@ Blockly.Blocks['numpy_eigenvalues'] = {
     Blockly.Python.definitions_['import_numpy'] = 'import numpy as np';
     var code = `np.prod(${array})`;
     return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  };
+  
+  Blockly.Blocks["numpy_gcd"] = {
+    init: function () {
+      this.appendValueInput("A")
+          .setCheck("Number")
+          .appendField("GCD of");
+      this.appendValueInput("B")
+          .setCheck("Number")
+          .appendField("and");
+      this.appendValueInput("RESULT")
+          .setCheck(null)
+          .appendField("Store result in");
+      this.setInputsInline(true);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(270);
+      this.setTooltip("Compute the greatest common divisor (GCD) of two numbers.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["numpy_gcd"] = function (block) {
+    var value_a = Blockly.Python.valueToCode(block, "A", Blockly.Python.ORDER_ATOMIC);
+    var value_b = Blockly.Python.valueToCode(block, "B", Blockly.Python.ORDER_ATOMIC);
+    var value_result = Blockly.Python.valueToCode(block, "RESULT", Blockly.Python.ORDER_ATOMIC);
+  
+    Blockly.Python.definitions_["import_numpy"] = "import numpy as np";
+  
+    var code;
+    if (value_result) {
+      code = value_result + " = np.gcd(" + value_a + ", " + value_b + ")\n";
+    } else {
+      code = "np.gcd(" + value_a + ", " + value_b + ")\n";
+    }
+    return code;
   };
   
   

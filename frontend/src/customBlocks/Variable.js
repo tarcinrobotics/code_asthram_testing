@@ -61,7 +61,7 @@ Blockly.Blocks['set_variable'] = {
         ]), 'OPERATOR')
         .appendField("to");
     this.appendValueInput("VALUE")
-        .setCheck(["Array", "String", "Number"]); // Accepts multiple types including Array
+        .setCheck(null); // Accepts multiple types including Array
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -117,8 +117,6 @@ Blockly.Python['float_operator'] = function(block) {
   var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '0';
   return ['float(' + value + ')', Blockly.Python.ORDER_NONE];
 };
-
-
 Blockly.Blocks['import_statements'] = {
   init: function() {
     this.appendDummyInput()
@@ -134,7 +132,8 @@ Blockly.Blocks['import_statements'] = {
           ["re", "re"],
           ["requests", "requests"],
           ["csv", "csv"],
-          ["numpy as np", "numpy"]
+          ["numpy as np", "numpy"],
+          ["shutil", "shutil"]
         ]), "MODULES");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -154,6 +153,7 @@ Blockly.Python['import_statements'] = function(block) {
   }
   return code;
 };
+
 
 Blockly.Blocks['time_sleep'] = {
   init: function() {

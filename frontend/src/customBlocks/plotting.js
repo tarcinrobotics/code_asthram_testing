@@ -121,6 +121,43 @@ Blockly.Blocks['matplotlib_title'] = {
     return "plt.imshow(" + value_image + ")\nplt.show()\n";
   };
   
+  Blockly.Blocks["matplotlib_waitforbuttonpress"] = {
+    init: function () {
+      this.appendDummyInput()
+          .appendField("Wait for Button Press");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#004D3B"); // Matplotlib color
+      this.setTooltip("Pause the program to wait for a mouse button press in the current figure.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["matplotlib_waitforbuttonpress"] = function (block) {
+    Blockly.Python.definitions_['import_matplotlib'] = 'import matplotlib.pyplot as plt';
+    return "plt.waitforbuttonpress()\n";
+  };
+    
+
+  Blockly.Blocks["matplotlib_close"] = {
+    init: function () {
+      this.appendDummyInput()
+          .appendField("Close Current Figure");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#004D3B"); // Matplotlib color
+      this.setTooltip("Close the current figure window.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python["matplotlib_close"] = function (block) {
+    Blockly.Python.definitions_['import_matplotlib'] = 'import matplotlib.pyplot as plt';
+    return "plt.close()\n";
+  };
+  
+  
+  
 
   Blockly.Blocks['matplotlib_add_legend'] = {
     init: function() {
@@ -176,6 +213,59 @@ Blockly.Blocks['matplotlib_title'] = {
     var data = Blockly.Python.valueToCode(block, 'DATA', Blockly.Python.ORDER_ATOMIC) || block.getFieldValue('DEFAULT_DATA') || "0";
     return "plt.hist(" + data + ")\n";
   };
+
+  Blockly.Blocks['df_plot'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("Plot DataFrame");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#004D3B"); // Gold color for consistency
+      this.setTooltip("Plot the DataFrame.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python['df_plot'] = function(block) {
+    Blockly.Python.definitions_['import_matplotlib'] = 'import matplotlib.pyplot as plt';
+    var code = 'df.plot()\n';
+    return code;
+  };
+
+  Blockly.Blocks['df_duplicate'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("Duplicate DataFrame");
+      this.setOutput(true, "DataFrame");
+      this.setColour("#004D3B"); // Gold color for consistency
+      this.setTooltip("Duplicate the DataFrame.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python['df_duplicate'] = function(block) {
+    var code = 'df.duplicate()';
+    return [code, Blockly.Python.ORDER_ATOMIC];
+  };
+  
+  Blockly.Blocks['df_plot'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("Plot DataFrame");
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour("#004D3B"); // Custom color for plotting blocks
+      this.setTooltip("Plot the DataFrame.");
+      this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Python['df_plot'] = function(block) {
+    Blockly.Python.definitions_['import_matplotlib'] = 'import matplotlib.pyplot as plt';
+    var code = 'df.plot()\n';
+    return code;
+  };
+  
   
   
   Blockly.Blocks['matplotlib_plot_scatter'] = {
@@ -196,6 +286,7 @@ Blockly.Blocks['matplotlib_title'] = {
       this.setHelpUrl("");
     }
   };
+
   
   Blockly.Python['matplotlib_plot_scatter'] = function(block) {
     Blockly.Python.definitions_['import_matplotlib'] = 'import matplotlib.pyplot as plt';
@@ -582,25 +673,4 @@ Blockly.Blocks['matplotlib_title'] = {
     return [code, Blockly.Python.ORDER_ATOMIC];
   };
   
-  Blockly.Blocks['numpy_exp'] = {
-    init: function() {
-      this.appendDummyInput()
-          .appendField("NumPy.exp");
-      this.appendValueInput("VALUE")
-          .setCheck("Number")
-          .appendField("");
-      this.setInputsInline(true);  // Set as inline block
-      this.setOutput(true, "Array");  // This block outputs an array
-      this.setColour("#004D3B");
-      this.setTooltip("Apply exponential function from NumPy");
-      this.setHelpUrl("");
-    }
-  };
-  
-  Blockly.Python['numpy_exp'] = function(block) {
-    Blockly.Python.definitions_['import_numpy'] = 'import numpy';
-    var value = Blockly.Python.valueToCode(block, 'VALUE', Blockly.Python.ORDER_ATOMIC) || '';
-    var code = `numpy.exp([${value}])`;
-    return [code, Blockly.Python.ORDER_ATOMIC];
-  };
   

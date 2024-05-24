@@ -1,22 +1,22 @@
 import Blockly from 'blockly';
 
 
-
 Blockly.Blocks['calculate_average'] = {
-    init: function() {
-      this.appendValueInput('VALUES')
-          .setCheck('Array')
-          .appendField('Calculate average of');
-      this.setOutput(true, 'Number');
-      this.setColour("#FDBCB4");
-      this.setTooltip('Calculate the average value of a list of variables.');
-    }
-  };
-  
-  Blockly.Python['calculate_average'] = function(block) {
-    var values = Blockly.Python.valueToCode(block, 'VALUES', Blockly.Python.ORDER_ATOMIC);
-    return `sum(${values}) / len(${values})`;
-  };
+  init: function() {
+    this.appendValueInput('VALUES')
+        .setCheck('Array')
+        .appendField('Calculate average of');
+    this.setOutput(true, 'Number');
+    this.setColour("#FDBCB4");
+    this.setTooltip('Calculate the average value of a list of variables.');
+  }
+};
+
+Blockly.Python['calculate_average'] = function(block) {
+  var values = Blockly.Python.valueToCode(block, 'VALUES', Blockly.Python.ORDER_ATOMIC) || '[]';
+  var code = 'sum(' + values + ') / len(' + values + ')';
+  return [code, Blockly.Python.ORDER_NONE];
+};
 
   Blockly.Blocks['find_maximum'] = {
     init: function() {
