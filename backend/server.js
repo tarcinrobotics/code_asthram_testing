@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var cors = require("cors");
 const webpush = require('web-push');
+const { spawn } = require('child_process');
 
 var multer = require("multer"),
   bodyParser = require("body-parser"),
@@ -329,6 +330,50 @@ function checkUserAndGenerateToken(data, req, res) {
     );
   }}
 
+  app.post('/execute-python', (req, res) => {
+    const { script } = req.body;
+  
+    // Prepare the Python script to include necessary imports
+    const pythonScript = `
+      ${script}
+  
+      import pandas as pd
+      import numpy as np
+      import cv2 as cv
+      import time
+      import random
+      import math
+      import os
+      import sys
+      import datetime
+      import json
+      import re
+      import requests
+      import csv
+      import shutil
+  
+      # Your main Python code here
+    `;
+  
+    // Execute the Python script
+    const pythonProcess = spawn('python', ['-c', pythonScript]);
+  
+    let output = '';
+  
+    // Capture output from the Python script
+    pythonProcess.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+  
+    pythonProcess.stderr.on('data', (data) => {
+      console.error(`Error executing Python code: ${data}`);
+    });
+  
+    // Send the output back to the client
+    pythonProcess.on('close', (code) => {
+      res.json({ output });
+    });
+  });
 
 
 
