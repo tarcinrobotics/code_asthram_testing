@@ -4,7 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import AnimLoader from './component/AnimLoader';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './Login.js';
+//import Login from './Login.js';
 import Register from './Register.js';
 import './Login.css';
 import { AuthProvider } from './AuthProvider.js';
@@ -16,11 +16,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
-          <AuthProvider> {/* Wrap the Routes with the AuthProvider */}
-            <Login setIsSuperuser={setIsSuperuser} />
-          </AuthProvider>} />
-        <Route path="/register" element={<Register/>} />
+        //<Route path="/" element={
+         // <AuthProvider> {/* Wrap the Routes with the AuthProvider */}
+          //  <Login setIsSuperuser={setIsSuperuser} />
+          //</AuthProvider>} />
+        //<Route path="/register" element={<Register/>} />
         <Route path="/dashboard" element={<AnimLoader />} />
       </Routes>
     </BrowserRouter>
