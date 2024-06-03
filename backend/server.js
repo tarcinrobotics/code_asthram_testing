@@ -14,8 +14,8 @@ var multer = require("multer"),
 
 
 const mongoose = require("mongoose");
-// const mongoURI = "mongodb+srv://tarcinrobotics301:tarcinrobotics301@cluster0.kpaipm9.mongodb.net/?retryWrites=true&w=majority";
-const mongoURI = "mongodb://localhost:27017";
+const mongoURI = "mongodb+srv://tarcinrobotics301:tarcinrobotics301@cluster0.kpaipm9.mongodb.net/?retryWrites=true&w=majority";
+//const mongoURI = "mongodb://localhost:27017";
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
