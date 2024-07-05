@@ -1,6 +1,7 @@
 import Blockly from 'blockly';
 
 
+
 Blockly.Blocks['calculate_average'] = {
   init: function() {
     this.appendValueInput('VALUES')
@@ -17,6 +18,7 @@ Blockly.Python['calculate_average'] = function(block) {
   var code = 'sum(' + values + ') / len(' + values + ')';
   return [code, Blockly.Python.ORDER_NONE];
 };
+
 
   Blockly.Blocks['find_maximum'] = {
     init: function() {
