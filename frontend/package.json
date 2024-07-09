@@ -2,7 +2,6 @@
   "name": "reactblockly-customblocks",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:2000",
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@testing-library/jest-dom": "^5.11.4",
@@ -24,7 +23,6 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "react-spinners": "^0.13.8",
-    "rimraf": "^5.0.5",
     "serve": "^14.2.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.10.1",
@@ -36,8 +34,7 @@
     "start": "serve -s build",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postbuild": "rimraf build/static/**/*.map"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

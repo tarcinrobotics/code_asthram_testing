@@ -21,7 +21,7 @@ mongoose.connection.on("error", (err) => {
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({origin: "http://localhost:3000"}));
 app.use(express.json());
 
 // Root endpoint

@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useRef, useState, useEffect, forwardRef } from "react";
+import React, { useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
@@ -9,7 +9,6 @@ import "./css/bootstrap.min.3.3.6.css";
 import "./css/blocklino.css";
 import { toggleModal } from "./scripts/buttonFunctions";
 import modulesData from "./scripts/modules.json";
-import { ModuleDropdown, ProjectDropdown } from './dropDown.js';
 import FloatingScreen from "./scripts/FloatingMiniScreen.js";
 import ParentComponent from "./scripts/ParentComponent.js";
 import JDoodleCompiler from "./scripts/jDoodleCompiler.js";
