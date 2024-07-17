@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useRef, useState, useEffect, forwardRef } from "react";
+import React, { useRef, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { BlocklyWorkspace } from "react-blockly";
 import Blockly from "blockly";
@@ -9,10 +9,9 @@ import "./css/bootstrap.min.3.3.6.css";
 import "./css/blocklino.css";
 import { toggleModal } from "./scripts/buttonFunctions";
 import modulesData from "./scripts/modules.json";
-import { ModuleDropdown, ProjectDropdown } from './dropDown.js';
 import FloatingScreen from "./scripts/FloatingMiniScreen.js";
 import ParentComponent from "./scripts/ParentComponent.js";
-import { subscribeUserToPush } from "./scripts/PushNotification.js";
+import JDoodleCompiler from "./scripts/jDoodleCompiler.js";
 
 import "./customBlocks/custom_Blocks";
 import "./customBlocks/LogicBlocks.js";
@@ -48,9 +47,19 @@ export default function App() {
   const workspaceRef = useRef(null);
   const navigate = useNavigate();
 
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isExecutionVisible, setIsExecutionVisible] = useState(false);
 
-  useEffect(() => {
+  // Function to handle code generation
+  const generateCode = () => {
+    // Code generation logic here, setting `javascriptCode`
+    setJavascriptCode('// Your generated JavaScript code');
+  };
+
+  const toggleExecutionWindow = () => {
+    setIsExecutionVisible(!isExecutionVisible);
+  };
+
+  {/*useEffect(() => {
     // Check subscription status in local storage
     const isSubscribedToPush = localStorage.getItem('isSubscribedToPush');
     if (isSubscribedToPush === 'true') {
@@ -80,7 +89,7 @@ export default function App() {
     } catch (error) {
       console.error('Failed to subscribe the user:', error);
     }
-  };
+  };*/}
 
   const initialXml =
     '<xml xmlns="http://www.w3.org/1999/xhtml"><block type="text" x="70" y="30"><field name="TEXT"></field></block></xml>';
@@ -441,6 +450,7 @@ kind: "block", type: "turtle_set_background_color"
 
           {kind: "block", type: "df_duplicate"},
           {kind: "block", type: "df_plot"},
+          {kind: "block", type: "matplotlib_add_grid"},
           {kind: "block", type: "matplotlib_create_figure"},
           {kind: "block", type: "matplotlib_create_subplot"},
           {kind: "block", type: "matplotlib_add_subtitle"},
@@ -553,9 +563,8 @@ kind: "block", type: "turtle_set_background_color"
           { kind: "block", type: "pandas_create_series", "colour": "#FFA07A" },
           { kind: "block", type: "pandas_with_open", "colour": "#FFA07A" },
 
-          { kind: "block", type: "df_replace", "colour": "#FFA07A" },
           { kind: "block", type: "df_head", "colour": "#FFA07A" },
-          { kind: "block", type: "pd_timestamp", "colour": "#FFA07A" },
+          { kind: "block", type: "pandas_with_open", "colour": "#FFA07A" },
           { kind: "block", type: "group_data", "colour": "#FFA07A" },
           { kind: "block", type: "filter_data", "colour": "#FFA07A" },
           { kind: "block", type: "sort_data", "colour": "#FFA07A" },
@@ -1070,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       ></button>
                      
                       <button
-                        title="Arduino code preview"
+                        title="Python code preview"
                         className="b06"
                         id="btn_preview"
                         onClick={() => toggleModal()}
@@ -1140,43 +1149,49 @@ document.addEventListener('DOMContentLoaded', function() {
   />
   </BlocklyWorkspace>
 
-        <div id="toggle" className="modal-content" style={{ display: "none", top:"80px", bottom:"100px" }}>
-          <pre id="pre_previewArduino">
-            <textarea
-              className="textarea"
-              id="code"
-              style={{
-                height: "100%",
-                width: "100%",
-                boxSizing: "border-box",
-                resize: "none",
-                border: "none"
-              }}
-              value={javascriptCode}
-              readOnly
-            ></textarea>
-          </pre>
-          <div id="btn_group" class="btn-group" role="group">
-            <button
-              id="btn_saveino"
-              class="btn btn-default"
-              title="Save as .py"
-              onClick={savePyFile}
-            >
-              <span class="fa fa-floppy-o"> </span>
-            </button>
-            <button id="btn_copy" class="btn btn-default" 
-            onClick={copyToClipboard}
+  {/* Code generation container */}
+  <div id="toggle" className="modal-content" style={{ display: "none", top: "80px", bottom: "100px" }}>
+        <pre id="pre_previewArduino" className="code-generating-div">
+          <textarea
+            className="textarea"
+            id="code"
+            style={{
+              height: "50%",
+              width: "100%",
+              boxSizing: "border-box",
+              resize: "none",
+              border: "none"
+            }}
+            value={javascriptCode}
+            readOnly
+          ></textarea>
+        </pre>
+        <div id="btn_group" className="btn-group" role="group">
+          <button
+            id="btn_saveino"
+            className="btn btn-default"
+            title="Save as .py"
+            onClick={() => { /* Save as .py logic */ }}
+          >
+            <span className="fa fa-floppy-o"> </span>
+          </button>
+          <button id="btn_copy" className="btn btn-default"
+            onClick={() => { /* Copy logic */ }}
             title="Copy">
-              <span class="fa fa-files-o"> </span>
-            </button>
-          </div>
+            <span className="fa fa-files-o"> </span>
+          </button>
+          <button id="btn_run" className="btn btn-default"
+            title="Run">
+            <span className="fa fa-play"> </span>
+          </button>
         </div>
-        <div>
-      {!isSubscribed && (
-        <button onClick={handleSubscribe}>Subscribe to Push Notifications</button>
-      )}
-    </div>
+        <div id="execution-container" className="execution-container">
+          <JDoodleCompiler code={javascriptCode} />
+        </div>
+      </div>
+
+       
+
     {/* 
         {isVisible && selectedProject && (
         <div className="floating-screen">

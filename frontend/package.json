@@ -24,7 +24,6 @@
     "react-router-dom": "^6.22.3",
     "react-scripts": "^5.0.1",
     "react-spinners": "^0.13.8",
-    "rimraf": "^5.0.5",
     "serve": "^14.2.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.10.1",
@@ -33,11 +32,10 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "serve -s build",
-    "build": "set \"GENERATE_SOURCEMAP=false\" && react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "postbuild": "rimraf build/static/**/*.map"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

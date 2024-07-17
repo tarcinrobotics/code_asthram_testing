@@ -31,20 +31,40 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
+
     if (url.pathname.startsWith('/api/')) {
         event.respondWith(
-            fetch(event.request).catch(() => {
-                return caches.match(event.request);
+            fetch(event.request).then(response => {
+                // Ensure a valid Response is always returned
+                if (!response || response.status !== 200 || response.type !== 'basic') {
+                    console.error('Fetch failed, returning network error response for API request:', event.request.url);
+                    return caches.match('offline.html');
+                }
+                return response;
+            }).catch(error => {
+                console.error('Fetch failed, returning cached response for API request:', event.request.url, error);
+                return caches.match(event.request).then(cachedResponse => {
+                    return cachedResponse || caches.match('offline.html');
+                });
             })
         );
     } else {
         event.respondWith(
             caches.open(CACHE_NAME).then(cache => {
                 return cache.match(event.request).then(response => {
-                    var fetchPromise = fetch(event.request).then(networkResponse => {
+                    const fetchPromise = fetch(event.request).then(networkResponse => {
+                        // Ensure a valid Response is always returned
+                        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+                            console.error('Fetch failed, returning cached response for:', event.request.url);
+                            return response || networkResponse;
+                        }
                         cache.put(event.request, networkResponse.clone());
                         return networkResponse;
+                    }).catch(error => {
+                        console.error('Fetch failed, returning cached response for:', event.request.url, error);
+                        return response;
                     });
+
                     return response || fetchPromise;
                 });
             })
