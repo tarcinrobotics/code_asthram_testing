@@ -1,10 +1,10 @@
+const { override, disableEsLint, addWebpackPlugin } = require('customize-cra');
 const TerserPlugin = require('terser-webpack-plugin');
 
-module.exports = {
-  // Other configurations...
-  optimization: {
-    minimize: true,
-    minimizer: [new TerserPlugin({
+module.exports = override(
+  disableEsLint(),
+  addWebpackPlugin(
+    new TerserPlugin({
       terserOptions: {
         compress: {
           drop_console: true,
@@ -14,7 +14,6 @@ module.exports = {
         },
       },
       extractComments: false,
-    })],
-  },
-  devtool: false, // Disable source maps
-};
+    })
+  )
+);
